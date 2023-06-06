@@ -10,7 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  late List<UserModel>? _userModel = [];
+  late List<UserModel>? _userModel = []; //declare but initialize later
   @override
   void initState() {
     super.initState();
