@@ -1,11 +1,11 @@
 {
-    "name": "rest_api_example",
-    "short_name": "rest_api_example",
+    "name": "navigation_and_routing",
+    "short_name": "navigation_and_routing",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Navigation and routing sample app",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
