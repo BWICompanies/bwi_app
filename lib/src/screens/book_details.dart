@@ -28,6 +28,7 @@ class BookDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(book!.title),
+        backgroundColor: Colors.green[700],
       ),
       body: Center(
         child: Column(

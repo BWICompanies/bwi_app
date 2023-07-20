@@ -1,6 +1,6 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+//This is the Product Catalog screen (Books Screen in Example)
+//Sets App Bar & Tab Bar
+//Loads BookList widget
 
 import 'package:flutter/material.dart';
 
@@ -51,9 +51,19 @@ class _BooksScreenState extends State<BooksScreen>
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Books'),
+          title: const Text('Product Catalog'),
+          //Make a little darker
+          backgroundColor: Colors.green[700],
+          //Place the TabBar widget below the app Bar
           bottom: TabBar(
             controller: _tabController,
+            indicator: UnderlineTabIndicator(
+              borderSide: BorderSide(
+                  width: 2.0, color: Colors.white), // Change the color here
+              insets: EdgeInsets.symmetric(
+                  horizontal:
+                      16.0), // Optional: You can add padding to the border
+            ),
             tabs: const [
               Tab(
                 text: 'Popular',

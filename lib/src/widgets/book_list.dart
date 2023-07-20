@@ -1,6 +1,4 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+//Layout for the list of products. (book list)
 
 import 'package:flutter/material.dart';
 
@@ -20,12 +18,23 @@ class BookList extends StatelessWidget {
   Widget build(BuildContext context) => ListView.builder(
         itemCount: books.length,
         itemBuilder: (context, index) => ListTile(
+          dense: false,
+          leading: Image.network(
+            books[index].image_urls,
+            width: 50,
+            height: 50,
+          ),
           title: Text(
             books[index].title,
           ),
-          subtitle: Text(
-            books[index].author.name,
+          subtitle: Text(books[index].item_number
+              //books[index].author.name,
+              ),
+          trailing: Text(
+            '\$${books[index].price.toStringAsFixed(2)}', //Place $ before and Convert double to string with 2 decimal places
+            style: TextStyle(fontSize: 16), // Set the font size to 18
           ),
+          //Icon(Icons.star), //SizedBox(),
           onTap: onTap != null ? () => onTap!(books[index]) : null,
         ),
       );

@@ -1,6 +1,27 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+//Main App File
+
+//Sets allowed routes, set initial route, load navigator & handles auth
+//Start at /signin (/screens/sign_in) or /books/popular (/screens/books.dart)
+
+//App Notes:
+
+//Catelog page is /screens/books.dart
+//books.dart Sets Catalog App Bar & Tab Bar and loads ListView widget (booklist.dart)
+
+//Product Details page is /screens/book_details.dart
+
+//scaffold.dart contains: main navigation routes for the app
+//and uses adaptive_navigation.dart package
+
+//scaffold_body.dart displays the contents of the body of BookstoreScaffold
+//Uses the Navigator Class to go to the correct screen.
+
+//Flutters Scaffold widget provides components like AppBar, Body (Main content area), Floting Action Button, Bottom Navigation Bar, and Drawer.
+
+//Screens with an AppBar
+//books.dart,books_details.dart, authors.dart, author_datails.dart.
+
+//Packages are imported in the pubspec.yaml file.
 
 import 'package:flutter/material.dart';
 
@@ -67,6 +88,9 @@ class _BookstoreState extends State<Bookstore> {
             // Revert back to pre-Flutter-2.5 transition behavior:
             // https://github.com/flutter/flutter/issues/82053
             theme: ThemeData(
+              primarySwatch: Colors.green,
+              primaryColor: Colors.green[700],
+              //accentColor: Colors.yellow[500],
               pageTransitionsTheme: const PageTransitionsTheme(
                 builders: {
                   TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

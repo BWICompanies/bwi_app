@@ -11,22 +11,38 @@ void main() {
       final library = Library();
       library.addBook(
           title: 'Left Hand of Darkness',
+          item_number: 'AQ03',
+          image_urls:
+              'https://bwi.nyc3.digitaloceanspaces.com/product-images/Lh0C5oYFrY6DFGceEeGUsJsMnq75IvD5uGbnG3Ez.jpg',
           authorName: 'Ursula K. Le Guin',
+          price: 0,
           isPopular: true,
           isNew: true);
       library.addBook(
           title: 'Too Like the Lightning',
+          item_number: 'AQ04',
+          image_urls:
+              'https://bwi.nyc3.digitaloceanspaces.com/product-images/Lh0C5oYFrY6DFGceEeGUsJsMnq75IvD5uGbnG3Ez.jpg',
           authorName: 'Ada Palmer',
+          price: 0,
           isPopular: false,
           isNew: true);
       library.addBook(
           title: 'Kindred',
+          item_number: 'AQ05',
+          image_urls:
+              'https://bwi.nyc3.digitaloceanspaces.com/product-images/Lh0C5oYFrY6DFGceEeGUsJsMnq75IvD5uGbnG3Ez.jpg',
           authorName: 'Octavia E. Butler',
+          price: 0,
           isPopular: true,
           isNew: false);
       library.addBook(
           title: 'The Lathe of Heaven',
+          item_number: 'AQ06',
+          image_urls:
+              'https://bwi.nyc3.digitaloceanspaces.com/product-images/Lh0C5oYFrY6DFGceEeGUsJsMnq75IvD5uGbnG3Ez.jpg',
           authorName: 'Ursula K. Le Guin',
+          price: 0,
           isPopular: false,
           isNew: false);
       expect(library.allAuthors.length, 3);

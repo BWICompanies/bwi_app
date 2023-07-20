@@ -20,6 +20,7 @@ class AuthorDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(author.name),
+          backgroundColor: Colors.green[700],
         ),
         body: Center(
           child: Column(

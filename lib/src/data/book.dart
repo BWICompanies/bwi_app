@@ -7,9 +7,14 @@ import 'author.dart';
 class Book {
   final int id;
   final String title;
+  final String item_number;
+  final String image_urls;
   final Author author;
   final bool isPopular;
   final bool isNew;
+  final double price;
 
-  Book(this.id, this.title, this.isPopular, this.isNew, this.author);
+  //order must match library.dart file
+  Book(this.id, this.title, this.item_number, this.image_urls, this.price,
+      this.isPopular, this.isNew, this.author);
 }

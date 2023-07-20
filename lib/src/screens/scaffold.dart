@@ -1,9 +1,10 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+//Contains the main navigation routes for the app
+//and uses adaptive_navigation.dart package
+//Body is stored in scaffold_body.dart
 
 import 'package:adaptive_navigation/adaptive_navigation.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter/cupertino.dart';
 
 import '../routing.dart';
 import 'scaffold_body.dart';
@@ -22,23 +23,40 @@ class BookstoreScaffold extends StatelessWidget {
       body: AdaptiveNavigationScaffold(
         selectedIndex: selectedIndex,
         body: const BookstoreScaffoldBody(),
+        //Main Nav Routes
         onDestinationSelected: (idx) {
           if (idx == 0) routeState.go('/books/popular');
-          if (idx == 1) routeState.go('/authors');
-          if (idx == 2) routeState.go('/settings');
+          if (idx == 1) routeState.go('/books/popular');
+          if (idx == 2) routeState.go('/authors');
+          if (idx == 3) routeState.go('/settings');
+          if (idx == 4) routeState.go('/books/new');
         },
         destinations: const [
           AdaptiveScaffoldDestination(
-            title: 'Books',
-            icon: Icons.book,
+            title: 'Home', //was books
+            icon: Icons.home,
           ),
           AdaptiveScaffoldDestination(
-            title: 'Authors',
+            title: 'Catalog', //was authors
+            icon: Icons.auto_stories,
+          ),
+          /*
+          AdaptiveScaffoldDestination(
+            title: 'Vendors',
             icon: Icons.person,
           ),
+          */
           AdaptiveScaffoldDestination(
-            title: 'Settings',
-            icon: Icons.settings,
+            title: 'Scan',
+            icon: Icons.qr_code_scanner,
+          ),
+          AdaptiveScaffoldDestination(
+            title: 'History',
+            icon: Icons.history,
+          ),
+          AdaptiveScaffoldDestination(
+            title: 'Account', //Was Settings
+            icon: Icons.person, //was settings
           ),
         ],
       ),

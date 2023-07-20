@@ -17,6 +17,7 @@ class AuthorsScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(title),
+          backgroundColor: Colors.green[700],
         ),
         body: AuthorList(
           authors: libraryInstance.allAuthors,
