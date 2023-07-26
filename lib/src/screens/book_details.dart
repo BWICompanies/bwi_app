@@ -52,6 +52,7 @@ class BookDetailsScreen extends StatelessWidget {
               book!.description,
               style: Theme.of(context).textTheme.titleMedium,
             ),
+            SizedBox(height: 32.0),
             Text(
               book!.author.name,
               style: Theme.of(context).textTheme.titleMedium,

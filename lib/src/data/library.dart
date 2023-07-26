@@ -12,7 +12,7 @@ final libraryInstance = Library()
       image_urls: 'https://images.bwicompanies.com/AQ03.jpg',
       authorName: 'AquaGro',
       description:
-          'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
+          'Media surfactant. Ensures quick and easy initial wetting for growers who mix their own soilless media. Reduces media shrinkage and watering frequency. Ensures uniform penetration of water soluble chemicals and fertilizers.',
       price: 840.00,
       isPopular: true,
       isNew: true)
@@ -32,7 +32,7 @@ final libraryInstance = Library()
       image_urls: 'https://images.bwicompanies.com/CASTRL18.jpg',
       authorName: 'Superior Controls',
       description:
-          'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
+          'Designed with the greenhouse grower in mind, the Sterling is a highly versatile irrigation controller for all of your watering requirements.',
       price: 888.71,
       isPopular: true,
       isNew: false)
@@ -42,7 +42,7 @@ final libraryInstance = Library()
       image_urls: 'https://images.bwicompanies.com/DA05TREES.jpg',
       authorName: 'SATO America',
       description:
-          'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
+          '8" long, these ties can be attached together to form longer ties. A soft tie for tender plants.',
       price: 19.28,
       isPopular: false,
       isNew: false);
