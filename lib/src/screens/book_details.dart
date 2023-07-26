@@ -27,15 +27,30 @@ class BookDetailsScreen extends StatelessWidget {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text(book!.title),
+        title: Row(children: [
+          Text('Product: '),
+          Text(book!.item_number),
+        ]),
         backgroundColor: Colors.green[700],
       ),
       body: Center(
+          child: Padding(
+        padding: EdgeInsets.all(24.0), // You can adjust the padding as needed
         child: Column(
           children: [
             Text(
               book!.title,
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            SizedBox(height: 32.0),
+            Image.network(
+              book!.image_urls,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 32.0),
+            Text(
+              book!.description,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             Text(
               book!.author.name,
@@ -61,7 +76,7 @@ class BookDetailsScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

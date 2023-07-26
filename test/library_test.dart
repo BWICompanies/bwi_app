@@ -15,6 +15,8 @@ void main() {
           image_urls:
               'https://bwi.nyc3.digitaloceanspaces.com/product-images/Lh0C5oYFrY6DFGceEeGUsJsMnq75IvD5uGbnG3Ez.jpg',
           authorName: 'Ursula K. Le Guin',
+          description:
+              'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
           price: 0,
           isPopular: true,
           isNew: true);
@@ -24,6 +26,8 @@ void main() {
           image_urls:
               'https://bwi.nyc3.digitaloceanspaces.com/product-images/Lh0C5oYFrY6DFGceEeGUsJsMnq75IvD5uGbnG3Ez.jpg',
           authorName: 'Ada Palmer',
+          description:
+              'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
           price: 0,
           isPopular: false,
           isNew: true);
@@ -33,6 +37,8 @@ void main() {
           image_urls:
               'https://bwi.nyc3.digitaloceanspaces.com/product-images/Lh0C5oYFrY6DFGceEeGUsJsMnq75IvD5uGbnG3Ez.jpg',
           authorName: 'Octavia E. Butler',
+          description:
+              'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
           price: 0,
           isPopular: true,
           isNew: false);
@@ -42,6 +48,8 @@ void main() {
           image_urls:
               'https://bwi.nyc3.digitaloceanspaces.com/product-images/Lh0C5oYFrY6DFGceEeGUsJsMnq75IvD5uGbnG3Ez.jpg',
           authorName: 'Ursula K. Le Guin',
+          description:
+              'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
           price: 0,
           isPopular: false,
           isNew: false);

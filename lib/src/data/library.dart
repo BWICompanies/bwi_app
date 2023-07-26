@@ -11,6 +11,8 @@ final libraryInstance = Library()
       item_number: 'AQ03',
       image_urls: 'https://images.bwicompanies.com/AQ03.jpg',
       authorName: 'AquaGro',
+      description:
+          'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
       price: 840.00,
       isPopular: true,
       isNew: true)
@@ -19,6 +21,8 @@ final libraryInstance = Library()
       item_number: 'BON40810',
       image_urls: 'https://images.bwicompanies.com/BON40810.jpg',
       authorName: 'Bamboo Supply Company',
+      description:
+          'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
       price: 82.45,
       isPopular: false,
       isNew: true)
@@ -27,6 +31,8 @@ final libraryInstance = Library()
       item_number: 'CASTRL18',
       image_urls: 'https://images.bwicompanies.com/CASTRL18.jpg',
       authorName: 'Superior Controls',
+      description:
+          'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
       price: 888.71,
       isPopular: true,
       isNew: false)
@@ -35,6 +41,8 @@ final libraryInstance = Library()
       item_number: 'DA05TREES',
       image_urls: 'https://images.bwicompanies.com/DA05TREES.jpg',
       authorName: 'SATO America',
+      description:
+          'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
       price: 19.28,
       isPopular: false,
       isNew: false);
@@ -47,6 +55,7 @@ class Library {
     required String title,
     required String item_number,
     required String image_urls,
+    required String description,
     required String authorName,
     required double price,
     required bool isPopular,
@@ -62,8 +71,8 @@ class Library {
     );
 
     //Order must match the order of the constructor in book.dart
-    var book = Book(allBooks.length, title, item_number, image_urls, price,
-        isPopular, isNew, author);
+    var book = Book(allBooks.length, title, item_number, image_urls,
+        description, price, isPopular, isNew, author);
 
     author.books.add(book);
     allBooks.add(book);

@@ -9,12 +9,13 @@ class Book {
   final String title;
   final String item_number;
   final String image_urls;
+  final String description;
   final Author author;
   final bool isPopular;
   final bool isNew;
   final double price;
 
   //order must match library.dart file
-  Book(this.id, this.title, this.item_number, this.image_urls, this.price,
-      this.isPopular, this.isNew, this.author);
+  Book(this.id, this.title, this.item_number, this.image_urls, this.description,
+      this.price, this.isPopular, this.isNew, this.author);
 }
