@@ -7,6 +7,17 @@ import 'book.dart';
 
 final libraryInstance = Library()
   ..addBook(
+      title: 'Fertilome Weed-Out Lawn Weed Killer Concentrate - 1 gal',
+      item_number: 'FE10519',
+      image_urls:
+          'https://bwi.nyc3.digitaloceanspaces.com/product-images/k6ehTvR51DterR4aKo5o2kk8XJ1WqQLmSw2Eys4t.jpg',
+      authorName: 'Fertilome (VPG)',
+      description:
+          'AI: Trimec, a patented combination of 3 weed killers: 2-4 D, Mecoprop, and Dicamba. Controls over 200 broadleaf weeds including dandelion, chickweed, clover, spurge, wild onion, dollar weed, ground ivy, and many others listed.',
+      price: 117.84,
+      isPopular: true,
+      isNew: true)
+  ..addBook(
       title: 'AquaGro 2000 - 120 lb',
       item_number: 'AQ03',
       image_urls: 'https://images.bwicompanies.com/AQ03.jpg',
