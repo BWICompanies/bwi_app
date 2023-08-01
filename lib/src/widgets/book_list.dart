@@ -17,24 +17,51 @@ class BookList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListView.builder(
         itemCount: books.length,
+        padding: const EdgeInsets.all(0),
         itemBuilder: (context, index) => ListTile(
-          dense: false,
-          leading: Image.network(
-            books[index].image_urls,
-            width: 50,
-            height: 50,
+          //leading can go here
+          title: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Image.network(
+                    books[index].image_urls,
+                    width: 80,
+                    height: 80,
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          books[index].title,
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          books[index].item_number,
+                          style:
+                              TextStyle(fontSize: 16, color: Colors.grey[700]),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          '\$${books[index].price.toStringAsFixed(2)}',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                      ]),
+                ),
+              ],
+            ),
           ),
-          title: Text(
-            books[index].title,
-          ),
-          subtitle: Text(books[index].item_number
-              //books[index].author.name,
-              ),
-          trailing: Text(
-            '\$${books[index].price.toStringAsFixed(2)}', //Place $ before and Convert double to string with 2 decimal places
-            style: TextStyle(fontSize: 16), // Set the font size to 18
-          ),
-          //Icon(Icons.star), //SizedBox(),
+          //title: Text('title $index'),
+          //subtitle can go here
+          //trailing can go here
           onTap: onTap != null ? () => onTap!(books[index]) : null,
         ),
       );
