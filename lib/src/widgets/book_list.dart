@@ -59,7 +59,6 @@ class BookList extends StatelessWidget {
               ],
             ),
           ),
-          //title: Text('title $index'),
           //subtitle can go here
           //trailing can go here
           onTap: onTap != null ? () => onTap!(books[index]) : null,
