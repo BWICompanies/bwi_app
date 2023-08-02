@@ -25,11 +25,11 @@ class BookstoreScaffold extends StatelessWidget {
         body: const BookstoreScaffoldBody(),
         //Main Nav Routes
         onDestinationSelected: (idx) {
-          if (idx == 0) routeState.go('/books/popular');
+          if (idx == 0) routeState.go('/home');
           if (idx == 1) routeState.go('/books/popular');
           if (idx == 2) routeState.go('/authors');
-          if (idx == 3) routeState.go('/settings');
-          if (idx == 4) routeState.go('/books/new');
+          if (idx == 3) routeState.go('/history');
+          if (idx == 4) routeState.go('/settings');
         },
         destinations: const [
           AdaptiveScaffoldDestination(
@@ -64,9 +64,11 @@ class BookstoreScaffold extends StatelessWidget {
   }
 
   int _getSelectedIndex(String pathTemplate) {
-    if (pathTemplate.startsWith('/books')) return 0;
-    if (pathTemplate == '/authors') return 1;
-    if (pathTemplate == '/settings') return 2;
+    if (pathTemplate == '/home') return 0;
+    if (pathTemplate.startsWith('/books')) return 1;
+    if (pathTemplate == '/authors') return 2;
+    if (pathTemplate == '/history') return 3;
+    if (pathTemplate == '/settings') return 4;
     return 0;
   }
 }
