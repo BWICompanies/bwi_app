@@ -25,64 +25,53 @@ class HomeScreen extends StatelessWidget {
               mainAxisSpacing: 20.0,
               crossAxisSpacing: 20.0,
               children: [
-                InkWell(
-                  //onTap: () => _handleBookTapped(context, book),
-                  child: Container(
-                    padding: EdgeInsets.all(0),
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Icon(
-                            Icons.qr_code_scanner,
-                            color: Colors.green[700],
-                            size: 60,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Text(
-                            'Scan Barcode',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  //onTap: () => _handleBookTapped(context, book),
-                  child: Container(
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Icon(
-                            Icons.auto_stories,
-                            color: Colors.green[700],
-                            size: 60,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Text(
-                            'Catalog',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey[700],
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                HomeCard(Title: 'Scan Barcode', iData: Icons.qr_code_scanner),
+                HomeCard(Title: 'Catalog', iData: Icons.auto_stories),
+                HomeCard(Title: 'Promotions', iData: Icons.sell),
+                HomeCard(Title: 'Track Order', iData: Icons.share_location),
+                HomeCard(Title: 'Favorites', iData: Icons.favorite),
+                HomeCard(Title: 'Order History', iData: Icons.history),
               ]),
         ),
       );
+}
+
+class HomeCard extends StatelessWidget {
+  final String Title; //can be type widget even.
+  final IconData iData;
+
+  const HomeCard({required this.Title, required this.iData});
+
+  @override
+  Widget build(BuildContext context) {
+    // Implement the custom widget's appearance and behavior using the provided parameters
+    return InkWell(
+      //onTap: () => _handleBookTapped(context, book),
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Icon(
+                iData,
+                color: Colors.green[700],
+                size: 60,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Text(
+                Title,
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[700],
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
