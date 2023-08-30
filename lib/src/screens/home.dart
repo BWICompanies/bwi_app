@@ -20,18 +20,30 @@ class HomeScreen extends StatelessWidget {
         ),
         body: Container(
           margin: EdgeInsets.all(20),
-          child: GridView.count(
-              crossAxisCount: 2,
-              mainAxisSpacing: 20.0,
-              crossAxisSpacing: 20.0,
-              children: [
-                HomeCard(Title: 'Scan Barcode', iData: Icons.qr_code_scanner),
-                HomeCard(Title: 'Catalog', iData: Icons.auto_stories),
-                HomeCard(Title: 'Promotions', iData: Icons.sell),
-                HomeCard(Title: 'Track Order', iData: Icons.share_location),
-                HomeCard(Title: 'Favorites', iData: Icons.favorite),
-                HomeCard(Title: 'Order History', iData: Icons.history),
-              ]),
+          child: Column(
+            children: [
+              Container(
+                height: 100, // same value as width to create a square
+                color: Colors.grey[200], // specify the color of the square
+                margin: EdgeInsets.only(bottom: 20),
+              ),
+              Expanded(
+                child: GridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 20.0,
+                    crossAxisSpacing: 20.0,
+                    children: [
+                      HomeCard(
+                          Title: 'Scan Barcode', iData: Icons.qr_code_scanner),
+                      HomeCard(Title: 'Catalog', iData: Icons.auto_stories),
+                      HomeCard(Title: 'Promotions', iData: Icons.sell),
+                      //HomeCard(Title: 'Track Order', iData: Icons.share_location),
+                      //HomeCard(Title: 'Favorites', iData: Icons.favorite),
+                      HomeCard(Title: 'Order History', iData: Icons.history),
+                    ]),
+              ),
+            ],
+          ),
         ),
       );
 }
