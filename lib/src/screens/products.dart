@@ -1,23 +1,23 @@
-//This is the Product Catalog screen (Books Screen in Example)
+//This is the Product Catalog screen (Products Screen in Example)
 //Sets App Bar & Tab Bar
-//Loads BookList widget
+//Loads ProductList widget
 
 import 'package:flutter/material.dart';
 
 import '../data.dart';
 import '../routing.dart';
-import '../widgets/book_list.dart';
+import '../widgets/product_list.dart';
 
-class BooksScreen extends StatefulWidget {
-  const BooksScreen({
+class ProductsScreen extends StatefulWidget {
+  const ProductsScreen({
     super.key,
   });
 
   @override
-  State<BooksScreen> createState() => _BooksScreenState();
+  State<ProductsScreen> createState() => _ProductsScreenState();
 }
 
-class _BooksScreenState extends State<BooksScreen>
+class _ProductsScreenState extends State<ProductsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -33,11 +33,11 @@ class _BooksScreenState extends State<BooksScreen>
     super.didChangeDependencies();
 
     final newPath = _routeState.route.pathTemplate;
-    if (newPath.startsWith('/books/popular')) {
+    if (newPath.startsWith('/products/popular')) {
       _tabController.index = 0;
-    } else if (newPath.startsWith('/books/new')) {
+    } else if (newPath.startsWith('/products/new')) {
       _tabController.index = 1;
-    } else if (newPath == '/books/all') {
+    } else if (newPath == '/products/all') {
       _tabController.index = 2;
     }
   }
@@ -83,17 +83,17 @@ class _BooksScreenState extends State<BooksScreen>
         body: TabBarView(
           controller: _tabController,
           children: [
-            BookList(
-              books: libraryInstance.popularBooks,
-              onTap: _handleBookTapped,
+            ProductList(
+              products: libraryInstance.popularProducts,
+              onTap: _handleProductTapped,
             ),
-            BookList(
-              books: libraryInstance.newBooks,
-              onTap: _handleBookTapped,
+            ProductList(
+              products: libraryInstance.newProducts,
+              onTap: _handleProductTapped,
             ),
-            BookList(
-              books: libraryInstance.allBooks,
-              onTap: _handleBookTapped,
+            ProductList(
+              products: libraryInstance.allProducts,
+              onTap: _handleProductTapped,
             ),
           ],
         ),
@@ -101,19 +101,19 @@ class _BooksScreenState extends State<BooksScreen>
 
   RouteState get _routeState => RouteStateScope.of(context);
 
-  void _handleBookTapped(Book book) {
-    _routeState.go('/book/${book.id}');
+  void _handleProductTapped(Product product) {
+    _routeState.go('/product/${product.id}');
   }
 
   void _handleTabIndexChanged() {
     switch (_tabController.index) {
       case 1:
-        _routeState.go('/books/new');
+        _routeState.go('/products/new');
       case 2:
-        _routeState.go('/books/all');
+        _routeState.go('/products/all');
       case 0:
       default:
-        _routeState.go('/books/popular');
+        _routeState.go('/products/popular');
         break;
     }
   }

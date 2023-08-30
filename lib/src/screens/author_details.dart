@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../data.dart';
 import '../routing.dart';
-import '../widgets/book_list.dart';
+import '../widgets/product_list.dart';
 
 class AuthorDetailsScreen extends StatelessWidget {
   final Author author;
@@ -26,10 +26,10 @@ class AuthorDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: BookList(
-                  books: author.books,
-                  onTap: (book) {
-                    RouteStateScope.of(context).go('/book/${book.id}');
+                child: ProductList(
+                  products: author.products,
+                  onTap: (product) {
+                    RouteStateScope.of(context).go('/product/${product.id}');
                   },
                 ),
               ),

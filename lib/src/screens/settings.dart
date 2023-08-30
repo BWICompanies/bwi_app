@@ -52,21 +52,21 @@ class SettingsContent extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                BookstoreAuthScope.of(context).signOut();
+                ProductstoreAuthScope.of(context).signOut();
               },
               child: const Text('Sign out'),
             ),
             Link(
-              uri: Uri.parse('/book/0'),
+              uri: Uri.parse('/product/0'),
               builder: (context, followLink) => TextButton(
                 onPressed: followLink,
-                child: const Text('Go directly to /book/0 (Link)'),
+                child: const Text('Go directly to /product/0 (Link)'),
               ),
             ),
             TextButton(
-              child: const Text('Go directly to /book/0 (RouteState)'),
+              child: const Text('Go directly to /product/0 (RouteState)'),
               onPressed: () {
-                RouteStateScope.of(context).go('/book/0');
+                RouteStateScope.of(context).go('/product/0');
               },
             ),
           ].map((w) => Padding(padding: const EdgeInsets.all(8), child: w)),

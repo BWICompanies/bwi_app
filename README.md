@@ -13,17 +13,17 @@ scenarios.
   Router API.
 
 ## How it works
-The top-level widget, `Bookstore`, sets up the state for this app. It places
+The top-level widget, `Productstore`, sets up the state for this app. It places
 three `InheritedNotifier` widgets in the tree: `RouteStateScope`,
-`BookstoreAuthScope`, and `LibraryScope`, which provide the state for the
+`ProductstoreAuthScope`, and `LibraryScope`, which provide the state for the
 application:
 
-  - **`RouteState`**: stores the current route path (`/book/1`) as a `ParsedRoute`
+  - **`RouteState`**: stores the current route path (`/product/1`) as a `ParsedRoute`
     object (see below).
-  - **`BookstoreAuthScope`**: stores a mock authentication API, `BookstoreAuth`.
+  - **`ProductstoreAuthScope`**: stores a mock authentication API, `ProductstoreAuth`.
   - **`LibraryScope`**: stores the data for the app, `Library`.
 
-The `Bookstore` widget also uses the [MaterialApp.router()][router-ctor]
+The `Productstore` widget also uses the [MaterialApp.router()][router-ctor]
 constructor to opt-in to the [Router][] API. This constructor requires a
 [RouterDelegate][] and [RouteInformationParser][]. This app uses the
 `routing.dart` library, described below.
@@ -48,22 +48,22 @@ It implements these classes:
 ## App Structure
 
 The `SimpleRouterDelegate` constructor requires a `WidgetBuilder` parameter and
-a `navigatorKey`. This app uses a `BookstoreNavigator` widget, which configures
+a `navigatorKey`. This app uses a `ProductstoreNavigator` widget, which configures
 a `Navigator` with a list of pages, based on the current `RouteState`.
 
 ```dart
 SimpleRouterDelegate(
   routeState: routeState,
   navigatorKey: navigatorKey,
-  builder: (context) => BookstoreNavigator(
+  builder: (context) => ProductstoreNavigator(
     navigatorKey: navigatorKey,
   ),
 );
 ```
 
 This `Navigator` is configured to display either the sign-in screen or the
-`BookstoreScaffold`. An additional screen is stacked on top of the
-`BookstoreScaffold` if a book or author is currently selected:
+`ProductstoreScaffold`. An additional screen is stacked on top of the
+`ProductstoreScaffold` if a product or author is currently selected:
 
 ```dart
 return Navigator(
@@ -80,13 +80,13 @@ return Navigator(
     else ...[
       FadeTransitionPage<void>(
         key: scaffoldKey,
-        child: BookstoreScaffold(),
+        child: ProductstoreScaffold(),
       ),
-      if (selectedBook != null)
+      if (selectedProduct != null)
         MaterialPage<void>(
-          key: bookDetailsKey,
-          child: BookDetailsScreen(
-            book: selectedBook,
+          key: productDetailsKey,
+          child: ProductDetailsScreen(
+            product: selectedProduct,
           ),
         )
       else if (selectedAuthor != null)
@@ -101,11 +101,11 @@ return Navigator(
 );
 ```
 
-The `BookstoreScaffold` widget uses `package:adaptive_navigation` to build a
+The `ProductstoreScaffold` widget uses `package:adaptive_navigation` to build a
 navigation rail or bottom navigation bar based on the size of the screen. The
-body of this screen is `BookstoreScaffoldBody`, which configures a nested
+body of this screen is `ProductstoreScaffoldBody`, which configures a nested
 Navigator to display either the `AuthorsScreen`, `SettingsScreen`, or
-`BooksScreen` widget.
+`ProductsScreen` widget.
 
 ## Linking vs updating RouteState
 
@@ -115,18 +115,18 @@ which the RouterDelegate listens to, or use the Link widget from
 
 ```
 Link(
-  uri: Uri.parse('/book/0'),
+  uri: Uri.parse('/product/0'),
   builder: (context, followLink) {
     return TextButton(
-      child: const Text('Go directly to /book/0 (Link)'),
+      child: const Text('Go directly to /product/0 (Link)'),
       onPressed: followLink,
     );
   },
 ),
 TextButton(
-  child: const Text('Go directly to /book/0 (RouteState)'),
+  child: const Text('Go directly to /product/0 (RouteState)'),
   onPressed: () {
-    RouteStateScope.of(context)!.go('/book/0');
+    RouteStateScope.of(context)!.go('/product/0');
   },
 ),
 ```

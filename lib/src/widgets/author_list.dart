@@ -24,7 +24,7 @@ class AuthorList extends StatelessWidget {
             authors[index].name,
           ),
           subtitle: Text(
-            '${authors[index].books.length} products',
+            '${authors[index].products.length} products',
           ),
           onTap: onTap != null ? () => onTap!(authors[index]) : null,
         ),

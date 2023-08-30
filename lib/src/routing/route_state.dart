@@ -11,7 +11,7 @@ import 'parser.dart';
 /// using `RouteStateScope.of(context)` and call `go()`:
 ///
 /// ```
-/// RouteStateScope.of(context).go('/book/2');
+/// RouteStateScope.of(context).go('/product/2');
 /// ```
 class RouteState extends ChangeNotifier {
   final TemplateRouteParser _parser;

@@ -8,20 +8,20 @@ import 'package:url_launcher/link.dart';
 import '../data.dart';
 import 'author_details.dart';
 
-class BookDetailsScreen extends StatelessWidget {
-  final Book? book;
+class ProductDetailsScreen extends StatelessWidget {
+  final Product? product;
 
-  const BookDetailsScreen({
+  const ProductDetailsScreen({
     super.key,
-    this.book,
+    this.product,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (book == null) {
+    if (product == null) {
       return const Scaffold(
         body: Center(
-          child: Text('No book found.'),
+          child: Text('No product found.'),
         ),
       );
     }
@@ -29,7 +29,7 @@ class BookDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(children: [
           Text('Product: '),
-          Text(book!.item_number),
+          Text(product!.item_number),
         ]),
         backgroundColor: Colors.green[700],
       ),
@@ -39,22 +39,22 @@ class BookDetailsScreen extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              book!.title,
+              product!.title,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(height: 32.0),
             Image.network(
-              book!.image_urls,
+              product!.image_urls,
               fit: BoxFit.cover,
             ),
             SizedBox(height: 32.0),
             Text(
-              book!.description,
+              product!.description,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             SizedBox(height: 32.0),
             Text(
-              book!.author.name,
+              product!.author.name,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             TextButton(
@@ -63,13 +63,13 @@ class BookDetailsScreen extends StatelessWidget {
                 Navigator.of(context).push<void>(
                   MaterialPageRoute<void>(
                     builder: (context) =>
-                        AuthorDetailsScreen(author: book!.author),
+                        AuthorDetailsScreen(author: product!.author),
                   ),
                 );
               },
             ),
             Link(
-              uri: Uri.parse('/author/${book!.author.id}'),
+              uri: Uri.parse('/author/${product!.author.id}'),
               builder: (context, followLink) => TextButton(
                 onPressed: followLink,
                 child: const Text('View author (Link)'),

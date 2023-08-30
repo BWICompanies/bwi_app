@@ -2,14 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:bookstore/src/data/library.dart';
+import 'package:bwiapp/src/data/library.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Library', () {
-    test('addBook', () {
+    test('addProduct', () {
       final library = Library();
-      library.addBook(
+      library.addProduct(
           title: 'Left Hand of Darkness',
           item_number: 'AQ03',
           image_urls:
@@ -20,7 +20,7 @@ void main() {
           price: 0,
           isPopular: true,
           isNew: true);
-      library.addBook(
+      library.addProduct(
           title: 'Too Like the Lightning',
           item_number: 'AQ04',
           image_urls:
@@ -31,7 +31,7 @@ void main() {
           price: 0,
           isPopular: false,
           isNew: true);
-      library.addBook(
+      library.addProduct(
           title: 'Kindred',
           item_number: 'AQ05',
           image_urls:
@@ -42,7 +42,7 @@ void main() {
           price: 0,
           isPopular: true,
           isNew: false);
-      library.addBook(
+      library.addProduct(
           title: 'The Lathe of Heaven',
           item_number: 'AQ06',
           image_urls:
@@ -54,9 +54,9 @@ void main() {
           isPopular: false,
           isNew: false);
       expect(library.allAuthors.length, 3);
-      expect(library.allAuthors.first.books.length, 2);
-      expect(library.allBooks.length, 4);
-      expect(library.allBooks.first.author.name, startsWith('Ursula'));
+      expect(library.allAuthors.first.products.length, 2);
+      expect(library.allProducts.length, 4);
+      expect(library.allProducts.first.author.name, startsWith('Ursula'));
     });
   });
 }

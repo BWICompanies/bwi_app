@@ -8,14 +8,14 @@ import '../screens/history.dart';
 import '../screens/settings.dart';
 import '../widgets/fade_transition_page.dart';
 import 'authors.dart';
-import 'books.dart';
+import 'products.dart';
 import 'scaffold.dart';
 
-/// Displays the contents of the body of [BookstoreScaffold]
-class BookstoreScaffoldBody extends StatelessWidget {
+/// Displays the contents of the body of [ProductstoreScaffold]
+class ProductstoreScaffoldBody extends StatelessWidget {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  const BookstoreScaffoldBody({
+  const ProductstoreScaffoldBody({
     super.key,
   });
 
@@ -49,11 +49,11 @@ class BookstoreScaffoldBody extends StatelessWidget {
             key: ValueKey('settings'),
             child: SettingsScreen(),
           )
-        else if (currentRoute.pathTemplate.startsWith('/books') ||
+        else if (currentRoute.pathTemplate.startsWith('/products') ||
             currentRoute.pathTemplate == '/')
           const FadeTransitionPage<void>(
-            key: ValueKey('books'),
-            child: BooksScreen(),
+            key: ValueKey('products'),
+            child: ProductsScreen(),
           )
 
         // Avoid building a Navigator with an empty `pages` list when the

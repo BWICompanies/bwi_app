@@ -1,22 +1,22 @@
-//Layout for the list of products. (book list)
+//Layout for the list of products. (product list)
 
 import 'package:flutter/material.dart';
 
 import '../data.dart';
 
-class BookList extends StatelessWidget {
-  final List<Book> books;
-  final ValueChanged<Book>? onTap;
+class ProductList extends StatelessWidget {
+  final List<Product> products;
+  final ValueChanged<Product>? onTap;
 
-  const BookList({
-    required this.books,
+  const ProductList({
+    required this.products,
     this.onTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) => ListView.builder(
-        itemCount: books.length,
+        itemCount: products.length,
         padding: const EdgeInsets.all(0),
         itemBuilder: (context, index) => ListTile(
           //leading can go here
@@ -28,7 +28,7 @@ class BookList extends StatelessWidget {
                 Expanded(
                   flex: 1,
                   child: Image.network(
-                    books[index].image_urls,
+                    products[index].image_urls,
                     width: 80,
                     height: 80,
                   ),
@@ -40,18 +40,18 @@ class BookList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          books[index].title,
+                          products[index].title,
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                         SizedBox(height: 5),
                         Text(
-                          books[index].item_number,
+                          products[index].item_number,
                           style:
                               TextStyle(fontSize: 16, color: Colors.grey[700]),
                         ),
                         SizedBox(height: 5),
                         Text(
-                          '\$${books[index].price.toStringAsFixed(2)}',
+                          '\$${products[index].price.toStringAsFixed(2)}',
                           style: TextStyle(color: Colors.green),
                         ),
                       ]),
@@ -61,7 +61,7 @@ class BookList extends StatelessWidget {
           ),
           //subtitle can go here
           //trailing can go here
-          onTap: onTap != null ? () => onTap!(books[index]) : null,
+          onTap: onTap != null ? () => onTap!(products[index]) : null,
         ),
       );
 }

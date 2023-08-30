@@ -1,25 +1,25 @@
 //Main App File
 
 //Sets allowed routes, set initial route, load navigator & handles auth
-//Start at /signin (/screens/sign_in) or /books/popular (/screens/books.dart)
+//Start at /signin (/screens/sign_in) or /products/popular (/screens/products.dart)
 
 //App Notes:
 
-//Catelog page is /screens/books.dart
-//books.dart Sets Catalog App Bar & Tab Bar and loads ListView widget (booklist.dart)
+//Catelog page is /screens/products.dart
+//products.dart Sets Catalog App Bar & Tab Bar and loads ListView widget (product_list.dart)
 
-//Product Details page is /screens/book_details.dart
+//Product Details page is /screens/product_details.dart
 
 //scaffold.dart contains: main navigation routes for the app
 //and uses adaptive_navigation.dart package
 
-//scaffold_body.dart displays the contents of the body of BookstoreScaffold
+//scaffold_body.dart displays the contents of the body of ProductstoreScaffold
 //Uses the Navigator Class to go to the correct screen.
 
 //Flutters Scaffold widget provides components like AppBar, Body (Main content area), Floting Action Button, Bottom Navigation Bar, and Drawer.
 
 //Screens with an AppBar
-//books.dart,books_details.dart, authors.dart, author_datails.dart.
+//products.dart,product_details.dart, authors.dart, author_datails.dart.
 
 //Packages are imported in the pubspec.yaml file.
 
@@ -29,15 +29,15 @@ import 'auth.dart';
 import 'routing.dart';
 import 'screens/navigator.dart';
 
-class Bookstore extends StatefulWidget {
-  const Bookstore({super.key});
+class Productstore extends StatefulWidget {
+  const Productstore({super.key});
 
   @override
-  State<Bookstore> createState() => _BookstoreState();
+  State<Productstore> createState() => _ProductstoreState();
 }
 
-class _BookstoreState extends State<Bookstore> {
-  final _auth = BookstoreAuth();
+class _ProductstoreState extends State<Productstore> {
+  final _auth = ProductstoreAuth();
   final _navigatorKey = GlobalKey<NavigatorState>();
   late final RouteState _routeState;
   late final SimpleRouterDelegate _routerDelegate;
@@ -53,10 +53,10 @@ class _BookstoreState extends State<Bookstore> {
         '/home',
         '/history',
         '/settings',
-        '/books/new',
-        '/books/all',
-        '/books/popular',
-        '/book/:bookId',
+        '/products/new',
+        '/products/all',
+        '/products/popular',
+        '/product/:productId',
         '/author/:authorId',
       ],
       guard: _guard,
@@ -68,7 +68,7 @@ class _BookstoreState extends State<Bookstore> {
     _routerDelegate = SimpleRouterDelegate(
       routeState: _routeState,
       navigatorKey: _navigatorKey,
-      builder: (context) => BookstoreNavigator(
+      builder: (context) => ProductstoreNavigator(
         navigatorKey: _navigatorKey,
       ),
     );
@@ -82,7 +82,7 @@ class _BookstoreState extends State<Bookstore> {
   @override
   Widget build(BuildContext context) => RouteStateScope(
         notifier: _routeState,
-        child: BookstoreAuthScope(
+        child: ProductstoreAuthScope(
           notifier: _auth,
           child: MaterialApp.router(
             routerDelegate: _routerDelegate,
@@ -115,7 +115,7 @@ class _BookstoreState extends State<Bookstore> {
     if (!signedIn && from != signInRoute) {
       return signInRoute;
     }
-    // Go to /books if the user is signed in and tries to go to /signin.
+    // Go to /products if the user is signed in and tries to go to /signin.
     else if (signedIn && from == signInRoute) {
       return ParsedRoute('/home', '/home', {}, {});
     }

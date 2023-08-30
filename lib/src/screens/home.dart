@@ -58,7 +58,7 @@ class HomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // Implement the custom widget's appearance and behavior using the provided parameters
     return InkWell(
-      //onTap: () => _handleBookTapped(context, book),
+      //onTap: () => _handleProductTapped(context, product),
       child: Container(
         color: Colors.white,
         child: Column(

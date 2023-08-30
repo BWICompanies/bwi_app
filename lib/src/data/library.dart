@@ -3,10 +3,10 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'author.dart';
-import 'book.dart';
+import 'product.dart';
 
 final libraryInstance = Library()
-  ..addBook(
+  ..addProduct(
       title: 'Fertilome Weed-Out Lawn Weed Killer Concentrate - 1 gal',
       item_number: 'FE10519',
       image_urls:
@@ -17,7 +17,7 @@ final libraryInstance = Library()
       price: 117.84,
       isPopular: true,
       isNew: true)
-  ..addBook(
+  ..addProduct(
       title: 'AquaGro 2000 - 120 lb',
       item_number: 'AQ03',
       image_urls: 'https://images.bwicompanies.com/AQ03.jpg',
@@ -27,7 +27,7 @@ final libraryInstance = Library()
       price: 840.00,
       isPopular: true,
       isNew: true)
-  ..addBook(
+  ..addProduct(
       title: 'Bamboo Stake Natural - 4\' Tall x 3/8" Diameter',
       item_number: 'BON40810',
       image_urls: 'https://images.bwicompanies.com/BON40810.jpg',
@@ -37,7 +37,7 @@ final libraryInstance = Library()
       price: 82.45,
       isPopular: false,
       isNew: true)
-  ..addBook(
+  ..addProduct(
       title: 'Sterling Irrigation Controller - 18 Zone',
       item_number: 'CASTRL18',
       image_urls: 'https://images.bwicompanies.com/CASTRL18.jpg',
@@ -47,7 +47,7 @@ final libraryInstance = Library()
       price: 888.71,
       isPopular: true,
       isNew: false)
-  ..addBook(
+  ..addProduct(
       title: 'Slip On Plant Tie - 8"',
       item_number: 'DA05TREES',
       image_urls: 'https://images.bwicompanies.com/DA05TREES.jpg',
@@ -59,10 +59,10 @@ final libraryInstance = Library()
       isNew: false);
 
 class Library {
-  final List<Book> allBooks = [];
+  final List<Product> allProducts = [];
   final List<Author> allAuthors = [];
 
-  void addBook({
+  void addProduct({
     required String title,
     required String item_number,
     required String image_urls,
@@ -81,19 +81,19 @@ class Library {
       },
     );
 
-    //Order must match the order of the constructor in book.dart
-    var book = Book(allBooks.length, title, item_number, image_urls,
+    //Order must match the order of the constructor in product.dart
+    var product = Product(allProducts.length, title, item_number, image_urls,
         description, price, isPopular, isNew, author);
 
-    author.books.add(book);
-    allBooks.add(book);
+    author.products.add(product);
+    allProducts.add(product);
   }
 
-  List<Book> get popularBooks => [
-        ...allBooks.where((book) => book.isPopular),
+  List<Product> get popularProducts => [
+        ...allProducts.where((product) => product.isPopular),
       ];
 
-  List<Book> get newBooks => [
-        ...allBooks.where((book) => book.isNew),
+  List<Product> get newProducts => [
+        ...allProducts.where((product) => product.isNew),
       ];
 }

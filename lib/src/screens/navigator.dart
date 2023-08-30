@@ -12,37 +12,37 @@ import '../routing.dart';
 import '../screens/sign_in.dart';
 import '../widgets/fade_transition_page.dart';
 import 'author_details.dart';
-import 'book_details.dart';
+import 'product_details.dart';
 import 'scaffold.dart';
 
-class BookstoreNavigator extends StatefulWidget {
+class ProductstoreNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  const BookstoreNavigator({
+  const ProductstoreNavigator({
     required this.navigatorKey,
     super.key,
   });
 
   @override
-  State<BookstoreNavigator> createState() => _BookstoreNavigatorState();
+  State<ProductstoreNavigator> createState() => _ProductstoreNavigatorState();
 }
 
-class _BookstoreNavigatorState extends State<BookstoreNavigator> {
+class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
   final _signInKey = const ValueKey('Sign in');
   final _scaffoldKey = const ValueKey('App scaffold');
-  final _bookDetailsKey = const ValueKey('Book details screen');
+  final _productDetailsKey = const ValueKey('Product details screen');
   final _authorDetailsKey = const ValueKey('Author details screen');
 
   @override
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
-    final authState = BookstoreAuthScope.of(context);
+    final authState = ProductstoreAuthScope.of(context);
     final pathTemplate = routeState.route.pathTemplate;
 
-    Book? selectedBook;
-    if (pathTemplate == '/book/:bookId') {
-      selectedBook = libraryInstance.allBooks.firstWhereOrNull(
-          (b) => b.id.toString() == routeState.route.parameters['bookId']);
+    Product? selectedProduct;
+    if (pathTemplate == '/product/:productId') {
+      selectedProduct = libraryInstance.allProducts.firstWhereOrNull(
+          (b) => b.id.toString() == routeState.route.parameters['productId']);
     }
 
     Author? selectedAuthor;
@@ -55,10 +55,10 @@ class _BookstoreNavigatorState extends State<BookstoreNavigator> {
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
         // When a page that is stacked on top of the scaffold is popped, display
-        // the /books or /authors tab in BookstoreScaffold.
+        // the /products or /authors tab in ProductstoreScaffold.
         if (route.settings is Page &&
-            (route.settings as Page).key == _bookDetailsKey) {
-          routeState.go('/books/popular');
+            (route.settings as Page).key == _productDetailsKey) {
+          routeState.go('/products/popular');
         }
 
         if (route.settings is Page &&
@@ -87,15 +87,15 @@ class _BookstoreNavigatorState extends State<BookstoreNavigator> {
           // Display the app
           FadeTransitionPage<void>(
             key: _scaffoldKey,
-            child: const BookstoreScaffold(),
+            child: const ProductstoreScaffold(),
           ),
-          // Add an additional page to the stack if the user is viewing a book
+          // Add an additional page to the stack if the user is viewing a product
           // or an author
-          if (selectedBook != null)
+          if (selectedProduct != null)
             MaterialPage<void>(
-              key: _bookDetailsKey,
-              child: BookDetailsScreen(
-                book: selectedBook,
+              key: _productDetailsKey,
+              child: ProductDetailsScreen(
+                product: selectedProduct,
               ),
             )
           else if (selectedAuthor != null)

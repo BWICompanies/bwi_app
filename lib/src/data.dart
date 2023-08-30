@@ -3,5 +3,5 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'data/author.dart';
-export 'data/book.dart';
+export 'data/product.dart';
 export 'data/library.dart';

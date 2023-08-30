@@ -4,7 +4,7 @@
 
 import 'author.dart';
 
-class Book {
+class Product {
   final int id;
   final String title;
   final String item_number;
@@ -16,6 +16,6 @@ class Book {
   final double price;
 
   //order must match library.dart file
-  Book(this.id, this.title, this.item_number, this.image_urls, this.description,
-      this.price, this.isPopular, this.isNew, this.author);
+  Product(this.id, this.title, this.item_number, this.image_urls,
+      this.description, this.price, this.isPopular, this.isNew, this.author);
 }

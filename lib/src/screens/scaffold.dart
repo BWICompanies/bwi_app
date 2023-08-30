@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import '../routing.dart';
 import 'scaffold_body.dart';
 
-class BookstoreScaffold extends StatelessWidget {
-  const BookstoreScaffold({
+class ProductstoreScaffold extends StatelessWidget {
+  const ProductstoreScaffold({
     super.key,
   });
 
@@ -22,18 +22,18 @@ class BookstoreScaffold extends StatelessWidget {
     return Scaffold(
       body: AdaptiveNavigationScaffold(
         selectedIndex: selectedIndex,
-        body: const BookstoreScaffoldBody(),
+        body: const ProductstoreScaffoldBody(),
         //Main Nav Routes
         onDestinationSelected: (idx) {
           if (idx == 0) routeState.go('/home');
-          if (idx == 1) routeState.go('/books/popular');
+          if (idx == 1) routeState.go('/products/popular');
           if (idx == 2) routeState.go('/authors');
           if (idx == 3) routeState.go('/history');
           if (idx == 4) routeState.go('/settings');
         },
         destinations: const [
           AdaptiveScaffoldDestination(
-            title: 'Home', //was books
+            title: 'Home', //was products
             icon: Icons.home,
           ),
           AdaptiveScaffoldDestination(
@@ -65,7 +65,7 @@ class BookstoreScaffold extends StatelessWidget {
 
   int _getSelectedIndex(String pathTemplate) {
     if (pathTemplate == '/home') return 0;
-    if (pathTemplate.startsWith('/books')) return 1;
+    if (pathTemplate.startsWith('/products')) return 1;
     if (pathTemplate == '/authors') return 2;
     if (pathTemplate == '/history') return 3;
     if (pathTemplate == '/settings') return 4;
