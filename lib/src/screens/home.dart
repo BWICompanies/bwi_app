@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 100, // same value as width to create a square
+                height: 135, // same value as width to create a square
                 color: Colors.grey[200], // specify the color of the square
                 margin: EdgeInsets.only(bottom: 20),
               ),
