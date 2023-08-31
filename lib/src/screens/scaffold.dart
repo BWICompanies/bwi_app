@@ -27,7 +27,8 @@ class ProductstoreScaffold extends StatelessWidget {
         onDestinationSelected: (idx) {
           if (idx == 0) routeState.go('/home');
           if (idx == 1) routeState.go('/products/popular');
-          if (idx == 2) routeState.go('/authors');
+          if (idx == 2) routeState.go('/scan');
+          //if (idx == 2) routeState.go('/authors');
           if (idx == 3) routeState.go('/history');
           if (idx == 4) routeState.go('/settings');
         },
@@ -66,7 +67,8 @@ class ProductstoreScaffold extends StatelessWidget {
   int _getSelectedIndex(String pathTemplate) {
     if (pathTemplate == '/home') return 0;
     if (pathTemplate.startsWith('/products')) return 1;
-    if (pathTemplate == '/authors') return 2;
+    if (pathTemplate == '/scan') return 2;
+    //if (pathTemplate == '/authors') return 2;
     if (pathTemplate == '/history') return 3;
     if (pathTemplate == '/settings') return 4;
     return 0;

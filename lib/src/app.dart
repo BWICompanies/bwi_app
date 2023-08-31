@@ -50,6 +50,7 @@ class _ProductstoreState extends State<Productstore> {
       allowedPaths: [
         '/signin',
         '/authors',
+        '/scan',
         '/home',
         '/history',
         '/settings',

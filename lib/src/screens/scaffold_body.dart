@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../routing.dart';
 import '../screens/home.dart';
 import '../screens/history.dart';
+import '../screens/scan.dart';
 import '../screens/settings.dart';
 import '../widgets/fade_transition_page.dart';
 import 'authors.dart';
@@ -43,6 +44,11 @@ class ProductstoreScaffoldBody extends StatelessWidget {
           const FadeTransitionPage<void>(
             key: ValueKey('history'),
             child: HistoryScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/scan'))
+          const FadeTransitionPage<void>(
+            key: ValueKey('scan'),
+            child: ScanScreen(),
           )
         else if (currentRoute.pathTemplate.startsWith('/settings'))
           const FadeTransitionPage<void>(
