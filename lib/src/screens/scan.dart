@@ -3,9 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 import '../data/library.dart';
 import '../routing.dart';
+
+String _scanBarcode = 'Unknown';
 
 class ScanScreen extends StatelessWidget {
   final String title = 'Scan';

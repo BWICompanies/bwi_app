@@ -10,13 +10,16 @@ import 'author_details.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final Product? product;
+  //Product object variable is nullable and can not be changed once set.
 
+  //Constructor for this class that takes in a product object and the StatelessWidget key. (super keyword in dart is used to refer to the parent class for accessing properties, calling methods, and invoking constructors.)
   const ProductDetailsScreen({
     super.key,
     this.product,
   });
 
   @override
+  //build method for this class that takes in a BuildContext object and returns a Widget object. BuildContext is a handle to the location of a widget in the widget tree.
   Widget build(BuildContext context) {
     if (product == null) {
       return const Scaffold(
