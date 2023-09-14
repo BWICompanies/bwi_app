@@ -49,9 +49,10 @@ class _ScanScreenState extends State<ScanScreen> {
     }
     */
 
-    print(barcodeScanRes);
-
-    _scanBarcode = barcodeScanRes;
+    //print(barcodeScanRes);
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
   }
 
   @override
