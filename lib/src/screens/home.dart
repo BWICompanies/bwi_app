@@ -34,12 +34,23 @@ class HomeScreen extends StatelessWidget {
                     crossAxisSpacing: 20.0,
                     children: [
                       HomeCard(
-                          Title: 'Scan Barcode', iData: Icons.qr_code_scanner),
-                      HomeCard(Title: 'Catalog', iData: Icons.auto_stories),
-                      HomeCard(Title: 'Promotions', iData: Icons.sell),
-                      //HomeCard(Title: 'Track Order', iData: Icons.share_location),
-                      //HomeCard(Title: 'Favorites', iData: Icons.favorite),
-                      HomeCard(Title: 'Order History', iData: Icons.history),
+                          Title: 'Scan Barcode',
+                          iData: Icons.qr_code_scanner,
+                          Route: '/scan'),
+                      HomeCard(
+                          Title: 'Catalog',
+                          iData: Icons.auto_stories,
+                          Route: '/products/all'),
+                      HomeCard(
+                          Title: 'Promotions',
+                          iData: Icons.sell,
+                          Route: '/promos'),
+                      //HomeCard(Title: 'Track Order', iData: Icons.share_location, Route: '/track'),
+                      //HomeCard(Title: 'Favorites', iData: Icons.favorite, Route: '/favorites'),
+                      HomeCard(
+                          Title: 'Order History',
+                          iData: Icons.history,
+                          Route: '/history'),
                     ]),
               ),
             ],
@@ -50,15 +61,20 @@ class HomeScreen extends StatelessWidget {
 
 class HomeCard extends StatelessWidget {
   final String Title; //can be type widget even.
+  final String Route;
   final IconData iData;
 
-  const HomeCard({required this.Title, required this.iData});
+  const HomeCard(
+      {required this.Title, required this.iData, required this.Route});
 
   @override
   Widget build(BuildContext context) {
     // Implement the custom widget's appearance and behavior using the provided parameters
     return InkWell(
       //onTap: () => _handleProductTapped(context, product),
+      onTap: () {
+        RouteStateScope.of(context).go(Route);
+      },
       child: Container(
         color: Colors.white,
         child: Column(
