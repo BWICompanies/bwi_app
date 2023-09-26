@@ -15,8 +15,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(title),
+          //title: Text(title),
+          //centerTitle: true,
+          title: Image.asset('assets/logo.png', height: 35),
+          //actions: [], //for icons on the right. ie. IconButton
           backgroundColor: Colors.green[700],
+          //leading: Image.asset('assets/logo.png', width: 40, height: 40),
         ),
         body: Container(
           margin: EdgeInsets.all(20),
