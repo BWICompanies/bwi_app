@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class HomeCard extends StatelessWidget {
-  final String Title; //can be type widget even.
+  final String Title;
   final String Route;
   final IconData iData;
 
@@ -69,9 +69,7 @@ class HomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Implement the custom widget's appearance and behavior using the provided parameters
     return InkWell(
-      //onTap: () => _handleProductTapped(context, product),
       onTap: () {
         RouteStateScope.of(context).go(Route);
       },
