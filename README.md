@@ -1,3 +1,9 @@
+# Keyboard Shortcuts
+stless make a stateless widget
+stful make a stateful widget
+Windows: CTRL + SHIFT + R or CTRL + . to wrap a widget. (My keyboard command .)
+Can comand click something to see its source also.
+
 # Navigation and Routing
 A sample that shows how to use the [Router][] API to handle common navigation
 scenarios.
