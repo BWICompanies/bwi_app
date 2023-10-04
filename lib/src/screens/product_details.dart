@@ -36,65 +36,70 @@ class ProductDetailsScreen extends StatelessWidget {
         ]),
         backgroundColor: Colors.green[700],
       ),
-      body: Center(
-          child: Padding(
+      body: Padding(
         padding: EdgeInsets.all(24.0), // You can adjust the padding as needed
-        child: Column(
-          children: [
-            Text(
-              product!.title,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            SizedBox(height: 32.0),
-            Image.network(
-              product!.image_urls,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(height: 32.0),
-            Text(
-              product!.description,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            SizedBox(height: 32.0),
-            Text(
-              product!.author.name,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            TextButton(
-              child: const Text('View author (Push)'),
-              onPressed: () {
-                Navigator.of(context).push<void>(
-                  MaterialPageRoute<void>(
-                    builder: (context) =>
-                        AuthorDetailsScreen(author: product!.author),
-                  ),
-                );
-              },
-            ),
-            Link(
-              uri: Uri.parse('/author/${product!.author.id}'),
-              builder: (context, followLink) => TextButton(
-                onPressed: followLink,
-                child: const Text('View author (Link)'),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                product!.title,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
-            ),
-            GridView.builder(
-              shrinkWrap: true, // Important to limit the height of the GridView
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Number of columns in the grid
+              SizedBox(height: 32.0),
+              Image.network(
+                product!.image_urls,
+                fit: BoxFit.cover,
               ),
-              itemCount: 10, // Number of grid items
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Center(
-                    child: Text('Item $index'),
-                  ),
-                );
-              },
-            ),
-          ],
+              SizedBox(height: 32.0),
+              Text(
+                product!.description,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              SizedBox(height: 32.0),
+              /*
+              Examples of linking to other pages.
+              Text(
+                product!.author.name,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              
+              TextButton(
+                child: const Text('View author (Push)'),
+                onPressed: () {
+                  Navigator.of(context).push<void>(
+                    MaterialPageRoute<void>(
+                      builder: (context) =>
+                          AuthorDetailsScreen(author: product!.author),
+                    ),
+                  );
+                },
+              ),
+              Link(
+                uri: Uri.parse('/author/${product!.author.id}'),
+                builder: (context, followLink) => TextButton(
+                  onPressed: followLink,
+                  child: const Text('View author (Link)'),
+                ),
+              ),*/
+              GridView.builder(
+                shrinkWrap:
+                    true, // Important to limit the height of the GridView
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Number of columns in the grid
+                ),
+                itemCount: 2, // Number of grid items
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: Center(
+                      child: Text('Item $index'),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
