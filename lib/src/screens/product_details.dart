@@ -86,8 +86,10 @@ class ProductDetailsScreen extends StatelessWidget {
                     true, // Important to limit the height of the GridView
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Number of columns in the grid
-                  //mainAxisSpacing: 8.0, // spacing between rows
-                  //crossAxisSpacing: 8.0, // spacing between columns
+                  mainAxisSpacing: 6.0, // spacing between rows
+                  crossAxisSpacing: 6.0, // spacing between columns
+                  mainAxisExtent: 145, // row height
+                  //childAspectRatio: 1 / 2,
                 ),
                 itemCount: product!.uom_data.length, // Number of grid items
                 itemBuilder: (BuildContext context, int index) {
@@ -99,7 +101,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   return Card(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 10.0,
+                          vertical: 15.0,
                           horizontal: 20.0), //can use .only to do all 4 sides
                       child: Flexible(
                         child: Column(
@@ -107,16 +109,32 @@ class ProductDetailsScreen extends StatelessWidget {
                               .start, //by default, centers its children both horizontally and vertically.
                           //child: Text('Item $index'),
                           children: <Widget>[
-                            Text(product!.uom_data[uomKey]['description'] +
-                                " " +
-                                product!.uom_data[uomKey]['pack_size']),
-                            Text('\$${product!.uom_data[uomKey]['price']}'),
+                            Text(
+                              product!.uom_data[uomKey]['description'] +
+                                  " " +
+                                  product!.uom_data[uomKey]['pack_size'],
+                              style: TextStyle(
+                                fontSize: 18.0, // Font size
+                                color: Colors.green[700], // Text color
+                                fontWeight: FontWeight.bold, // Font weight
+                              ),
+                            ),
+                            Text(
+                              '\$${product!.uom_data[uomKey]['price']}',
+                              style: TextStyle(
+                                fontSize: 18.0, // Font size
+                                fontWeight: FontWeight.bold, // Font weight
+                              ),
+                            ), //use variable wrapper for $
                             SizedBox(height: 20),
                             ElevatedButton(
                               onPressed: () {
                                 // Handle button press for ElevatedButton
                               },
-                              child: Text('Add to Cart'),
+                              child: Text(
+                                'Add to Cart',
+                                style: TextStyle(fontSize: 14.0),
+                              ),
                             ),
                           ],
                         ),
