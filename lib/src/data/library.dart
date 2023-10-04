@@ -15,6 +15,22 @@ final libraryInstance = Library()
       description:
           'AI: Trimec, a patented combination of 3 weed killers: 2-4 D, Mecoprop, and Dicamba. Controls over 200 broadleaf weeds including dandelion, chickweed, clover, spurge, wild onion, dollar weed, ground ivy, and many others listed.',
       price: 117.84,
+      uom_data: {
+        'EA': {
+          'description': 'EACH',
+          'mom': '4',
+          'pack_size': '',
+          'price': '40.36',
+          'inventory': 0,
+        },
+        'CS': {
+          'description': 'CASE',
+          'mom': '1',
+          'pack_size': 'Pk/4',
+          'price': '56.10',
+          'inventory': 0,
+        },
+      },
       isPopular: true,
       isNew: true)
   ..addProduct(
@@ -25,6 +41,22 @@ final libraryInstance = Library()
       description:
           'Media surfactant. Ensures quick and easy initial wetting for growers who mix their own soilless media. Reduces media shrinkage and watering frequency. Ensures uniform penetration of water soluble chemicals and fertilizers.',
       price: 840.00,
+      uom_data: {
+        'EA': {
+          'description': 'EACH',
+          'mom': '4',
+          'pack_size': '',
+          'price': '40.36',
+          'inventory': 0,
+        },
+        'CS': {
+          'description': 'CASE',
+          'mom': '1',
+          'pack_size': 'Pk/4',
+          'price': '56.10',
+          'inventory': 0,
+        },
+      },
       isPopular: true,
       isNew: true)
   ..addProduct(
@@ -35,6 +67,22 @@ final libraryInstance = Library()
       description:
           'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
       price: 82.45,
+      uom_data: {
+        'EA': {
+          'description': 'EACH',
+          'mom': '4',
+          'pack_size': '',
+          'price': '40.36',
+          'inventory': 0,
+        },
+        'CS': {
+          'description': 'CASE',
+          'mom': '1',
+          'pack_size': 'Pk/4',
+          'price': '56.10',
+          'inventory': 0,
+        },
+      },
       isPopular: false,
       isNew: true)
   ..addProduct(
@@ -45,6 +93,22 @@ final libraryInstance = Library()
       description:
           'Designed with the greenhouse grower in mind, the Sterling is a highly versatile irrigation controller for all of your watering requirements.',
       price: 888.71,
+      uom_data: {
+        'EA': {
+          'description': 'EACH',
+          'mom': '4',
+          'pack_size': '',
+          'price': '40.36',
+          'inventory': 0,
+        },
+        'CS': {
+          'description': 'CASE',
+          'mom': '1',
+          'pack_size': 'Pk/4',
+          'price': '56.10',
+          'inventory': 0,
+        },
+      },
       isPopular: true,
       isNew: false)
   ..addProduct(
@@ -55,6 +119,22 @@ final libraryInstance = Library()
       description:
           '8" long, these ties can be attached together to form longer ties. A soft tie for tender plants.',
       price: 19.28,
+      uom_data: {
+        'EA': {
+          'description': 'EACH',
+          'mom': '4',
+          'pack_size': '',
+          'price': '40.36',
+          'inventory': 0,
+        },
+        'CS': {
+          'description': 'CASE',
+          'mom': '1',
+          'pack_size': 'Pk/4',
+          'price': '56.10',
+          'inventory': 0,
+        },
+      },
       isPopular: false,
       isNew: false);
 
@@ -69,6 +149,7 @@ class Library {
     required String description,
     required String authorName,
     required double price,
+    required Map<String, dynamic> uom_data,
     required bool isPopular,
     required bool isNew,
   }) {
@@ -83,7 +164,7 @@ class Library {
 
     //Order must match the order of the constructor in product.dart
     var product = Product(allProducts.length, title, item_number, image_urls,
-        description, price, isPopular, isNew, author);
+        description, price, uom_data, isPopular, isNew, author);
 
     author.products.add(product);
     allProducts.add(product);

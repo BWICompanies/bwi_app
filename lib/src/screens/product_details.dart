@@ -78,6 +78,20 @@ class ProductDetailsScreen extends StatelessWidget {
                 child: const Text('View author (Link)'),
               ),
             ),
+            GridView.builder(
+              shrinkWrap: true, // Important to limit the height of the GridView
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Number of columns in the grid
+              ),
+              itemCount: 10, // Number of grid items
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: Center(
+                    child: Text('Item $index'),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       )),

@@ -18,6 +18,22 @@ void main() {
           description:
               'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
           price: 0,
+          uom_data: {
+            'EA': {
+              'description': 'EACH',
+              'mom': '4',
+              'pack_size': '',
+              'price': '40.36',
+              'inventory': 0,
+            },
+            'CS': {
+              'description': 'CASE',
+              'mom': '1',
+              'pack_size': 'Pk/4',
+              'price': '56.10',
+              'inventory': 0,
+            },
+          },
           isPopular: true,
           isNew: true);
       library.addProduct(
@@ -29,6 +45,22 @@ void main() {
           description:
               'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
           price: 0,
+          uom_data: {
+            'EA': {
+              'description': 'EACH',
+              'mom': '4',
+              'pack_size': '',
+              'price': '40.36',
+              'inventory': 0,
+            },
+            'CS': {
+              'description': 'CASE',
+              'mom': '1',
+              'pack_size': 'Pk/4',
+              'price': '56.10',
+              'inventory': 0,
+            },
+          },
           isPopular: false,
           isNew: true);
       library.addProduct(
@@ -40,6 +72,22 @@ void main() {
           description:
               'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
           price: 0,
+          uom_data: {
+            'EA': {
+              'description': 'EACH',
+              'mom': '4',
+              'pack_size': '',
+              'price': '40.36',
+              'inventory': 0,
+            },
+            'CS': {
+              'description': 'CASE',
+              'mom': '1',
+              'pack_size': 'Pk/4',
+              'price': '56.10',
+              'inventory': 0,
+            },
+          },
           isPopular: true,
           isNew: false);
       library.addProduct(
@@ -51,6 +99,22 @@ void main() {
           description:
               'Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.',
           price: 0,
+          uom_data: {
+            'EA': {
+              'description': 'EACH',
+              'mom': '4',
+              'pack_size': '',
+              'price': '40.36',
+              'inventory': 0,
+            },
+            'CS': {
+              'description': 'CASE',
+              'mom': '1',
+              'pack_size': 'Pk/4',
+              'price': '56.10',
+              'inventory': 0,
+            },
+          },
           isPopular: false,
           isNew: false);
       expect(library.allAuthors.length, 3);
