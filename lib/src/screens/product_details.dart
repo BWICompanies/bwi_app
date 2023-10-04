@@ -127,13 +127,17 @@ class ProductDetailsScreen extends StatelessWidget {
                               ),
                             ), //use variable wrapper for $
                             SizedBox(height: 20),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Handle button press for ElevatedButton
-                              },
-                              child: Text(
-                                'Add to Cart',
-                                style: TextStyle(fontSize: 14.0),
+                            Container(
+                              width: double
+                                  .infinity, // Set the width to fill the parent's width
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  // Handle button press for ElevatedButton
+                                },
+                                child: Text(
+                                  'Add to Cart',
+                                  style: TextStyle(fontSize: 14.0),
+                                ),
                               ),
                             ),
                           ],
