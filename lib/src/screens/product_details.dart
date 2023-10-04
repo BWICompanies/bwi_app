@@ -88,7 +88,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   crossAxisCount: 2, // Number of columns in the grid
                   mainAxisSpacing: 6.0, // spacing between rows
                   crossAxisSpacing: 6.0, // spacing between columns
-                  mainAxisExtent: 145, // row height
+                  mainAxisExtent: 185, // row height
                   //childAspectRatio: 1 / 2,
                 ),
                 itemCount: product!.uom_data.length, // Number of grid items
@@ -97,6 +97,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   //If you would rather do uom['description'] instead of
                   //product!.uom_data[uomKey]['description'] you can do this:
                   //final uom = product!.uom_data[uomKey];
+                  //String _uomSelected = product!.uom_data.keys.first;
 
                   return Card(
                     child: Padding(
@@ -126,6 +127,9 @@ class ProductDetailsScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold, // Font weight
                               ),
                             ), //use variable wrapper for $
+                            TextField(
+                                //decoration: InputDecoration(labelText: 'Enter your text',),
+                                ),
                             SizedBox(height: 20),
                             Container(
                               width: double
