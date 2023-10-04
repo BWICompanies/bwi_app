@@ -87,11 +87,16 @@ class ProductDetailsScreen extends StatelessWidget {
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, // Number of columns in the grid
                 ),
-                itemCount: 2, // Number of grid items
+                itemCount: product!.uom_data.length, // Number of grid items
                 itemBuilder: (BuildContext context, int index) {
+                  final uomKey = product!.uom_data.keys.elementAt(index);
+                  final uom = product!.uom_data[uomKey];
+                  final description = uom['description'];
+
                   return Card(
                     child: Center(
-                      child: Text('Item $index'),
+                      //child: Text('Item $index'),
+                      child: Text(description),
                     ),
                   );
                 },
