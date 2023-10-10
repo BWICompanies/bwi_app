@@ -18,7 +18,16 @@ class HomeScreen extends StatelessWidget {
           //title: Text(title),
           //centerTitle: true,
           title: Image.asset('assets/logo.png', height: 35),
-          //actions: [], //for icons on the right. ie. IconButton
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showSearch(
+                      context: context,
+                      delegate: ProductSearchDelegate() //(products: products)
+                      );
+                },
+                icon: const Icon(Icons.search))
+          ], //for icons on the right. ie. IconButton
           backgroundColor: Colors.green[700],
           //leading: Image.asset('assets/logo.png', width: 40, height: 40),
         ),
@@ -61,6 +70,40 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       );
+}
+
+class ProductSearchDelegate extends SearchDelegate {
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: const Icon(Icons.clear),
+      )
+    ];
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Text('buildResults');
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Text('buildSuggestions');
+  }
 }
 
 class HomeCard extends StatelessWidget {

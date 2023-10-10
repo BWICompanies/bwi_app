@@ -88,6 +88,7 @@ class _ProductstoreState extends State<Productstore> {
           child: MaterialApp.router(
             routerDelegate: _routerDelegate,
             routeInformationParser: _routeParser,
+            debugShowCheckedModeBanner: false, //hide debug ribbon
             // Revert back to pre-Flutter-2.5 transition behavior:
             // https://github.com/flutter/flutter/issues/82053
             theme: ThemeData(
