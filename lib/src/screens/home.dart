@@ -26,7 +26,12 @@ class HomeScreen extends StatelessWidget {
                       delegate: ProductSearchDelegate() //(products: products)
                       );
                 },
-                icon: const Icon(Icons.search))
+                icon: const Icon(Icons.search)),
+            IconButton(
+                icon: const Icon(Icons.shopping_cart),
+                onPressed: () {
+                  RouteStateScope.of(context).go('/cart');
+                }),
           ], //for icons on the right. ie. IconButton
           backgroundColor: Colors.green[700],
           //leading: Image.asset('assets/logo.png', width: 40, height: 40),
