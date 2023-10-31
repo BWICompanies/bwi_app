@@ -1,13 +1,8 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/widgets.dart';
 
-/// A mock authentication service
 class ProductstoreAuth extends ChangeNotifier {
   //Priviate class variables
-  bool _signedIn = false;
+  bool _signedIn = false; //or _isAuthenticated
   String _userName = "Guest";
   //String _userAccountNum = "12345";
   //String _activeAccount = "12345";
@@ -33,10 +28,10 @@ class ProductstoreAuth extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> signIn(String username, String password) async {
+  Future<bool> signIn(String email, String password) async {
+    //print('logging in with email $email and password $password');
     await Future<void>.delayed(const Duration(milliseconds: 200));
 
-    // Sign in. Allow any password.
     _signedIn = true;
     notifyListeners();
     return _signedIn;

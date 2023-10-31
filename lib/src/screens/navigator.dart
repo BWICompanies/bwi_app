@@ -76,7 +76,7 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
             child: SignInScreen(
               onSignIn: (credentials) async {
                 var signedIn = await authState.signIn(
-                    credentials.username, credentials.password);
+                    credentials.email, credentials.password);
                 if (signedIn) {
                   await routeState.go('/home'); //Go to Home Screen if signed in
                 }
