@@ -69,12 +69,14 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
         return route.didPop(result);
       },
       pages: [
+        //Show the signin page or the ProductstoreScaffold that contains the navigation and the scaffold_body which loads the correct screen with a transition.
         if (routeState.route.pathTemplate == '/signin')
-          // Display the sign in screen.
+          // Display the sign in screen. (Logic in auth.dart, view in sign_in.dart)
           FadeTransitionPage<void>(
             key: _signInKey,
             child: SignInScreen(
               onSignIn: (credentials) async {
+                //run auth.dart signIn function
                 var signedIn = await authState.signIn(
                     credentials.email, credentials.password);
                 if (signedIn) {

@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+//Navigator runs .signIn when the user clicks the sign in button
 class ProductstoreAuth extends ChangeNotifier {
   //Priviate class variables
   bool _signedIn = false; //or _isAuthenticated

@@ -1,4 +1,4 @@
-//Contains the main navigation routes for the app
+//Contains the main navigation for the app
 //and uses adaptive_navigation.dart package
 //Body is stored in scaffold_body.dart
 

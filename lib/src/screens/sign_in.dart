@@ -1,7 +1,4 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
+//nagigator runs .signIn method if the route is /signin and sends to correct page.
 import 'package:flutter/material.dart';
 
 class Credentials {
@@ -27,6 +24,28 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  //Alt method
+  //String _email;
+  //String _password;
+  //String _errorMessage = '';
+
+  /*
+  Future<void> submitForm() async {
+    setState(() {
+      _errorMessage = '';
+    });
+    bool result = await ProductstoreAuthScope.of<AuthProvider>(context, listen: false).login(_email, _password);
+    if (result == false) {
+      setState(() {
+        _errorMessage = 'There was a problem with your credentials.';
+      });
+    }
+  }
+
+  //When form button clicked run this submitForm(); function onPressed
+  //For simple validation can check out this example. https://github.com/unlikenesses/sanctum-flutter-app/blob/master/lib/login.dart
+  */
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Center(
@@ -43,6 +62,13 @@ class _SignInScreenState extends State<SignInScreen> {
                   TextField(
                     decoration: const InputDecoration(labelText: 'Email'),
                     controller: _emailController,
+                    /*
+                    onChanged: (text) {
+                      setState(() {
+                        _displayText = text;
+                      });
+                    },
+                    */
                   ),
                   TextField(
                     decoration: const InputDecoration(labelText: 'Password'),
