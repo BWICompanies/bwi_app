@@ -28,6 +28,7 @@ import 'package:flutter/material.dart';
 import 'auth.dart';
 import 'routing.dart';
 import 'screens/navigator.dart';
+import 'package:provider/provider.dart';
 
 class Productstore extends StatefulWidget {
   const Productstore({super.key});

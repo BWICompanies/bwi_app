@@ -8,19 +8,20 @@ Can comand click something to see its source also.
 A sample that shows how to use the [Router][] API to handle common navigation
 scenarios.
 
-## Goals
-- Demonstrate common navigation scenarios:
+## Includes
+- Nnavigation scenarios:
   - Parsing path parameters ('/user/:id')
   - Sign in (validation / guards)
   - Nested navigation
-- Provide a reusable implementation of RouterDelegate and RouteInformationParser
-- Demonstrate how [deep linking][] is configured on iOS and Android
-- Demonstrate how to use the Link widget from `package:url_Launcher` with the
-  Router API.
+- Teusable implementation of RouterDelegate and RouteInformationParser
+- deep linking
+- Uses the Link widget from `package:url_Launcher` with the Router API.
+- Can use provider for easier state managment. https://www.youtube.com/watch?v=L_QMsE2v6dw 
 
 ## How it works
-The top-level widget, `Productstore`, sets up the state for this app. It places
-three `InheritedNotifier` widgets in the tree: `RouteStateScope`,
+Starts at main.dart to set deep linking and window sizing. Then runs the app. (app.dart is the top level widget.)
+The top-level widget, `Productstore`, in app.dart sets up the state for this app and imports navigation, auth and routing. 
+It places three `InheritedNotifier` widgets in the tree: `RouteStateScope`,
 `ProductstoreAuthScope`, and `LibraryScope`, which provide the state for the
 application:
 
