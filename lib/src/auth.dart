@@ -1,9 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import './constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 
 //Navigator runs .signIn when the user clicks the sign in button
 class ProductstoreAuth extends ChangeNotifier {
   //Priviate class variables
-  bool _signedIn = false; //or _isAuthenticated
+  bool _signedIn = false;
   String _userName = "Guest";
   //String _userAccountNum = "12345";
   //String _activeAccount = "12345";
@@ -23,20 +26,60 @@ class ProductstoreAuth extends ChangeNotifier {
   String get userName => _userName; //ProductstoreAuthScope.of(context).userName
 
   Future<void> signOut() async {
-    await Future<void>.delayed(const Duration(milliseconds: 200));
-    // Sign out.
     _signedIn = false;
     notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 
   Future<bool> signIn(String email, String password) async {
+    //Old code as placeholder.
     //print('logging in with email $email and password $password');
-    await Future<void>.delayed(const Duration(milliseconds: 200));
+    //await Future<void>.delayed(const Duration(milliseconds: 200));
+    //_signedIn = true;
+    //notifyListeners();
+    //return _signedIn;
 
-    _signedIn = true;
-    notifyListeners();
-    return _signedIn;
+    var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.authEndpoint);
+
+    final response = await http.post(url, body: {
+      'email': email,
+      'password': password,
+      //'device_name': '', //await getDeviceId(),
+    }, headers: {
+      'Accept': 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+      String token = response.body;
+      await saveToken(token);
+      _signedIn = true;
+      notifyListeners();
+      return true;
+    }
+
+    if (response.statusCode == 422) {
+      _signedIn = false;
+      return false;
+    }
+
+    return false;
   }
+
+  saveToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+  }
+
+  /*
+
+  Future<String> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
+  */
 
   @override
   bool operator ==(Object other) =>
