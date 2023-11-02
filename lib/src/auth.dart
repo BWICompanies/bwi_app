@@ -9,18 +9,7 @@ class ProductstoreAuth extends ChangeNotifier {
   //Priviate class variables
   bool _signedIn = false;
   //String _userName = "Guest";
-  //String _userAccountNum = "12345";
-  //String _activeAccount = "12345";
-  //String _accountStatus = "I";
-  //bool _hasContract = false;
   //List<String> accounts = ['EOTH076', 'TANB100', 'TACE500'];
-
-  /*
-  How to loop in DART
-  for (String fruit in accounts) {
-    print(fruit);
-  }
-  */
 
   //getter methods to allow outside access to the private class variables
   bool get signedIn => _signedIn; //ie. yourInstance.signedIn
@@ -83,34 +72,41 @@ class ProductstoreAuth extends ChangeNotifier {
     });
 
     if (response.statusCode == 200) {
+      // Parse the JSON string and save to variable
+      Map<String, dynamic> jsonData = json.decode(response.body);
       //List<dynamic> data = json.decode(response.body);
 
-      // Parse the JSON string
-      Map<String, dynamic> jsonData = json.decode(response.body);
+      /*
+      Remember Lists are ordered, maps are unordered
+      List<String> fruits = ['apple', 'banana', 'cherry']; -> fruits[0]
+      Map<String, int> ages = {'Alice': 30, 'Bob': 25, 'Carol': 35}; -> ages['Bob']
+      */
 
-      // Access the "accountnum" value
-      String accountNum = jsonData['data']['accountnum'];
-
-      await prefs.setString('accountnum', accountNum);
+      //Persist to local storage
+      await prefs.setString('accountnum', jsonData['data']['accountnum']);
+      await prefs.setString('activeaccount', jsonData['data']['activeaccount']);
+      await prefs.setString('email', jsonData['data']['email']);
+      await prefs.setInt('userid', jsonData['data']['id']);
+      await prefs.setString('username', jsonData['data']['name']);
+      await prefs.setString(
+          'active_account_name', jsonData['data']['active_account_name']);
 
       /*
+      if we need to loop through it
       for (int i = 0; i < data.length; i++) {
-        books.add(Book.fromJson(data[i]));
+        //
       }
+
+      or
+
+      for (String fruit in accounts) {
+        print(fruit);
+      }
+
       */
-      //return books;
     } else {
       throw Exception('Problem loading books');
     }
-
-    /*
-    await prefs.setString('accountnum', 'accountnum value');
-    await prefs.setString('activeaccount', 'activeaccount value');
-    await prefs.setString('email', 'email value');
-    await prefs.setString('userid', 'userid value');
-    await prefs.setString('username', 'username value');
-    await prefs.setString('active_account_name', 'active_account_name value');
-    */
   }
 
   @override

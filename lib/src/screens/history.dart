@@ -35,7 +35,7 @@ class HistoryScreen extends StatelessWidget {
 
   Future<String> readStringFromSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
-    final myString = prefs.getString('accountnum');
+    final myString = prefs.getString('active_account_name');
     return myString ?? 'No data';
   }
 }
