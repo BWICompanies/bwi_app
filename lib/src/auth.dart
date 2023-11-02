@@ -34,13 +34,6 @@ class ProductstoreAuth extends ChangeNotifier {
   }
 
   Future<bool> signIn(String email, String password) async {
-    //Old code as placeholder.
-    //print('logging in with email $email and password $password');
-    //await Future<void>.delayed(const Duration(milliseconds: 200));
-    //_signedIn = true;
-    //notifyListeners();
-    //return _signedIn;
-
     var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.authEndpoint);
 
     final response = await http.post(url, body: {
@@ -72,14 +65,10 @@ class ProductstoreAuth extends ChangeNotifier {
     await prefs.setString('token', token);
   }
 
-  /*
-
-  Future<String> getToken() async {
+  Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
-
-  */
 
   @override
   bool operator ==(Object other) =>

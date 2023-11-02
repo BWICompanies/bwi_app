@@ -16,26 +16,6 @@ class HistoryScreen extends StatelessWidget {
           title: Text(title),
           backgroundColor: Colors.green[700],
         ),
-        //body: Text('test'),
-        body: FutureBuilder(
-          future: readStringFromSharedPreferences(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Center(
-                child: Text(snapshot.data.toString()),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
+        body: Text('test'),
       );
-
-  Future<String> readStringFromSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    final myString = prefs.getString('token');
-    return myString ?? 'No data';
-  }
 }
