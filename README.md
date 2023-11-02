@@ -25,6 +25,9 @@ for (String fruit in accounts) {
   print(fruit);
 }
 
+Reading data from local storage in a null safe way. (If it doesn't exist, returns null)
+final int? counter = prefs.getInt('counter');
+
 # Navigation and Routing
 A sample that shows how to use the [Router][] API to handle common navigation
 scenarios.

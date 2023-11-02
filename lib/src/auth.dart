@@ -84,7 +84,7 @@ class ProductstoreAuth extends ChangeNotifier {
       await prefs.setString(
           'active_account_name', jsonData['data']['active_account_name']);
     } else {
-      throw Exception('Problem loading books');
+      throw Exception('Problem loading user data');
     }
   }
 
