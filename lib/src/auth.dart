@@ -74,13 +74,6 @@ class ProductstoreAuth extends ChangeNotifier {
     if (response.statusCode == 200) {
       // Parse the JSON string and save to variable
       Map<String, dynamic> jsonData = json.decode(response.body);
-      //List<dynamic> data = json.decode(response.body);
-
-      /*
-      Remember Lists are ordered, maps are unordered
-      List<String> fruits = ['apple', 'banana', 'cherry']; -> fruits[0]
-      Map<String, int> ages = {'Alice': 30, 'Bob': 25, 'Carol': 35}; -> ages['Bob']
-      */
 
       //Persist to local storage
       await prefs.setString('accountnum', jsonData['data']['accountnum']);
@@ -90,20 +83,6 @@ class ProductstoreAuth extends ChangeNotifier {
       await prefs.setString('username', jsonData['data']['name']);
       await prefs.setString(
           'active_account_name', jsonData['data']['active_account_name']);
-
-      /*
-      if we need to loop through it
-      for (int i = 0; i < data.length; i++) {
-        //
-      }
-
-      or
-
-      for (String fruit in accounts) {
-        print(fruit);
-      }
-
-      */
     } else {
       throw Exception('Problem loading books');
     }

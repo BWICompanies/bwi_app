@@ -4,6 +4,27 @@ stful make a stateful widget
 Windows: CTRL + SHIFT + R or CTRL + . to wrap a widget. (My keyboard command .)
 Can comand click something to see its source also.
 
+# DART/Flutter Notes
+Remember Lists are ordered, maps are unordered
+
+List<String> fruits = ['apple', 'banana', 'cherry']; -> fruits[0]
+Map<String, int> ages = {'Alice': 30, 'Bob': 25, 'Carol': 35}; -> ages['Bob']
+
+Map<String, dynamic> jsonData = json.decode(response.body);
+List<dynamic> data = json.decode(response.body);
+
+Loops are similar to php
+
+for (int i = 0; i < data.length; i++) {
+  //
+}
+
+or
+
+for (String fruit in accounts) {
+  print(fruit);
+}
+
 # Navigation and Routing
 A sample that shows how to use the [Router][] API to handle common navigation
 scenarios.
