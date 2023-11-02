@@ -21,6 +21,7 @@ class ProductstoreAuth extends ChangeNotifier {
     final response = await http.post(url, body: {
       'email': email,
       'password': password,
+      'type': 'mobile-app',
       //'device_name': '', //await getDeviceId(),
     }, headers: {
       'Accept': 'application/json',
