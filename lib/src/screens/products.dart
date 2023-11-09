@@ -43,38 +43,41 @@ class Debouncer {
 class _ProductsScreenState extends State<ProductsScreen> {
   final _debouncer = Debouncer();
 
-  //List<Subject> ulist = []; //list from server
-  //List<Subject> userLists = []; //filtered list after typing
-
   List<Subject> productList = []; //products returned from API
 
-  //Not sure if this is working yet
   final authState = ProductstoreAuth();
 
-  Future<List<Subject>> getProducts(String searchstring) async {
+  Future<List<Subject>?> getProducts(String searchString) async {
     final token = await authState.getToken(); // Get the token stored on device
     var url = Uri.parse(
-        "https://api.bwicompanies.com/v1/items/search?q=$searchstring&account=EOTH076&web_enabled=true");
+        "https://api.bwicompanies.com/v1/items/search?q=$searchString&account=EOTH076&web_enabled=true");
     http.Request request = http.Request('GET', url);
 
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'application/json';
-    //request.body ='{"query": "boots"}';
 
     try {
+      // Update to indicate that the streamedResponse and response variables can be null.
       var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-      //print(response.body); //Print to debug console
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
 
-      //If dont do streamed response. (Returns response.statusCode, headers, body)
-      //final response = await http.request('GET', url, headers: headers, body: body);
-      //print('Response status code: ${response.statusCode}');
-
-      //Parse response
-      if (response.statusCode == 200) {
-        List<Subject> list = parseAgents(response.body);
-        return list;
+        // Add a null check to the if statement before parsing the response.
+        if (response != null) {
+          //Parse response
+          if (response.statusCode == 200) {
+            List<Subject> list = parseAgents(response.body);
+            return list;
+          } else {
+            // Change the return type to indicate that the function may return a null value.
+            return null;
+          }
+        } else {
+          // Throw an exception if the response is null.
+          throw Exception('Error');
+        }
       } else {
+        // Throw an exception if the streamedResponse is null.
         throw Exception('Error');
       }
     } catch (e) {
@@ -101,14 +104,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
   void initState() {
     super.initState();
     getProducts("Hoods").then((subjectFromServer) {
-      setState(() {
-        //Variables for filtering products based on textbox
-        //ulist = subjectFromServer;
-        //userLists = ulist;
-
-        //set products based on api results
-        productList = subjectFromServer;
-      });
+      if (subjectFromServer != null) {
+        setState(() {
+          // Set the productList variable to the subjectFromServer variable.
+          productList = subjectFromServer;
+        });
+      }
     });
   }
 
@@ -164,11 +165,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
                 //run api on change and update products
 
-                getProducts(value).then((subjectFromServer) {
-                  setState(() {
-                    productList = subjectFromServer;
+                if (value != "") {
+                  getProducts(value).then((subjectFromServer) {
+                    if (subjectFromServer != null) {
+                      setState(() {
+                        // Set the productList variable to the subjectFromServer variable.
+                        productList = subjectFromServer;
+                      });
+                    }
                   });
-                });
+                }
 
                 /*
                 _debouncer.run(() {
