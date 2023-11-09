@@ -51,10 +51,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
   //Not sure if this is working yet
   final authState = ProductstoreAuth();
 
-  Future<List<Subject>> getProducts() async {
+  Future<List<Subject>> getProducts(String searchstring) async {
     final token = await authState.getToken(); // Get the token stored on device
     var url = Uri.parse(
-        'https://api.bwicompanies.com/v1/items/search?q=boots&account=EOTH076&web_enabled=true');
+        "https://api.bwicompanies.com/v1/items/search?q=$searchstring&account=EOTH076&web_enabled=true");
     http.Request request = http.Request('GET', url);
 
     request.headers['Authorization'] = 'Bearer $token';
@@ -100,7 +100,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   //Details: getProducts function returns a future object and uses the then method to add a callback to update the list variables.
   void initState() {
     super.initState();
-    getProducts().then((subjectFromServer) {
+    getProducts("Hoods").then((subjectFromServer) {
       setState(() {
         //Variables for filtering products based on textbox
         //ulist = subjectFromServer;
@@ -157,7 +157,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 print(value);
 
                 //run api on change and update products
-                getProducts().then((subjectFromServer) {
+                getProducts("Boots").then((subjectFromServer) {
                   setState(() {
                     productList = subjectFromServer;
                   });
