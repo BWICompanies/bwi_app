@@ -55,7 +55,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     http.Request request = http.Request('GET', url);
 
     request.headers['Authorization'] = 'Bearer $token';
-    request.headers['Authorization'] = "'Content-Type': 'application/json'";
+    request.headers['Content-Type'] = 'application/json';
     request.body =
         '{"query": "boots", "account": "EOTH076", "web_enabled": true}';
 
@@ -63,22 +63,22 @@ class _ProductsScreenState extends State<ProductsScreen> {
     //print(token);
 
     try {
-      // Make the request.
-      //var response = await http.Client().send(request);
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      print(response.body);
+
       //Need to add query, account, web_enabled to body
       //final response = await http.request('GET', url, headers: headers, body: body);
 
-      print('Response status code: ${response.statusCode}');
-      print('Response headers: ${response.headers}');
-      print('Response body: ${response.body}');
+      //print('Response status code: ${response.statusCode}');
+      //print('Response headers: ${response.headers}');
+      //print('Response body: ${response.body}');
 
-      List<Subject> list = parseAgents(response.body);
+      //List<Subject> list = parseAgents(response.body);
 
       //Hardcode response
-      /*
       List<Subject> list =
           parseAgents('[{"item_number": "asdf"},{"item_number": "qewr"}]');
-      */
 
       return list;
     } catch (e) {
