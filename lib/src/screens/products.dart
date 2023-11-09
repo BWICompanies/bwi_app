@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../data.dart';
 import '../routing.dart';
-//import '../widgets/product_list.dart';
+import '../widgets/product_search_delegate.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({
@@ -51,38 +51,4 @@ class _ProductsScreenState extends State<ProductsScreen>
                           fontSize: 20, fontWeight: FontWeight.bold)),
                 ])),
       );
-}
-
-class ProductSearchDelegate extends SearchDelegate {
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: const Icon(Icons.arrow_back),
-    );
-  }
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        onPressed: () {
-          query = '';
-        },
-        icon: const Icon(Icons.clear),
-      )
-    ];
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Text('buildResults');
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return Text('buildSuggestions');
-  }
 }
