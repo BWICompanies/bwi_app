@@ -51,55 +51,28 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   Future<List<Subject>> getAllulistList() async {
     final token = await authState.getToken(); // Get the token stored on device
-    var url = Uri.parse('https://api.bwicompanies.com/v1/items/search');
+    var url = Uri.parse(
+        'https://api.bwicompanies.com/v1/items/search?q=boots&account=EOTH076&web_enabled=true');
     http.Request request = http.Request('GET', url);
 
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'application/json';
-    request.body =
-        '{"query": "boots", "account": "EOTH076", "web_enabled": true}';
-
-    //Print to debug console
-    //print(token);
+    //request.body ='{"query": "boots"}';
 
     try {
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
-      print(response.body);
+      //print(response.body); //Print to debug console
 
-      //Need to add query, account, web_enabled to body
+      //If dont do streamed response
       //final response = await http.request('GET', url, headers: headers, body: body);
 
       //print('Response status code: ${response.statusCode}');
       //print('Response headers: ${response.headers}');
       //print('Response body: ${response.body}');
 
-      //List<Subject> list = parseAgents(response.body);
-
-      //Hardcode response
-      List<Subject> list =
-          parseAgents('[{"item_number": "asdf"},{"item_number": "qewr"}]');
-
-      return list;
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-
-    //Hard code the list variable using the Subject class and return it
-    /*
-    List<Subject> list = parseAgents(
-        '[{"item_number": "asdf"},{"item_number": "qewr"}]'); //pass json and return a list of Subject objects.
-    return list;
-    */
-
-/* throws error
-    try {
-      final response = await http.get(Uri.parse(url), headers: {
-        'Authorization': 'Bearer $token',
-      });
-
+      //Parse response
       if (response.statusCode == 200) {
-        print(response.body);
         List<Subject> list = parseAgents(response.body);
         return list;
       } else {
@@ -108,13 +81,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
     } catch (e) {
       throw Exception(e.toString());
     }
-  
-  */
   }
 
-  //Read Json string and return a list of Subject objects.
+  //Read Json string and return a list of Subject objects from data array.
   static List<Subject> parseAgents(String responseBody) {
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    // Decode the JSON response into a Dart object.
+    final decodedResponse = json.decode(responseBody);
+
+    // Get the data array from the decoded object.
+    final dataArray = decodedResponse['data'] as List<dynamic>;
+
+    // Parse the data array into a list of Subject objects and return
+    final parsed = dataArray.cast<Map<String, dynamic>>();
     return parsed.map<Subject>((json) => Subject.fromJson(json)).toList();
   }
 
