@@ -64,12 +64,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
       var response = await http.Response.fromStream(streamedResponse);
       //print(response.body); //Print to debug console
 
-      //If dont do streamed response
+      //If dont do streamed response. (Returns response.statusCode, headers, body)
       //final response = await http.request('GET', url, headers: headers, body: body);
-
       //print('Response status code: ${response.statusCode}');
-      //print('Response headers: ${response.headers}');
-      //print('Response body: ${response.body}');
 
       //Parse response
       if (response.statusCode == 200) {
@@ -187,7 +184,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       children: <Widget>[
                         ListTile(
                           title: Text(
-                            userLists[index].item_number,
+                            userLists[index].item_description,
                             style: TextStyle(fontSize: 16),
                           ),
                           subtitle: Text(
@@ -211,14 +208,45 @@ class _ProductsScreenState extends State<ProductsScreen> {
 //Declare Subject class for json data
 class Subject {
   var item_number;
+  var item_description;
+  /*
+  var longdesc;
+  var pack_size;
+  var stocking_unit_of_measure;
+  var stocking_uom_desc;
+  var sales_unit_of_measure;
+  var sales_uom_desc;
+  var primary_vendor;
+  var vendor_name;
+  var market_type;
+  var division;
+  //var class;
+  var mandatory_drop_ship;
+  var ups_eligible;
+  var item_status;
+  var web_enabled;
+  var nosell;
+  var stock_nonstock_item;
+  var upc;
+  var market_price;
+  var add_timestamp;
+  var update_timestamp;
+  var image_urls;
+  var is_new;
+  var price;
+  var uomData;
+  var qtyBreaks;
+  */
 
   Subject({
     required this.item_number,
+    required this.item_description,
   });
 
   factory Subject.fromJson(Map<dynamic, dynamic> json) {
     return Subject(
       item_number: json['item_number'],
+      item_description: json['item_description'],
     );
   }
 }
