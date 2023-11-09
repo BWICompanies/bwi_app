@@ -115,6 +115,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
   //Main Widget
   @override
   Widget build(BuildContext context) {
+    /*
+    final TextEditingController _textEditingController =
+        TextEditingController();
+    */
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Catalog'),
@@ -133,6 +138,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           Container(
             padding: EdgeInsets.all(15),
             child: TextField(
+              //controller: _textEditingController,
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(
@@ -154,10 +160,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 hintText: 'Search ',
               ),
               onChanged: (value) {
-                print(value);
+                //print(value);
 
                 //run api on change and update products
-                getProducts("Boots").then((subjectFromServer) {
+
+                getProducts(value).then((subjectFromServer) {
                   setState(() {
                     productList = subjectFromServer;
                   });
