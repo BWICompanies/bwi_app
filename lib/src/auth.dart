@@ -12,7 +12,8 @@ class ProductstoreAuth extends ChangeNotifier {
   //List<String> accounts = ['EOTH076', 'TANB100', 'TACE500'];
 
   //getter methods to allow outside access to the private class variables
-  bool get signedIn => _signedIn; //ie. yourInstance.signedIn
+  bool get signedIn =>
+      _signedIn; //ie. yourInstance.signedIn or ProductstoreAuthScope.of(context).getToken
   //String get userName => _userName; //ProductstoreAuthScope.of(context).userName
 
   Future<bool> signIn(String email, String password) async {

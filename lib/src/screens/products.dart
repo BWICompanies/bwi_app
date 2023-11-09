@@ -3,10 +3,13 @@
 //Loads ProductList widget
 
 import 'package:flutter/material.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
+import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
+import '../auth.dart';
 
 import '../data.dart';
 import '../routing.dart';
-//import '../widgets/product_search_delegate.dart';
+import '../widgets/product_search_delegate.dart';
 
 import 'dart:async'; //optional but helps with debugging
 import 'dart:convert'; //to and from json
@@ -40,17 +43,33 @@ class Debouncer {
 class _ProductsScreenState extends State<ProductsScreen> {
   final _debouncer = Debouncer();
 
-  List<Subject> ulist = [];
-  List<Subject> userLists = [];
-  //API call for All Subject List
+  List<Subject> ulist = []; //list from server
+  List<Subject> userLists = []; //filtered list after typing
 
-  String url = 'https://type.fit/api/quotes';
+  String url = 'https://api.bwicompanies.com/v1/items/search';
+
+  //Not sure if this is working yet
+  final authState = ProductstoreAuth();
 
   Future<List<Subject>> getAllulistList() async {
+    //var token = await authState.getToken;
+    //String token = "13|ggYuAnCm81dkMX53P7bOVYTi1Z2w85jMf3Dfab8B73c25a10";
+
+    //Hard code the list variable using the Subject class and return it
+    List<Subject> list = parseAgents(
+        '[{"item_number": "asdf"},{"item_number": "qewr"}]'); //pass json and return a list of Subject objects.
+    return list;
+
+    /*
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url), headers: {
+        'Authorization': 'Bearer $token',
+      });
+
+      //print(response.statusCode);
+
       if (response.statusCode == 200) {
-        // print(response.body);
+        //print(response.body);
         List<Subject> list = parseAgents(response.body);
         return list;
       } else {
@@ -58,15 +77,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
       }
     } catch (e) {
       throw Exception(e.toString());
-    }
+    } */
   }
 
+  //Read Json string and return a list of Subject objects.
   static List<Subject> parseAgents(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<Subject>((json) => Subject.fromJson(json)).toList();
   }
 
   @override
+  //When widget is first created, call api and update the 2 list variables
+  //Details: getAllulistList function returns a future object and uses the then method to add a callback to update the list variables.
   void initState() {
     super.initState();
     getAllulistList().then((subjectFromServer) {
@@ -82,10 +104,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'All Users',
-          style: TextStyle(fontSize: 25),
-        ),
+        title: const Text('Product Catalog'),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {
+                RouteStateScope.of(context).go('/cart');
+              }),
+        ], //for i
+        backgroundColor: Colors.green[700],
       ),
       body: Column(
         children: <Widget>[
@@ -118,7 +145,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   setState(() {
                     userLists = ulist
                         .where(
-                          (u) => (u.text.toLowerCase().contains(
+                          (u) => (u.item_number.toLowerCase().contains(
                                 string.toLowerCase(),
                               )),
                         )
@@ -150,11 +177,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       children: <Widget>[
                         ListTile(
                           title: Text(
-                            userLists[index].text,
+                            userLists[index].item_number,
                             style: TextStyle(fontSize: 16),
                           ),
                           subtitle: Text(
-                            userLists[index].author ?? "null",
+                            userLists[index].item_number ?? "null",
                             style: TextStyle(fontSize: 16),
                           ),
                         )
@@ -171,9 +198,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 }
 
-//Declare Subject class for json data or parameters of json string/data
-//Class For Subject
-/*
+//Declare Subject class for json data
 class Subject {
   var item_number;
 
@@ -184,23 +209,6 @@ class Subject {
   factory Subject.fromJson(Map<dynamic, dynamic> json) {
     return Subject(
       item_number: json['item_number'],
-    );
-  }
-}
-*/
-
-class Subject {
-  var text;
-  var author;
-  Subject({
-    required this.text,
-    required this.author,
-  });
-
-  factory Subject.fromJson(Map<dynamic, dynamic> json) {
-    return Subject(
-      text: json['text'],
-      author: json['author'],
     );
   }
 }
