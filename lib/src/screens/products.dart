@@ -1,6 +1,6 @@
-//This is the Product Catalog screen (Products Screen in Example)
-//Sets App Bar & Tab Bar
-//Loads ProductList widget
+//This is the Product Catalog screen
+//Sets App Bar & Tab Bar. (Right now not using tabs.)
+//Loads ProductList widget (Right now not using and reading api)
 
 import 'package:flutter/material.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
