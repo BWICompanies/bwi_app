@@ -46,30 +46,60 @@ class _ProductsScreenState extends State<ProductsScreen> {
   List<Subject> ulist = []; //list from server
   List<Subject> userLists = []; //filtered list after typing
 
-  String url = 'https://api.bwicompanies.com/v1/items/search';
-
   //Not sure if this is working yet
   final authState = ProductstoreAuth();
 
   Future<List<Subject>> getAllulistList() async {
-    //var token = await authState.getToken;
-    //String token = "13|ggYuAnCm81dkMX53P7bOVYTi1Z2w85jMf3Dfab8B73c25a10";
+    final token = await authState.getToken(); // Get the token stored on device
+    var url = Uri.parse('https://api.bwicompanies.com/v1/items/search');
+    http.Request request = http.Request('GET', url);
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Authorization'] = "'Content-Type': 'application/json'";
+    request.body =
+        '{"query": "boots", "account": "EOTH076", "web_enabled": true}';
+
+    //Print to debug console
+    //print(token);
+
+    try {
+      // Make the request.
+      //var response = await http.Client().send(request);
+      //Need to add query, account, web_enabled to body
+      //final response = await http.request('GET', url, headers: headers, body: body);
+
+      print('Response status code: ${response.statusCode}');
+      print('Response headers: ${response.headers}');
+      print('Response body: ${response.body}');
+
+      List<Subject> list = parseAgents(response.body);
+
+      //Hardcode response
+      /*
+      List<Subject> list =
+          parseAgents('[{"item_number": "asdf"},{"item_number": "qewr"}]');
+      */
+
+      return list;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
 
     //Hard code the list variable using the Subject class and return it
+    /*
     List<Subject> list = parseAgents(
         '[{"item_number": "asdf"},{"item_number": "qewr"}]'); //pass json and return a list of Subject objects.
     return list;
+    */
 
-    /*
+/* throws error
     try {
       final response = await http.get(Uri.parse(url), headers: {
         'Authorization': 'Bearer $token',
       });
 
-      //print(response.statusCode);
-
       if (response.statusCode == 200) {
-        //print(response.body);
+        print(response.body);
         List<Subject> list = parseAgents(response.body);
         return list;
       } else {
@@ -77,7 +107,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
       }
     } catch (e) {
       throw Exception(e.toString());
-    } */
+    }
+  
+  */
   }
 
   //Read Json string and return a list of Subject objects.
