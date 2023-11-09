@@ -43,13 +43,15 @@ class Debouncer {
 class _ProductsScreenState extends State<ProductsScreen> {
   final _debouncer = Debouncer();
 
-  List<Subject> ulist = []; //list from server
-  List<Subject> userLists = []; //filtered list after typing
+  //List<Subject> ulist = []; //list from server
+  //List<Subject> userLists = []; //filtered list after typing
+
+  List<Subject> productList = []; //products returned from API
 
   //Not sure if this is working yet
   final authState = ProductstoreAuth();
 
-  Future<List<Subject>> getAllulistList() async {
+  Future<List<Subject>> getProducts() async {
     final token = await authState.getToken(); // Get the token stored on device
     var url = Uri.parse(
         'https://api.bwicompanies.com/v1/items/search?q=boots&account=EOTH076&web_enabled=true');
@@ -95,13 +97,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   @override
   //When widget is first created, call api and update the 2 list variables
-  //Details: getAllulistList function returns a future object and uses the then method to add a callback to update the list variables.
+  //Details: getProducts function returns a future object and uses the then method to add a callback to update the list variables.
   void initState() {
     super.initState();
-    getAllulistList().then((subjectFromServer) {
+    getProducts().then((subjectFromServer) {
       setState(() {
-        ulist = subjectFromServer;
-        userLists = ulist;
+        //Variables for filtering products based on textbox
+        //ulist = subjectFromServer;
+        //userLists = ulist;
+
+        //set products based on api results
+        productList = subjectFromServer;
       });
     });
   }
@@ -138,7 +144,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20.0),
                   borderSide: BorderSide(
-                    color: Colors.blue,
+                    color: Colors.green,
                   ),
                 ),
                 suffixIcon: InkWell(
@@ -147,18 +153,24 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 contentPadding: EdgeInsets.all(15.0),
                 hintText: 'Search ',
               ),
-              onChanged: (string) {
-                _debouncer.run(() {
+              onChanged: (value) {
+                print(value);
+
+                //run api on change and update products
+                getProducts().then((subjectFromServer) {
                   setState(() {
-                    userLists = ulist
-                        .where(
-                          (u) => (u.item_number.toLowerCase().contains(
-                                string.toLowerCase(),
-                              )),
-                        )
-                        .toList();
+                    productList = subjectFromServer;
                   });
                 });
+
+                /*
+                _debouncer.run(() {
+                  setState(() {
+                    //update the userLists variable with the results of a new api call
+                    userLists.toList();
+                  });
+                });
+                */
               },
             ),
           ),
@@ -167,7 +179,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               shrinkWrap: true,
               physics: ClampingScrollPhysics(),
               padding: EdgeInsets.all(5),
-              itemCount: userLists.length,
+              itemCount: productList.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                   shape: RoundedRectangleBorder(
@@ -184,11 +196,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       children: <Widget>[
                         ListTile(
                           title: Text(
-                            userLists[index].item_description,
+                            productList[index].item_description,
                             style: TextStyle(fontSize: 16),
                           ),
                           subtitle: Text(
-                            userLists[index].item_number ?? "null",
+                            productList[index].item_number ?? "null",
                             style: TextStyle(fontSize: 16),
                           ),
                         )
