@@ -25,23 +25,24 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class Debouncer {
-  int? milliseconds;
-  VoidCallback? action;
-  Timer? timer;
+  final int milliseconds;
+  Timer? _timer;
 
-  run(VoidCallback action) {
-    if (null != timer) {
-      timer!.cancel();
-    }
-    timer = Timer(
-      Duration(milliseconds: Duration.millisecondsPerSecond),
-      action,
-    );
+  Debouncer({required this.milliseconds});
+
+  void run(VoidCallback action) {
+    _timer?.cancel();
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
+  }
+
+  void dispose() {
+    _timer?.cancel();
+    _timer = null;
   }
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  final _debouncer = Debouncer();
+  final _debouncer = Debouncer(milliseconds: 500);
 
   List<Subject> productList = []; //products returned from API
 
@@ -166,24 +167,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 //run api on change and update products
 
                 if (value != "") {
-                  getProducts(value).then((subjectFromServer) {
-                    if (subjectFromServer != null) {
-                      setState(() {
-                        // Set the productList variable to the subjectFromServer variable.
-                        productList = subjectFromServer;
-                      });
-                    }
+                  _debouncer.run(() {
+                    getProducts(value).then((subjectFromServer) {
+                      if (subjectFromServer != null) {
+                        setState(() {
+                          // Set the productList variable to the subjectFromServer variable.
+                          productList = subjectFromServer;
+                        });
+                      }
+                    });
                   });
                 }
-
-                /*
-                _debouncer.run(() {
-                  setState(() {
-                    //update the userLists variable with the results of a new api call
-                    userLists.toList();
-                  });
-                });
-                */
               },
             ),
           ),
