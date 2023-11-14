@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import '../auth.dart';
 
-import '../data.dart';
+//import '../data.dart';
 import '../routing.dart';
-import '../widgets/product_search_delegate.dart';
+//import '../widgets/product_search_delegate.dart';
 
 import 'dart:async'; //optional but helps with debugging
 import 'dart:convert'; //to and from json
@@ -42,17 +42,28 @@ class Debouncer {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  final _debouncer = Debouncer(milliseconds: 500);
+  final _debouncer = Debouncer(milliseconds: 300);
 
   List<Subject> productList = []; //products returned from API
 
   final authState = ProductstoreAuth();
 
-  Future<List<Subject>?> getProducts(String searchString) async {
+  Future<List<Subject>?> getProducts(String? searchString) async {
     final token = await authState.getToken(); // Get the token stored on device
-    var url = Uri.parse(
-        "https://api.bwicompanies.com/v1/items/search?q=$searchString&account=EOTH076&web_enabled=true");
-    http.Request request = http.Request('GET', url);
+
+    String? url;
+
+    if (searchString != null && searchString.isNotEmpty) {
+      url = ApiConstants.baseUrl +
+          ApiConstants.searchEndpoint +
+          "?q=$searchString&account=EOTH076&web_enabled=true";
+    } else {
+      url = ApiConstants.baseUrl +
+          ApiConstants.itemsEndpoint +
+          "?account=EOTH076&web_enabled=true";
+    }
+
+    http.Request request = http.Request('GET', Uri.parse(url));
 
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'application/json';
@@ -104,7 +115,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   //Details: getProducts function returns a future object and uses the then method to add a callback to update the list variables.
   void initState() {
     super.initState();
-    getProducts("Hoods").then((subjectFromServer) {
+    getProducts("").then((subjectFromServer) {
       if (subjectFromServer != null) {
         setState(() {
           // Set the productList variable to the subjectFromServer variable.
