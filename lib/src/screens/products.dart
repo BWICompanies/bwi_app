@@ -151,33 +151,32 @@ class _ProductsScreenState extends State<ProductsScreen> {
           Container(
             padding: EdgeInsets.all(15),
             child: TextField(
-              //controller: _textEditingController,
-              textInputAction: TextInputAction.search,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide(
-                    color: Colors.grey,
+                //controller: _textEditingController,
+                textInputAction: TextInputAction.search,
+                decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                    ),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  borderSide: BorderSide(
-                    color: Colors.green,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide(
+                      color: Colors.green,
+                    ),
                   ),
+                  suffixIcon: InkWell(
+                    child: Icon(Icons.search),
+                  ),
+                  contentPadding: EdgeInsets.all(15.0),
+                  hintText: 'Search ',
                 ),
-                suffixIcon: InkWell(
-                  child: Icon(Icons.search),
-                ),
-                contentPadding: EdgeInsets.all(15.0),
-                hintText: 'Search ',
-              ),
-              onChanged: (value) {
-                //print(value);
+                onChanged: (value) {
+                  //print(value);
 
-                //run api on change and update products
+                  //run api on change and update products
 
-                if (value != "") {
                   _debouncer.run(() {
                     getProducts(value).then((subjectFromServer) {
                       if (subjectFromServer != null) {
@@ -188,9 +187,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       }
                     });
                   });
-                }
-              },
-            ),
+                }),
           ),
           Expanded(
             child: ListView.builder(
