@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+//import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:http/http.dart' as http;
 import './constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import 'dart:convert';
@@ -8,6 +9,18 @@ import 'dart:convert';
 class ProductstoreAuth extends ChangeNotifier {
   //Priviate class variables
   bool _signedIn = false;
+
+  //something needs to call yourInstance.isTokenValid or ProductstoreAuthScope.of(context).isTokenValid
+
+  Future<bool> isTokenValid() async {
+    //var currentToken;
+    //currentToken = await this.getToken();
+    //print(currentToken);
+
+    _signedIn = true;
+    return true;
+  }
+
   //String _userName = "Guest";
   //List<String> accounts = ['EOTH076', 'TANB100', 'TACE500'];
 
@@ -15,6 +28,37 @@ class ProductstoreAuth extends ChangeNotifier {
   bool get signedIn =>
       _signedIn; //ie. yourInstance.signedIn or ProductstoreAuthScope.of(context).getToken
   //String get userName => _userName; //ProductstoreAuthScope.of(context).userName
+
+  //if the token already exists in local storage, check to see if it is valid. If so, set _signedIn to true.
+  //getToken;
+
+/*
+  Future<bool> isTokenValid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('token');
+
+    if (token == null) {
+      return false;
+    }
+
+    try {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      DateTime expirationDate = DateTime.parse(decodedToken['exp']);
+
+      if (expirationDate.isBefore(DateTime.now())) {
+        return false;
+      }
+
+      // Make an authorized API call using the token
+      // If the API responds with a successful status code, the token is valid
+      // If the API responds with an unauthorized status code, the token is invalid
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  */
 
   Future<bool> signIn(String email, String password) async {
     var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.authEndpoint);

@@ -235,7 +235,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
 class Subject {
   var item_number;
   var item_description;
-  /*
   var longdesc;
   var pack_size;
   var stocking_unit_of_measure;
@@ -262,7 +261,11 @@ class Subject {
   var price;
   var uomData;
   var qtyBreaks;
-  */
+
+  //things we need for this page
+  //image_urls, title, item_number, price
+
+  //replace the column of this with the row of product list.
 
   Subject({
     required this.item_number,

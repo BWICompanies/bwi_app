@@ -23,6 +23,8 @@
 
 //Packages are imported in the pubspec.yaml file.
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import 'auth.dart';
@@ -111,18 +113,58 @@ class _ProductstoreState extends State<Productstore> {
       );
 
   Future<ParsedRoute> _guard(ParsedRoute from) async {
-    final signedIn = _auth.signedIn;
+    //var signedIn = _auth.signedIn; //starts off false.
     final signInRoute = ParsedRoute('/signin', '/signin', {}, {});
+    final landingRoute = ParsedRoute('/home', '/home', {}, {});
 
-    // Go to /signin if the user is not signed in
-    if (!signedIn && from != signInRoute) {
+    bool signedIn = await _auth.isTokenValid();
+
+    //print(signedIn);
+
+    if (!signedIn) {
       return signInRoute;
+    } else {
+      return landingRoute;
     }
-    // Go to /products if the user is signed in and tries to go to /signin.
-    else if (signedIn && from == signInRoute) {
+
+    /*
+    //Prevent odd situations
+    //If not signed in and not coming from the sign in page, go to the sign in page.
+    if (!signedIn && from != signInRoute) {
+      print(
+          "If not signed in and not coming from the sign in page, go to the sign in page.");
+      return signInRoute;
+    } else if (signedIn && from == signInRoute) { // Go home if the user is signed in and tries to go to /signin.
+      print("Go home if the user is signed in and tries to go to /signin");
       return ParsedRoute('/home', '/home', {}, {});
     }
-    return from;
+    */
+
+    //Check for a valid token and set the signedIn variable to true if it is.
+    //print("check for a valid token on the device");
+
+/*
+    //check to see if the token on the device is valid (Right now always returns true)
+    _auth.isTokenValid().then((isTokenValid) {
+      if (isTokenValid) {
+        print('token is already valid, set sign in to true');
+        //signedIn = true;
+        return landingRoute;
+      } else {
+        print('token is not valid, set sign in to false');
+        //signedIn = false;
+        _auth.signOut(); //clears token from device
+        return signInRoute;
+      }
+
+      //print("value of signedIn:");
+      //print(signedIn);
+    });
+    */
+
+    //return signin route until the token check is complete
+    //print("return signin route until the token check is complete");
+    //return from;
   }
 
   void _handleAuthStateChanged() {
