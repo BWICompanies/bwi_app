@@ -197,13 +197,13 @@ class _ProductsScreenState extends State<ProductsScreen> {
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(10),
                     side: BorderSide(
                       color: Colors.grey.shade300,
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(5.0),
+                    padding: EdgeInsets.all(5.0), //padding of card
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
