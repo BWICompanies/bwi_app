@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                       HomeCard(
                           Title: 'Catalog',
                           iData: Icons.auto_stories,
-                          Route: '/products/all'),
+                          Route: '/products'),
                       HomeCard(
                           Title: 'Promotions',
                           iData: Icons.sell,

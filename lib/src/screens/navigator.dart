@@ -31,7 +31,7 @@ class ProductstoreNavigator extends StatefulWidget {
 class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
   final _signInKey = const ValueKey('Sign in');
   final _scaffoldKey = const ValueKey('App scaffold');
-  final _productDetailsKey = const ValueKey('Product details screen');
+  //final _productDetailsKey = const ValueKey('Product details screen');
   //final _authorDetailsKey = const ValueKey('Author details screen');
 
   @override
@@ -39,6 +39,9 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
     final routeState = RouteStateScope.of(context);
     final authState = ProductstoreAuthScope.of(context);
     String? item_number;
+
+    //print("route.settings");
+    //print(route.settings);
 
     //There is a bug where it sets it as the future when we only need to set it if its an ApiProduct.
 
@@ -49,12 +52,19 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
     return Navigator(
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
+        //pass in the route that was popped and the result passed to the popped route
+
+        print("route");
+        print(route);
+
+        /*
         // When a product details page is popped, go back to products
         if (route.settings is Page &&
-            (route.settings as Page).key == _productDetailsKey) {
+            (route.settings as Page).key == _productDetailsKey) { //if the pages key is the product details key, go back to products.
           routeState.go('/products');
         }
-
+        */
+        routeState.go('/products');
         return route.didPop(result);
       },
       //Property that holds the pages to display. (List of Page objects)
@@ -85,7 +95,7 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
           // Add an additional page to the stack if the user is viewing a product detail page
           if (item_number != null)
             MaterialPage<void>(
-              key: _productDetailsKey,
+              key: ValueKey('Product details'),
               child: ProductDetailsScreen(
                 item_number: item_number,
               ),
