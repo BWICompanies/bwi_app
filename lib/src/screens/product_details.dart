@@ -5,15 +5,17 @@ import 'package:http/http.dart' as http; //for api requests
 import '../data.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final String? item_number;
 
   //Constructor for this class that takes in a product object and the StatelessWidget key. (super keyword in dart is used to refer to the parent class for accessing properties, calling methods, and invoking constructors.)
-  const ProductDetailsScreen({
-    super.key,
-    this.item_number,
-  });
+  ProductDetailsScreen({super.key, this.item_number});
 
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   //build method for this class that takes in a BuildContext object and returns a Widget object. BuildContext is a handle to the location of a widget in the widget tree.
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ProductDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(children: [
           Text('Product: '),
-          Text(item_number ?? 'No item number'),
+          Text(widget.item_number ?? 'No item number'),
           //Text(product!.item_number),
         ]),
         backgroundColor: Colors.green[700],
