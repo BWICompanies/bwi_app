@@ -13,7 +13,7 @@ import '../data.dart';
 import '../routing.dart';
 import '../screens/sign_in.dart';
 import '../widgets/fade_transition_page.dart';
-import 'author_details.dart';
+//import 'author_details.dart';
 import 'product_details.dart';
 import 'scaffold.dart';
 import 'package:http/http.dart' as http; //for api requests
@@ -34,10 +34,30 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
   final _signInKey = const ValueKey('Sign in');
   final _scaffoldKey = const ValueKey('App scaffold');
   final _productDetailsKey = const ValueKey('Product details screen');
-  final _authorDetailsKey = const ValueKey('Author details screen');
+  //final _authorDetailsKey = const ValueKey('Author details screen');
 
+  //Build hook will call this to conditionally get the product detail if this is a detail page view
+  Future<ApiProduct?> _conditionallyGetProductDetail(
+      BuildContext context) async {
+    final routeState = RouteStateScope.of(context);
+    final authState = ProductstoreAuthScope.of(context);
+    ApiProduct? selectedProduct;
+
+    //If this is a detail page, get the product from api
+    if (routeState.route.pathTemplate == '/apiproduct/:item_number') {
+      return await getProduct("FS101");
+    } else {
+      return null;
+    }
+
+    //print('_conditionallyGetProductDetail ran');
+  }
+
+  //Function that gets the product from the api and returns it as an ApiProduct object
   Future<ApiProduct?> getProduct(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
+
+    //print('getProduct ran');
 
     http.Request request = http.Request('GET',
         Uri.parse(ApiConstants.baseUrl + "/v1/items/FS101?account=EOTH076"));
@@ -83,46 +103,65 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
     final authState = ProductstoreAuthScope.of(context);
-    final pathTemplate = routeState.route.pathTemplate;
+    ApiProduct? selectedProduct;
+
+    //print("build ran");
+
+    //There is a bug where it sets it as the future when we only need to set it if its an ApiProduct.
+    var results = _conditionallyGetProductDetail(context);
 
     /*
+    if (results is Future) {
+      //dont set yet
+      print('its a future');
+    } else {
+      print('its an object');
+      //selectedProduct = results;
+    }
+    */
+
+    //selectedProduct = _conditionallyGetProductDetail(context);
+
+    //moved this to ini hook
+    /*
     Product? selectedProduct;
-    if (pathTemplate == '/product/:productId') {
+    if (routeState.route.pathTemplate == '/product/:productId') {
       selectedProduct = libraryInstance.allProducts.firstWhereOrNull(
           (b) => b.id.toString() == routeState.route.parameters['productId']);
     }
     */
 
+/*
     //Declare selectedProduct variable of type ApiProduct (can be null)
-    /*
-    ApiProduct? selectedProduct;
-    if (pathTemplate == '/apiproduct/:item_number') {
+    if (routeState.route.pathTemplate == '/apiproduct/:item_number') {
       //get the product from api
 
-      selectedProduct = await getProduct('FS101'); //selected product object
-    }
-    */
+      selectedProduct = getProduct('FS101'); //selected product object
+    } */
 
+    /*
     Author? selectedAuthor;
-    if (pathTemplate == '/author/:authorId') {
+    if (routeState.route.pathTemplate == '/author/:authorId') {
       selectedAuthor = libraryInstance.allAuthors.firstWhereOrNull(
           (b) => b.id.toString() == routeState.route.parameters['authorId']);
     }
+    */
 
     return Navigator(
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
-        // When a page that is stacked on top of the scaffold is popped, display
-        // the /products or /authors tab in ProductstoreScaffold.
+        // When a page that is stacked on top of the scaffold is popped, display products
         if (route.settings is Page &&
             (route.settings as Page).key == _productDetailsKey) {
-          routeState.go('/products/popular');
+          routeState.go('/products');
         }
 
+        /*
         if (route.settings is Page &&
             (route.settings as Page).key == _authorDetailsKey) {
           routeState.go('/authors');
         }
+        */
 
         return route.didPop(result);
       },
@@ -143,14 +182,14 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
               },
             ),
           )
+        //if not the signin screen, show the app scaffold which contains the menu and the scaffold_body which loads the correct screen with a transition and show a detail page on top if needed
         else ...[
           // Display the app
           FadeTransitionPage<void>(
             key: _scaffoldKey,
             child: const ProductstoreScaffold(),
           ),
-          // Add an additional page to the stack if the user is viewing a product
-          // or an author
+          // Add an additional page to the stack if the user is viewing a product detail page
           if (selectedProduct != null)
             MaterialPage<void>(
               key: _productDetailsKey,
@@ -158,13 +197,6 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
                 product: selectedProduct,
               ),
             )
-          else if (selectedAuthor != null)
-            MaterialPage<void>(
-              key: _authorDetailsKey,
-              child: AuthorDetailsScreen(
-                author: selectedAuthor,
-              ),
-            ),
         ],
       ],
     );

@@ -1,7 +1,7 @@
 //Main App File
 
 //Sets allowed routes, set initial route, load navigator & handles auth
-//Start at /signin (/screens/sign_in) or /products/popular (/screens/products.dart)
+//Start at /signin (/screens/sign_in) or /products (/screens/products.dart)
 
 //App Notes:
 
@@ -58,11 +58,12 @@ class _ProductstoreState extends State<Productstore> {
         '/home',
         '/history',
         '/settings',
-        '/products/new',
-        '/products/all',
-        '/products/popular',
-        '/product/:productId',
-        '/author/:authorId',
+        '/products',
+        //'/products/new',
+        //'/products/all',
+        //'/products/popular',
+        //'/product/:productId',
+        //'/author/:authorId',
         '/apiproduct/:item_number',
       ],
       guard: _guard,

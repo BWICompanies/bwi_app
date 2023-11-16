@@ -26,7 +26,7 @@ class ProductstoreScaffold extends StatelessWidget {
         //Main Nav Routes
         onDestinationSelected: (idx) {
           if (idx == 0) routeState.go('/home');
-          if (idx == 1) routeState.go('/products/popular');
+          if (idx == 1) routeState.go('/products');
           if (idx == 2) routeState.go('/scan');
           //if (idx == 2) routeState.go('/authors');
           if (idx == 3) routeState.go('/history');

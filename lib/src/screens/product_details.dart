@@ -32,7 +32,8 @@ class ProductDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(children: [
           Text('Product: '),
-          Text(product!.item_number),
+          Text("item_number here"),
+          //Text(product!.item_number),
         ]),
         backgroundColor: Colors.green[700],
       ),
@@ -42,17 +43,20 @@ class ProductDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                product!.item_description,
+                "item_description here",
+                //product!.item_description,
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               SizedBox(height: 32.0),
               Image.network(
-                product!.image_urls[0],
+                //product!.image_urls[0],
+                "https://boss.bwicompanies.com/item/FS101",
                 fit: BoxFit.cover,
               ),
               SizedBox(height: 32.0),
               Text(
-                product!.item_description,
+                //product!.item_description,
+                "item long description here",
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 32.0),
