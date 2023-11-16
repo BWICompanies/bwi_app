@@ -42,7 +42,7 @@ class Debouncer {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
-  final _debouncer = Debouncer(milliseconds: 300);
+  final _debouncer = Debouncer(milliseconds: 500);
 
   List<Subject> productList = []; //products returned from API
 
