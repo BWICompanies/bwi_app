@@ -214,7 +214,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             style: TextStyle(fontSize: 16),
                           ),
                           subtitle: Text(
-                            productList[index].item_number ?? "null",
+                            productList[index].price ?? "null",
                             style: TextStyle(fontSize: 16),
                           ),
                         )
@@ -235,6 +235,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
 class Subject {
   var item_number;
   var item_description;
+  var image_urls;
+  var price;
+  /*
+  //Other options
   var longdesc;
   var pack_size;
   var stocking_unit_of_measure;
@@ -256,26 +260,26 @@ class Subject {
   var market_price;
   var add_timestamp;
   var update_timestamp;
-  var image_urls;
   var is_new;
-  var price;
   var uomData;
   var qtyBreaks;
-
-  //things we need for this page
-  //image_urls, title, item_number, price
+  */
 
   //replace the column of this with the row of product list.
 
   Subject({
     required this.item_number,
     required this.item_description,
+    required this.image_urls,
+    required this.price,
   });
 
   factory Subject.fromJson(Map<dynamic, dynamic> json) {
     return Subject(
       item_number: json['item_number'],
       item_description: json['item_description'],
+      image_urls: json['image_urls'],
+      price: json['price'],
     );
   }
 }
