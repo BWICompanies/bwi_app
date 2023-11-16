@@ -16,7 +16,10 @@ import 'dart:convert'; //to and from json
 import 'package:http/http.dart' as http; //for api requests
 
 class ProductsScreen extends StatefulWidget {
+  //final ValueChanged<Product>? onTap;
+
   const ProductsScreen({
+    //this.onTap,
     super.key,
   });
 
@@ -192,66 +195,73 @@ class _ProductsScreenState extends State<ProductsScreen> {
               padding: EdgeInsets.all(5),
               itemCount: productList.length,
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
-                      color: Colors.grey.shade300,
+                return GestureDetector(
+                  onTap: () {
+                    // Handle the click event here
+                    print('Card ${productList[index].item_number} clicked!');
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      side: BorderSide(
+                        color: Colors.grey.shade300,
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 0, horizontal: 0), //card padding
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 15),
-                            child: Image.network(
-                              productList[index].image_urls[0],
-                              //productList[index].image_urls, //was a string, now a list.
-                              //'https://images.bwicompanies.com/DA05TREES.jpg', //if hardcode
-                              //width: 80,
-                              height: 80,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0, horizontal: 0), //card padding
+                      child: Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 15),
+                              child: Image.network(
+                                productList[index].image_urls[0],
+                                //productList[index].image_urls, //was a string, now a list.
+                                //'https://images.bwicompanies.com/DA05TREES.jpg', //if hardcode
+                                //width: 80,
+                                height: 80,
+                              ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 15, 20, 15),
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    productList[index].item_description,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    productList[index].item_number,
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.grey[600]),
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    '\$${productList[index].price}',
-                                    //If price is returned as a double convert to string and format to 2 decimal places.
-                                    //'\$${productList[index].price.toStringAsFixed(2)}',
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.green),
-                                  ),
-                                ]),
+                          Expanded(
+                            flex: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 15, 20, 15),
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      productList[index].item_description,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      productList[index].item_number,
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: Colors.grey[600]),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      '\$${productList[index].price}',
+                                      //If price is returned as a double convert to string and format to 2 decimal places.
+                                      //'\$${productList[index].price.toStringAsFixed(2)}',
+                                      style: TextStyle(
+                                          fontSize: 17, color: Colors.green),
+                                    ),
+                                  ]),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 );
