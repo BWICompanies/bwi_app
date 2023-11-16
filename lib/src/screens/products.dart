@@ -46,10 +46,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   List<Subject> productList = []; //products returned from API
 
-  final authState = ProductstoreAuth();
-
   Future<List<Subject>?> getProducts(String? searchString) async {
-    final token = await authState.getToken(); // Get the token stored on device
+    final token = await ProductstoreAuth().getToken();
 
     String? url;
 
