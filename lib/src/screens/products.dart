@@ -231,15 +231,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   Text(
                                     productList[index].item_description,
                                     overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 17,
                                         fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
                                     productList[index].item_number,
                                     style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[600]),
+                                        fontSize: 17, color: Colors.grey[600]),
                                   ),
                                   SizedBox(height: 5),
                                   Text(
@@ -247,7 +248,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                     //If price is returned as a double convert to string and format to 2 decimal places.
                                     //'\$${productList[index].price.toStringAsFixed(2)}',
                                     style: TextStyle(
-                                        fontSize: 16, color: Colors.green),
+                                        fontSize: 17, color: Colors.green),
                                   ),
                                 ]),
                           ),
