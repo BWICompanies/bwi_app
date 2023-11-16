@@ -209,6 +209,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
+                          leading: FlutterLogo(size: 72.0),
                           title: Text(
                             productList[index].item_description,
                             style: TextStyle(fontSize: 16),
@@ -217,6 +218,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             productList[index].price ?? "null",
                             style: TextStyle(fontSize: 16),
                           ),
+                          isThreeLine: true,
                         )
                       ],
                     ),
