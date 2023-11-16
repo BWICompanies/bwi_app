@@ -213,17 +213,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 15, horizontal: 15),
                             child: Image.network(
-                              'https://images.bwicompanies.com/DA05TREES.jpg',
+                              productList[index].image_urls[0],
                               //productList[index].image_urls, //was a string, now a list.
+                              //'https://images.bwicompanies.com/DA05TREES.jpg', //if hardcode
                               //width: 80,
-                              //height: 80,
+                              height: 80,
                             ),
                           ),
                         ),
                         Expanded(
                           flex: 2,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 15, 20, 15),
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
