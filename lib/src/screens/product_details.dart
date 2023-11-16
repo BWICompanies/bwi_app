@@ -21,6 +21,9 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   //build method for this class that takes in a BuildContext object and returns a Widget object. BuildContext is a handle to the location of a widget in the widget tree.
   Widget build(BuildContext context) {
+    print('product details page loaded');
+    print(product);
+
     if (product == null) {
       return const Scaffold(
         body: Center(

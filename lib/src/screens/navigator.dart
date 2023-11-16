@@ -1,12 +1,11 @@
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.
-
-///Also loads scaffold
-
+///Loads login page or scaffold and product detail if needed.
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import 'dart:convert'; //to and from json
+import 'package:http/http.dart' as http; //for api requests
 
 import '../auth.dart';
 import '../data.dart';
@@ -16,7 +15,6 @@ import '../widgets/fade_transition_page.dart';
 //import 'author_details.dart';
 import 'product_details.dart';
 import 'scaffold.dart';
-import 'package:http/http.dart' as http; //for api requests
 
 class ProductstoreNavigator extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -37,24 +35,13 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
   //final _authorDetailsKey = const ValueKey('Author details screen');
 
   //Build hook will call this to conditionally get the product detail if this is a detail page view
-  Future<ApiProduct?> _conditionallyGetProductDetail(
-      BuildContext context) async {
-    final routeState = RouteStateScope.of(context);
-    final authState = ProductstoreAuthScope.of(context);
-    ApiProduct? selectedProduct;
-
-    //If this is a detail page, get the product from api
-    if (routeState.route.pathTemplate == '/apiproduct/:item_number') {
-      return await getProduct("FS101");
-    } else {
-      return null;
-    }
-
+  Future<ApiProduct?> _GetProductDetail(BuildContext context) async {
     //print('_conditionallyGetProductDetail ran');
+    await _getProduct("FS101");
   }
 
   //Function that gets the product from the api and returns it as an ApiProduct object
-  Future<ApiProduct?> getProduct(String? searchString) async {
+  Future<ApiProduct?> _getProduct(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
 
     //print('getProduct ran');
@@ -77,9 +64,13 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
           if (response.statusCode == 200) {
             //ApiProduct selectedProduct = parseAgents(response.body);
 
+            //print(response.body); //this is returning json data for the product if you are on a detail page
+
             //Turn the json into an object
             Map<String, dynamic> jsonMap = json.decode(response.body);
             ApiProduct jsonProduct = ApiProduct.fromJson(jsonMap);
+
+            //print(jsonProduct); //This is returning an Instance of 'ApiProduct'
 
             return jsonProduct;
           } else {
@@ -105,47 +96,19 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
     final authState = ProductstoreAuthScope.of(context);
     ApiProduct? selectedProduct;
 
-    //print("build ran");
-
     //There is a bug where it sets it as the future when we only need to set it if its an ApiProduct.
-    var results = _conditionallyGetProductDetail(context);
 
-    /*
-    if (results is Future) {
-      //dont set yet
-      print('its a future');
-    } else {
-      print('its an object');
-      //selectedProduct = results;
-    }
-    */
-
-    //selectedProduct = _conditionallyGetProductDetail(context);
-
-    //moved this to ini hook
-    /*
-    Product? selectedProduct;
-    if (routeState.route.pathTemplate == '/product/:productId') {
-      selectedProduct = libraryInstance.allProducts.firstWhereOrNull(
-          (b) => b.id.toString() == routeState.route.parameters['productId']);
-    }
-    */
-
-/*
-    //Declare selectedProduct variable of type ApiProduct (can be null)
     if (routeState.route.pathTemplate == '/apiproduct/:item_number') {
-      //get the product from api
+      //on product detail page returns an instance of Future<ApiProduct?>
+      var results;
+      results = _GetProductDetail(context);
 
-      selectedProduct = getProduct('FS101'); //selected product object
-    } */
-
-    /*
-    Author? selectedAuthor;
-    if (routeState.route.pathTemplate == '/author/:authorId') {
-      selectedAuthor = libraryInstance.allAuthors.firstWhereOrNull(
-          (b) => b.id.toString() == routeState.route.parameters['authorId']);
+      //If not a future, set the selectedProduct variable to the results
+      if (!(results is Future)) {
+        print('it ran');
+        selectedProduct = results;
+      }
     }
-    */
 
     return Navigator(
       key: widget.navigatorKey,
@@ -155,13 +118,6 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
             (route.settings as Page).key == _productDetailsKey) {
           routeState.go('/products');
         }
-
-        /*
-        if (route.settings is Page &&
-            (route.settings as Page).key == _authorDetailsKey) {
-          routeState.go('/authors');
-        }
-        */
 
         return route.didPop(result);
       },
