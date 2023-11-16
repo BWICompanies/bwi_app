@@ -203,33 +203,55 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(5.0), //padding of card
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        ListTile(
-                          leading: FlutterLogo(size: 72.0),
-                          title: Text(
-                            productList[index].item_description,
-                            style: TextStyle(fontSize: 16),
+                    padding: EdgeInsets.symmetric(
+                        vertical: 0, horizontal: 0), //card padding
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15),
+                            child: Image.network(
+                              'https://images.bwicompanies.com/DA05TREES.jpg',
+                              //productList[index].image_urls, //was a string, now a list.
+                              //width: 80,
+                              //height: 80,
+                            ),
                           ),
-                          subtitle: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                productList[index].item_number ?? "null",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              Text(
-                                productList[index].price ?? "null",
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            ],
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15),
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    productList[index].item_description,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    productList[index].item_number,
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[600]),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    '\$${productList[index].price}',
+                                    //If price is returned as a double convert to string and format to 2 decimal places.
+                                    //'\$${productList[index].price.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.green),
+                                  ),
+                                ]),
                           ),
-                          isThreeLine: true,
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -247,7 +269,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
 class Subject {
   var item_number;
   var item_description;
-  var image_urls;
+  var image_urls; //can use FlutterLogo(size: 72.0) for now
   var price;
   /*
   //Other options
