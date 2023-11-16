@@ -223,14 +223,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         Expanded(
                           flex: 2,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 15),
+                            padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     productList[index].item_description,
+                                    overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600),
