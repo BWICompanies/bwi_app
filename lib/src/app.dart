@@ -128,7 +128,7 @@ class _ProductstoreState extends State<Productstore> {
       if (from == signInRoute) {
         return ParsedRoute('/home', '/home', {}, {});
       } else {
-        return from;
+        return from; //default is home, but can pass in where I was if I need to allow guests.
       }
     }
   }

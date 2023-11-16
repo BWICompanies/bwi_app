@@ -5,12 +5,15 @@ import 'package:http/http.dart' as http;
 import './constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import 'dart:convert';
 
-//Navigator runs .signIn when the user clicks the sign in button
 class ProductstoreAuth extends ChangeNotifier {
   //Priviate class variables
   bool _signedIn = false;
 
-  //something needs to call yourInstance.isTokenValid or ProductstoreAuthScope.of(context).isTokenValid
+  //List<String> accounts = ['EOTH076', 'TANB100', 'TACE500'];
+
+  //getter methods to allow outside access to the private class variables
+  bool get signedIn => _signedIn;
+  //ie. _auth.signedIn or ProductstoreAuthScope.of(context).signedIn
 
   Future<bool> isTokenValid() async {
     String? currentToken = await this.getToken();
@@ -18,35 +21,31 @@ class ProductstoreAuth extends ChangeNotifier {
     //If token is there, see if it is valid
     if (currentToken != null) {
       //Make an authorized API call using the token to see if its valid
+      var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 
-      _signedIn = true;
+      final response = await http.get(url, headers: {
+        'Authorization': 'Bearer $currentToken',
+      });
+
+      if (response.statusCode == 200) {
+        //print('response is good');
+        _signedIn = true;
+      } else {
+        //print('response: ${response.statusCode}');
+        _signedIn = false;
+        //final prefs = await SharedPreferences.getInstance();
+        //await prefs.clear();      }
+      }
     } else {
+      //Token is not there
       _signedIn = false;
     }
 
     return _signedIn;
   }
 
-  //String _userName = "Guest";
-  //List<String> accounts = ['EOTH076', 'TANB100', 'TACE500'];
-
-  //getter methods to allow outside access to the private class variables
-  bool get signedIn =>
-      _signedIn; //ie. yourInstance.signedIn or ProductstoreAuthScope.of(context).getToken
-  //String get userName => _userName; //ProductstoreAuthScope.of(context).userName
-
-  //if the token already exists in local storage, check to see if it is valid. If so, set _signedIn to true.
-  //getToken;
-
 /*
-  Future<bool> isTokenValid() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString('token');
-
-    if (token == null) {
-      return false;
-    }
-
+  //If we want to use a package to check the expiration date of the token to save an api call if it is expired. But it calls api anyway if its still valid to confirm.
     try {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       DateTime expirationDate = DateTime.parse(decodedToken['exp']);
@@ -63,9 +62,10 @@ class ProductstoreAuth extends ChangeNotifier {
     } catch (e) {
       return false;
     }
-  }
+
   */
 
+//Navigator runs .signIn when the user clicks the sign in button
   Future<bool> signIn(String email, String password) async {
     var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.authEndpoint);
 
