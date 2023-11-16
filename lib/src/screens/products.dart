@@ -109,8 +109,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   }
 
   @override
-  //When widget is first created, call api and update the 2 list variables
-  //Details: getProducts function returns a future object and uses the then method to add a callback to update the list variables.
+  //On wiget ini, getProducts function returns a future object and uses the then method to add a callback to update the list variable.
   void initState() {
     super.initState();
     getProducts("").then((subjectFromServer) {
@@ -298,8 +297,6 @@ class Subject {
   var uomData;
   var qtyBreaks;
   */
-
-  //replace the column of this with the row of product list.
 
   Subject({
     required this.item_number,
