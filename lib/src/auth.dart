@@ -13,12 +13,18 @@ class ProductstoreAuth extends ChangeNotifier {
   //something needs to call yourInstance.isTokenValid or ProductstoreAuthScope.of(context).isTokenValid
 
   Future<bool> isTokenValid() async {
-    //var currentToken;
-    //currentToken = await this.getToken();
-    //print(currentToken);
+    String? currentToken = await this.getToken();
 
-    _signedIn = true;
-    return true;
+    //If token is there, see if it is valid
+    if (currentToken != null) {
+      //Make an authorized API call using the token to see if its valid
+
+      _signedIn = true;
+    } else {
+      _signedIn = false;
+    }
+
+    return _signedIn;
   }
 
   //String _userName = "Guest";
