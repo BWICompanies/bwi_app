@@ -1,12 +1,9 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
-
+import 'dart:convert'; //to and from json
+import 'package:http/http.dart' as http; //for api requests
 import '../data.dart';
-import 'author_details.dart';
+import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 
 class ProductDetailsScreen extends StatelessWidget {
   final String? item_number;
