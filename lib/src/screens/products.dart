@@ -214,9 +214,19 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             productList[index].item_description,
                             style: TextStyle(fontSize: 16),
                           ),
-                          subtitle: Text(
-                            productList[index].price ?? "null",
-                            style: TextStyle(fontSize: 16),
+                          subtitle: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                productList[index].item_number ?? "null",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                productList[index].price ?? "null",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
                           isThreeLine: true,
                         )
