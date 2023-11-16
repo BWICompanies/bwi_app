@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import '../auth.dart';
 
-//import '../data.dart';
+import '../data.dart';
 import '../routing.dart';
 //import '../widgets/product_search_delegate.dart';
 
@@ -47,9 +47,9 @@ class Debouncer {
 class _ProductsScreenState extends State<ProductsScreen> {
   final _debouncer = Debouncer(milliseconds: 500);
 
-  List<Subject> productList = []; //products returned from API
+  List<ApiProduct> productList = []; //products returned from API
 
-  Future<List<Subject>?> getProducts(String? searchString) async {
+  Future<List<ApiProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
 
     String? url;
@@ -79,7 +79,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
         if (response != null) {
           //Parse response
           if (response.statusCode == 200) {
-            List<Subject> list = parseAgents(response.body);
+            List<ApiProduct> list = parseAgents(response.body);
             return list;
           } else {
             // Change the return type to indicate that the function may return a null value.
@@ -98,28 +98,27 @@ class _ProductsScreenState extends State<ProductsScreen> {
     }
   }
 
-  //Read Json string and return a list of Subject objects from data array.
-  static List<Subject> parseAgents(String responseBody) {
+  //Read Json string and return a list of ApiProduct objects from data array.
+  static List<ApiProduct> parseAgents(String responseBody) {
     // Decode the JSON response into a Dart object.
     final decodedResponse = json.decode(responseBody);
 
     // Get the data array from the decoded object.
     final dataArray = decodedResponse['data'] as List<dynamic>;
 
-    // Parse the data array into a list of Subject objects and return
+    // Parse the data array into a list of ApiProduct objects and return
     final parsed = dataArray.cast<Map<String, dynamic>>();
-    return parsed.map<Subject>((json) => Subject.fromJson(json)).toList();
+    return parsed.map<ApiProduct>((json) => ApiProduct.fromJson(json)).toList();
   }
 
   @override
   //On wiget ini, getProducts function returns a future object and uses the then method to add a callback to update the list variable.
   void initState() {
     super.initState();
-    getProducts("").then((subjectFromServer) {
-      if (subjectFromServer != null) {
+    getProducts("").then((ApiProductFromServer) {
+      if (ApiProductFromServer != null) {
         setState(() {
-          // Set the productList variable to the subjectFromServer variable.
-          productList = subjectFromServer;
+          productList = ApiProductFromServer;
         });
       }
     });
@@ -147,7 +146,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       ),
       body: Column(
         children: <Widget>[
-          //Search Bar to List of typed Subject
+          //Search Bar to List of typed ApiProduct
           Container(
             padding: EdgeInsets.all(15),
             child: TextField(
@@ -177,11 +176,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
                   //run api on change and update products
                   _debouncer.run(() {
-                    getProducts(value).then((subjectFromServer) {
-                      if (subjectFromServer != null) {
+                    getProducts(value).then((ApiProductFromServer) {
+                      if (ApiProductFromServer != null) {
                         setState(() {
-                          // Set the productList variable to the subjectFromServer variable.
-                          productList = subjectFromServer;
+                          // Set the productList variable to the ApiProductFromServer variable.
+                          productList = ApiProductFromServer;
                         });
                       }
                     });
@@ -198,6 +197,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 return GestureDetector(
                   onTap: () {
                     // Handle the click event here
+                    RouteStateScope.of(context).go('/product/0');
                     print('Card ${productList[index].item_number} clicked!');
                   },
                   child: Card(
@@ -270,57 +270,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
           ),
         ],
       ),
-    );
-  }
-}
-
-//Declare Subject class for json data
-class Subject {
-  var item_number;
-  var item_description;
-  var image_urls; //can use FlutterLogo(size: 72.0) for now
-  var price;
-  /*
-  //Other options
-  var longdesc;
-  var pack_size;
-  var stocking_unit_of_measure;
-  var stocking_uom_desc;
-  var sales_unit_of_measure;
-  var sales_uom_desc;
-  var primary_vendor;
-  var vendor_name;
-  var market_type;
-  var division;
-  //var class;
-  var mandatory_drop_ship;
-  var ups_eligible;
-  var item_status;
-  var web_enabled;
-  var nosell;
-  var stock_nonstock_item;
-  var upc;
-  var market_price;
-  var add_timestamp;
-  var update_timestamp;
-  var is_new;
-  var uomData;
-  var qtyBreaks;
-  */
-
-  Subject({
-    required this.item_number,
-    required this.item_description,
-    required this.image_urls,
-    required this.price,
-  });
-
-  factory Subject.fromJson(Map<dynamic, dynamic> json) {
-    return Subject(
-      item_number: json['item_number'],
-      item_description: json['item_description'],
-      image_urls: json['image_urls'],
-      price: json['price'],
     );
   }
 }
