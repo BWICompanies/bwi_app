@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/link.dart';
+//import 'package:url_launcher/link.dart';
 import 'dart:convert'; //to and from json
 import 'package:http/http.dart' as http; //for api requests
 import '../data.dart';
@@ -17,8 +17,7 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   //build method for this class that takes in a BuildContext object and returns a Widget object. BuildContext is a handle to the location of a widget in the widget tree.
   Widget build(BuildContext context) {
-    print('product details page loaded');
-    print(item_number);
+    //print(key);
 
     if (item_number == null) {
       return const Scaffold(

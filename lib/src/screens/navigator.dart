@@ -57,6 +57,7 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
 
         return route.didPop(result);
       },
+      //Property that holds the pages to display. (List of Page objects)
       pages: [
         //Show the signin page or the ProductstoreScaffold that contains the navigation and the scaffold_body which loads the correct screen with a transition.
         if (routeState.route.pathTemplate == '/signin')
