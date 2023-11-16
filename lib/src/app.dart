@@ -63,6 +63,7 @@ class _ProductstoreState extends State<Productstore> {
         '/products/popular',
         '/product/:productId',
         '/author/:authorId',
+        '/apiproduct/:item_number',
       ],
       guard: _guard,
       initialRoute: '/home',

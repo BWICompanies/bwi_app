@@ -197,8 +197,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 return GestureDetector(
                   onTap: () {
                     // Handle the click event here
-                    RouteStateScope.of(context).go('/product/0');
-                    print('Card ${productList[index].item_number} clicked!');
+                    //RouteStateScope.of(context).go('/product/0');
+                    RouteStateScope.of(context)
+                        .go('/apiproduct/${productList[index].item_number}');
+                    //or try /apiproduct/:item_number
+                    //print('Card ${productList[index].item_number} clicked!');
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(

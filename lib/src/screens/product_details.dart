@@ -9,7 +9,7 @@ import '../data.dart';
 import 'author_details.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  final Product? product;
+  final ApiProduct? product;
   //Product object variable is nullable and can not be changed once set.
 
   //Constructor for this class that takes in a product object and the StatelessWidget key. (super keyword in dart is used to refer to the parent class for accessing properties, calling methods, and invoking constructors.)
@@ -42,115 +42,22 @@ class ProductDetailsScreen extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                product!.title,
+                product!.item_description,
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               SizedBox(height: 32.0),
               Image.network(
-                product!.image_urls,
+                product!.image_urls[0],
                 fit: BoxFit.cover,
               ),
               SizedBox(height: 32.0),
               Text(
-                product!.description,
+                product!.item_description,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(height: 32.0),
-              /*
-              Examples of linking to other pages.
               Text(
-                product!.author.name,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              
-              TextButton(
-                child: const Text('View author (Push)'),
-                onPressed: () {
-                  Navigator.of(context).push<void>(
-                    MaterialPageRoute<void>(
-                      builder: (context) =>
-                          AuthorDetailsScreen(author: product!.author),
-                    ),
-                  );
-                },
-              ),
-              Link(
-                uri: Uri.parse('/author/${product!.author.id}'),
-                builder: (context, followLink) => TextButton(
-                  onPressed: followLink,
-                  child: const Text('View author (Link)'),
-                ),
-              ),*/
-              GridView.builder(
-                shrinkWrap:
-                    true, // Important to limit the height of the GridView
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Number of columns in the grid
-                  mainAxisSpacing: 6.0, // spacing between rows
-                  crossAxisSpacing: 6.0, // spacing between columns
-                  mainAxisExtent: 185, // row height
-                  //childAspectRatio: 1 / 2,
-                ),
-                itemCount: product!.uom_data.length, // Number of grid items
-                itemBuilder: (BuildContext context, int index) {
-                  final uomKey = product!.uom_data.keys.elementAt(index);
-                  //If you would rather do uom['description'] instead of
-                  //product!.uom_data[uomKey]['description'] you can do this:
-                  //final uom = product!.uom_data[uomKey];
-                  //String _uomSelected = product!.uom_data.keys.first;
-
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15.0,
-                          horizontal: 20.0), //can use .only to do all 4 sides
-                      child: Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment
-                              .start, //by default, centers its children both horizontally and vertically.
-                          //child: Text('Item $index'),
-                          children: <Widget>[
-                            Text(
-                              product!.uom_data[uomKey]['description'] +
-                                  " " +
-                                  product!.uom_data[uomKey]['pack_size'],
-                              style: TextStyle(
-                                fontSize: 18.0, // Font size
-                                color: Colors.green[700], // Text color
-                                fontWeight: FontWeight.bold, // Font weight
-                              ),
-                            ),
-                            Text(
-                              '\$${product!.uom_data[uomKey]['price']}',
-                              style: TextStyle(
-                                fontSize: 18.0, // Font size
-                                fontWeight: FontWeight.bold, // Font weight
-                              ),
-                            ), //use variable wrapper for $
-                            TextField(
-                                //decoration: InputDecoration(labelText: 'Enter your text',),
-                                ),
-                            SizedBox(height: 20),
-                            Container(
-                              width: double
-                                  .infinity, // Set the width to fill the parent's width
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  // Handle button press for ElevatedButton
-                                },
-                                child: Text(
-                                  'Add to Cart',
-                                  style: TextStyle(fontSize: 14.0),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                  "add gridviewbuilder back here for uom stuff. Check search4"),
             ],
           ),
         ),
