@@ -23,8 +23,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Future<ApiProduct?> _getProduct(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
 
-    http.Request request = http.Request('GET',
-        Uri.parse(ApiConstants.baseUrl + "/v1/items/FS101?account=EOTH076"));
+    //If need token for testing in insomnia
+    //print(token);
+
+    http.Request request = http.Request(
+        'GET',
+        Uri.parse(
+            ApiConstants.baseUrl + "/v1/items/$searchString?account=EOTH076"));
+
+    //Hard code for testing
+    //Uri.parse(ApiConstants.baseUrl + "/v1/items/FS101?account=EOTH076"));
 
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'application/json';
@@ -34,6 +42,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       var streamedResponse = await request.send();
       if (streamedResponse != null) {
         var response = await http.Response.fromStream(streamedResponse);
+
+        //returns 404
+        print(response.statusCode);
 
         // Add a null check to the if statement before parsing the response.
         if (response != null) {
@@ -67,7 +78,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   //On wiget ini, set selectedProduct. (_getProduct function returns a future object and uses the then method to add a callback to update the selectedProduct variable.)
   void initState() {
     super.initState();
-    _getProduct('BON51012').then((ApiProductFromServer) {
+    _getProduct(widget.item_number).then((ApiProductFromServer) {
       //widget.item_number
       if (ApiProductFromServer != null) {
         setState(() {

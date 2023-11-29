@@ -43,7 +43,9 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
     //There is a bug where it sets it as the future when we only need to set it if its an ApiProduct.
 
     if (routeState.route.pathTemplate == '/apiproduct/:item_number') {
-      item_number = 'FS101';
+      item_number =
+          routeState.route.parameters['item_number']; //Can hardcode 'FS101';
+      //print("navigators route parameter item_number is $item_number"); //DA05TREES (works)
     }
 
     return Navigator(

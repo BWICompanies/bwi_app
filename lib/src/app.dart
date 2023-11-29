@@ -49,7 +49,7 @@ class _ProductstoreState extends State<Productstore> {
 
   @override
   void initState() {
-    /// Configure the parser with all of the app's allowed path templates.
+    // Configure the parser with all of the app's allowed path templates.
     _routeParser = TemplateRouteParser(
       allowedPaths: [
         '/signin',
@@ -115,8 +115,13 @@ class _ProductstoreState extends State<Productstore> {
         ),
       );
 
-  Future<ParsedRoute> _guard(ParsedRoute from) async {
+  //thePage is the page we are checking to see if we can go to.
+  Future<ParsedRoute> _guard(ParsedRoute thePage) async {
     //var signedIn = _auth.signedIn;
+
+    //print($from);
+    //After clicking a product should be set to:
+    //flutter:<ParsedRoute template: /apiproduct/:item_number path: /apiproduct/BON51012 parameters: {item_number: BON51012} query parameters: {}>
 
     final signInRoute = ParsedRoute('/signin', '/signin', {}, {});
 
@@ -127,10 +132,10 @@ class _ProductstoreState extends State<Productstore> {
       return signInRoute;
     } else {
       //Never return back to the signin page if already signed in
-      if (from == signInRoute) {
+      if (thePage == signInRoute) {
         return ParsedRoute('/home', '/home', {}, {});
       } else {
-        return from; //default is home, but can pass in where I was if I need to allow guests.
+        return thePage; //default is home, but can pass in where I was if I need to allow guests.
       }
     }
   }
