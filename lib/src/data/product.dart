@@ -9,9 +9,9 @@ import 'author.dart'; //used for hard coded products only
 class ApiProduct {
   var item_number;
   var item_description;
-  var image_urls; //can use FlutterLogo(size: 72.0) for now
   var price;
   var longdesc;
+  var image_urls; //can use FlutterLogo(size: 72.0) for now
   /*
   //Other options
   var pack_size;

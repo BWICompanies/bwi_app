@@ -43,7 +43,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             Map<String, dynamic> jsonMap = json.decode(response.body);
             ApiProduct jsonProduct = ApiProduct.fromJson(jsonMap['data']);
 
-            print(response.body);
+            //print(response.body);
             //print(jsonProduct.item_description);
 
             return jsonProduct;
@@ -67,7 +67,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   //On wiget ini, set selectedProduct. (_getProduct function returns a future object and uses the then method to add a callback to update the selectedProduct variable.)
   void initState() {
     super.initState();
-    _getProduct('FS101').then((ApiProductFromServer) {
+    _getProduct('BON51012').then((ApiProductFromServer) {
       //widget.item_number
       if (ApiProductFromServer != null) {
         setState(() {
@@ -92,26 +92,34 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         backgroundColor: Colors.green[700],
       ),
       //Something in body is causing the error.
-      body: Center(
-        child: Column(
-          children: [
-            Text(
-              selectedProduct?.item_description ?? 'No item found',
-              style: Theme.of(context).textTheme.headlineSmall,
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: SingleChildScrollView(
+          //scrollable view
+          child: Center(
+            child: Column(
+              children: [
+                Text(
+                  selectedProduct?.item_description ?? 'No item found',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                SizedBox(height: 32.0),
+                Image.network(
+                  selectedProduct?.image_urls?[0] ??
+                      'https://www.bwicompanies.com/images/MISC/logo.png',
+                  fit: BoxFit.cover,
+                ),
+                SizedBox(height: 32.0),
+                Text(
+                  selectedProduct?.longdesc ?? '',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                SizedBox(height: 32.0),
+                Text(
+                    "add gridviewbuilder back here for uom stuff. Check search4"),
+              ],
             ),
-            SizedBox(height: 32.0),
-            Text(
-              "image.network will go here.", //Maybe product!.image_urls[0]
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            SizedBox(height: 32.0),
-            Text(
-              selectedProduct?.longdesc ?? '',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            SizedBox(height: 32.0),
-            Text("add gridviewbuilder back here for uom stuff. Check search4"),
-          ],
+          ),
         ),
       ),
     );
