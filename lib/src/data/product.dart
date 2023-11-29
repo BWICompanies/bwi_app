@@ -11,9 +11,9 @@ class ApiProduct {
   var item_description;
   var image_urls; //can use FlutterLogo(size: 72.0) for now
   var price;
+  var longdesc;
   /*
   //Other options
-  var longdesc;
   var pack_size;
   var stocking_unit_of_measure;
   var stocking_uom_desc;
@@ -42,6 +42,7 @@ class ApiProduct {
   ApiProduct({
     required this.item_number,
     required this.item_description,
+    required this.longdesc,
     required this.image_urls,
     required this.price,
   });
@@ -50,11 +51,24 @@ class ApiProduct {
     return ApiProduct(
       item_number: json['item_number'],
       item_description: json['item_description'],
+      longdesc: json['longdesc'],
       image_urls: json['image_urls'],
       price: json['price'],
     );
   }
+
+  /*
+  Can dig into data here instead of in code.
+  factory ApiProduct.fromJson(Map<String, dynamic> json) {
+    return ApiProduct(item_description: json['data']['item_description']);
+  }
+  */
 }
+
+/*
+Example correct json response:
+flutter: {"data":{"item_number":"FS101","item_description":"Ryegrass, Gulf Annual - 50 lb","longdesc":"This ryegrass is an erect, robust cool-season bunch grass that reaches a height of 3 to 4 ft. Plants are yellowish-green at the base and have 12\" long glossy leaves. This species has a heavy, extensive fibrous root system. Annual ryegrass has small seeds (approximately 190,000 seeds per pound) that germinate rapidly.","pack_size":"Pk/1","stocking_unit_of_measure":"BG","stocking_uom_desc":"BAG","sales_unit_of_measure":"BG","sales_uom_desc":"BAG","primary_vendor":"FS","vendor_name":"FARM SEEDS","market_type":"Retail","division":"Field Seed","class":"Forage Ryegrasses","mandatory_drop_ship":"N","ups_eligible":"N","item_status":"A","web_enabled":"Y","nosell":"N","stock_nonstock_item":"Y","upc":"021343701461","market_price":"N","add_timestamp":"1992-01-01 00:00:00.000000","update_timestamp":"2023-11-29 14:06:55.374059","image_urls":["https://bwi.nyc3.digitaloceanspaces.com/product-images/msotWPUqPiUKgapTk0U6L9eBHldiaBVXSNc1d8iI.jpg"],"is_new":false,"price":"40.35","uomData":{"BG":{"description":"BAG","mom":"1","pack_size":"Pk/1","price":"40.35","inventory":4154}},"qtyBreaks":[]}}
+*/
 
 //Stuff for hard coded products
 class Product {
