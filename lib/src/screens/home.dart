@@ -42,9 +42,13 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 135, // same value as width to create a square
+                height: 135, //175 might be better
                 color: Colors.grey[200], // specify the color of the square
                 margin: EdgeInsets.only(bottom: 20),
+                child: Image.asset(
+                  'assets/AppBanner2024.png',
+                  fit: BoxFit.cover,
+                ),
               ),
               Expanded(
                 child: GridView.count(
