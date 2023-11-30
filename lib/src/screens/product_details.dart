@@ -44,14 +44,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         var response = await http.Response.fromStream(streamedResponse);
 
         //returns 404
-        print(response.statusCode);
+        //print(response.statusCode);
 
         // Add a null check to the if statement before parsing the response.
         if (response != null) {
-          //Parse response
+          //Turn the json response into an object
           if (response.statusCode == 200) {
-            //Turn the json into an object
+            //turn json into map (associative array in PHP)
             Map<String, dynamic> jsonMap = json.decode(response.body);
+            //turn map/associative array into an object using the factory method in product.dart
             ApiProduct jsonProduct = ApiProduct.fromJson(jsonMap['data']);
 
             //print(response.body);
@@ -115,6 +116,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 SizedBox(height: 32.0),
+                //Show BWI logo while getting the product info or if it doesnt have one.
                 Image.network(
                   selectedProduct?.image_urls?[0] ??
                       'https://www.bwicompanies.com/images/MISC/logo.png',

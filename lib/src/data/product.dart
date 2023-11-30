@@ -1,19 +1,12 @@
-// Copyright 2021, the Flutter project authors. Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
-
 //import 'dart:ffi';
 import 'author.dart'; //used for hard coded products only
 
-//Declare Subject class for json data
+//ApiProduct class
 class ApiProduct {
+  //Instance Variables
   var item_number;
   var item_description;
-  var price;
   var longdesc;
-  var image_urls; //can use FlutterLogo(size: 72.0) for now
-  /*
-  //Other options
   var pack_size;
   var stocking_unit_of_measure;
   var stocking_uom_desc;
@@ -23,7 +16,7 @@ class ApiProduct {
   var vendor_name;
   var market_type;
   var division;
-  //var class;
+  //var class; if I need to use this, we probably need to rename to something not protected.
   var mandatory_drop_ship;
   var ups_eligible;
   var item_status;
@@ -34,31 +27,78 @@ class ApiProduct {
   var market_price;
   var add_timestamp;
   var update_timestamp;
+  var image_urls; //can use FlutterLogo(size: 72.0) for a temp image
   var is_new;
+  var price;
   var uomData;
   var qtyBreaks;
-  */
 
+  //Constructor
   ApiProduct({
-    required this.item_number,
+    required this.item_number, //parameters must be provided when creating the instance.
     required this.item_description,
     required this.longdesc,
+    required this.pack_size,
+    required this.stocking_unit_of_measure,
+    required this.stocking_uom_desc,
+    required this.sales_unit_of_measure,
+    required this.sales_uom_desc,
+    required this.primary_vendor,
+    required this.vendor_name,
+    required this.market_type,
+    required this.division,
+    required this.mandatory_drop_ship,
+    required this.ups_eligible,
+    required this.item_status,
+    required this.web_enabled,
+    required this.nosell,
+    required this.stock_nonstock_item,
+    required this.upc,
+    required this.market_price,
+    required this.add_timestamp,
+    required this.update_timestamp,
     required this.image_urls,
+    required this.is_new,
     required this.price,
+    required this.uomData,
+    required this.qtyBreaks,
   });
 
+  //factory method that accepts json map (associative array in PHP) and returns an ApiProduct object. (Uses the constructor above to create and return an instance of the ApiProduct class)
   factory ApiProduct.fromJson(Map<dynamic, dynamic> json) {
     return ApiProduct(
       item_number: json['item_number'],
       item_description: json['item_description'],
       longdesc: json['longdesc'],
+      pack_size: json['pack_size'],
+      stocking_unit_of_measure: json['stocking_unit_of_measure'],
+      stocking_uom_desc: json['stocking_uom_desc'],
+      sales_unit_of_measure: json['sales_unit_of_measure'],
+      sales_uom_desc: json['sales_uom_desc'],
+      primary_vendor: json['primary_vendor'],
+      vendor_name: json['vendor_name'],
+      market_type: json['market_type'],
+      division: json['division'],
+      mandatory_drop_ship: json['mandatory_drop_ship'],
+      ups_eligible: json['ups_eligible'],
+      item_status: json['item_status'],
+      web_enabled: json['web_enabled'],
+      nosell: json['nosell'],
+      stock_nonstock_item: json['stock_nonstock_item'],
+      upc: json['upc'],
+      market_price: json['market_price'],
+      add_timestamp: json['add_timestamp'],
+      update_timestamp: json['update_timestamp'],
       image_urls: json['image_urls'],
+      is_new: json['is_new'],
       price: json['price'],
+      uomData: json['uomData'],
+      qtyBreaks: json['qtyBreaks'],
     );
   }
 
   /*
-  Can dig into data here instead of in code.
+  Can dig into data here instead of in code. ie.
   factory ApiProduct.fromJson(Map<String, dynamic> json) {
     return ApiProduct(item_description: json['data']['item_description']);
   }
@@ -67,9 +107,10 @@ class ApiProduct {
 
 /*
 Example correct json response:
-flutter: {"data":{"item_number":"FS101","item_description":"Ryegrass, Gulf Annual - 50 lb","longdesc":"This ryegrass is an erect, robust cool-season bunch grass that reaches a height of 3 to 4 ft. Plants are yellowish-green at the base and have 12\" long glossy leaves. This species has a heavy, extensive fibrous root system. Annual ryegrass has small seeds (approximately 190,000 seeds per pound) that germinate rapidly.","pack_size":"Pk/1","stocking_unit_of_measure":"BG","stocking_uom_desc":"BAG","sales_unit_of_measure":"BG","sales_uom_desc":"BAG","primary_vendor":"FS","vendor_name":"FARM SEEDS","market_type":"Retail","division":"Field Seed","class":"Forage Ryegrasses","mandatory_drop_ship":"N","ups_eligible":"N","item_status":"A","web_enabled":"Y","nosell":"N","stock_nonstock_item":"Y","upc":"021343701461","market_price":"N","add_timestamp":"1992-01-01 00:00:00.000000","update_timestamp":"2023-11-29 14:06:55.374059","image_urls":["https://bwi.nyc3.digitaloceanspaces.com/product-images/msotWPUqPiUKgapTk0U6L9eBHldiaBVXSNc1d8iI.jpg"],"is_new":false,"price":"40.35","uomData":{"BG":{"description":"BAG","mom":"1","pack_size":"Pk/1","price":"40.35","inventory":4154}},"qtyBreaks":[]}}
+flutter: {"data":{"item_number":"FS101","item_description":"Ryegrass, Gulf Annual - 50 lb","longdesc":"","pack_size":"Pk/1","stocking_unit_of_measure":"BG","stocking_uom_desc":"BAG","sales_unit_of_measure":"BG","sales_uom_desc":"BAG","primary_vendor":"FS","vendor_name":"FARM SEEDS","market_type":"Retail","division":"Field Seed","class":"Forage Ryegrasses","mandatory_drop_ship":"N","ups_eligible":"N","item_status":"A","web_enabled":"Y","nosell":"N","stock_nonstock_item":"Y","upc":"021343701461","market_price":"N","add_timestamp":"1992-01-01 00:00:00.000000","update_timestamp":"2023-11-29 14:06:55.374059","image_urls":["https://bwi.nyc3.digitaloceanspaces.com/product-images/msotWPUqPiUKgapTk0U6L9eBHldiaBVXSNc1d8iI.jpg"],"is_new":false,"price":"40.35","uomData":{"BG":{"description":"BAG","mom":"1","pack_size":"Pk/1","price":"40.35","inventory":4154}},"qtyBreaks":[]}}
 */
 
+/////////////////////////////////
 //Stuff for hard coded products
 class Product {
   final int id;
