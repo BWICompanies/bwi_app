@@ -106,8 +106,11 @@ class ApiProduct {
 }
 
 /*
-Example correct json response:
+Example correct json responses:
 flutter: {"data":{"item_number":"FS101","item_description":"Ryegrass, Gulf Annual - 50 lb","longdesc":"","pack_size":"Pk/1","stocking_unit_of_measure":"BG","stocking_uom_desc":"BAG","sales_unit_of_measure":"BG","sales_uom_desc":"BAG","primary_vendor":"FS","vendor_name":"FARM SEEDS","market_type":"Retail","division":"Field Seed","class":"Forage Ryegrasses","mandatory_drop_ship":"N","ups_eligible":"N","item_status":"A","web_enabled":"Y","nosell":"N","stock_nonstock_item":"Y","upc":"021343701461","market_price":"N","add_timestamp":"1992-01-01 00:00:00.000000","update_timestamp":"2023-11-29 14:06:55.374059","image_urls":["https://bwi.nyc3.digitaloceanspaces.com/product-images/msotWPUqPiUKgapTk0U6L9eBHldiaBVXSNc1d8iI.jpg"],"is_new":false,"price":"40.35","uomData":{"BG":{"description":"BAG","mom":"1","pack_size":"Pk/1","price":"40.35","inventory":4154}},"qtyBreaks":[]}}
+
+flutter: {"data":{"item_number":"BON61517","item_description":"Bamboo Stake Natural - 6' Tall x 5/8\" Diameter","longdesc":"Natural in color. These poles are characterized by their straightness and smooth nodes. The primary use for these poles are tree stakes although they can be use for a variety of decorative purposes. They are extremely strong for their their thickness. The larger diameter on this size work well for curtain rods.","pack_size":"Pk/100","stocking_unit_of_measure":"BN","stocking_uom_desc":"BUNDLE","sales_unit_of_measure":"BN","sales_uom_desc":"BUNDLE","primary_vendor":"BS2","vendor_name":"BAMBOO SUPPLY CO.","market_type":"Professional Grower","division":"Plant Supplies","class":"Bamboo","mandatory_drop_ship":"N","ups_eligible":"N","item_status":"A","web_enabled":"Y","nosell":"N","stock_nonstock_item":"Y","upc":"","market_price":"N","add_timestamp":"1992-01-01 00:00:00.000000","update_timestamp":"2023-11-30 05:45:24.389277","image_urls":["https://bwi.nyc3.digitaloceanspaces.com/product-images/OUmxiFt1Bccl7JyIMA1v0y8WEZaIwD7r5rLbzzn6.jpg"],"is_new":false,"price":"48.51","uomData":{"BN":{"description":"BUNDLE","mom":"1","pack_size":"Pk/100","price":"48.51","inventory":2}},"qtyBreaks":[]}}
+
 */
 
 /////////////////////////////////

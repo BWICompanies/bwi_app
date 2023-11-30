@@ -108,30 +108,43 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         padding: const EdgeInsets.all(24.0),
         child: SingleChildScrollView(
           //scrollable view
-          child: Center(
-            child: Column(
-              children: [
-                Text(
-                  selectedProduct?.item_description ?? 'Loading...',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                SizedBox(height: 32.0),
-                //Show BWI logo while getting the product info or if it doesnt have one.
-                Image.network(
+          child: Column(
+            crossAxisAlignment:
+                CrossAxisAlignment.start, // Aligns children to the start (left)
+            children: [
+              Text(
+                selectedProduct?.item_description ?? 'Loading...',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              SizedBox(height: 32.0),
+              //Show BWI logo while getting the product info or if it doesnt have one.
+              Center(
+                child: Image.network(
                   selectedProduct?.image_urls?[0] ??
                       'https://www.bwicompanies.com/images/MISC/logo.png',
                   fit: BoxFit.cover,
                 ),
-                SizedBox(height: 32.0),
-                Text(
-                  selectedProduct?.longdesc ?? '',
-                  style: Theme.of(context).textTheme.titleMedium,
+              ),
+              SizedBox(height: 32.0),
+              Text(
+                selectedProduct?.longdesc ?? '',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              SizedBox(height: 32.0),
+              Text(
+                "Details",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
                 ),
-                SizedBox(height: 32.0),
-                Text(
-                    "add gridviewbuilder back here for uom stuff. Check search4"),
-              ],
-            ),
+              ),
+              SizedBox(height: 15.0),
+              Text("Vendor: ${selectedProduct?.vendor_name ?? ''}"),
+              Text("UPC: ${selectedProduct?.upc ?? ''}"),
+              SizedBox(height: 32.0),
+              Text(
+                  "add gridviewbuilder back here for uom stuff. Check search4"),
+            ],
           ),
         ),
       ),
