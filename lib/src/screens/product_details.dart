@@ -28,8 +28,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     http.Request request = http.Request(
         'GET',
-        Uri.parse(
-            ApiConstants.baseUrl + "/v1/items/$searchString?account=EOTH076"));
+        Uri.parse(ApiConstants.baseUrl +
+            "/v1/items/$searchString")); //now instead of passing account=EOTH076 it will use the users active account.
 
     //Hard code for testing
     //Uri.parse(ApiConstants.baseUrl + "/v1/items/FS101?account=EOTH076"));
@@ -111,7 +111,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             child: Column(
               children: [
                 Text(
-                  selectedProduct?.item_description ?? 'No item found',
+                  selectedProduct?.item_description ?? 'Loading...',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 SizedBox(height: 32.0),

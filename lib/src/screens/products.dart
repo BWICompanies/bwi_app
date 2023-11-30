@@ -61,7 +61,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     } else {
       url = ApiConstants.baseUrl +
           ApiConstants.itemsEndpoint +
-          "?account=EOTH076&web_enabled=true";
+          "?web_enabled=true"; //now instead of passing account=EOTH076 it will use the users active account.
     }
 
     http.Request request = http.Request('GET', Uri.parse(url));
