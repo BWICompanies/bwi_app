@@ -17,7 +17,7 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  ApiProduct? selectedProduct;
+  ApiProduct? selectedProduct; //nullable product object
 
   //Function that gets the product from the api and returns it as an ApiProduct object (Runs on initState)
   Future<ApiProduct?> _getProduct(String? searchString) async {
@@ -130,7 +130,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 selectedProduct?.longdesc ?? '',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
-              SizedBox(height: 32.0),
+              SizedBox(height: 25.0),
               Text(
                 "Details",
                 style: TextStyle(
@@ -141,9 +141,95 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               SizedBox(height: 15.0),
               Text("Vendor: ${selectedProduct?.vendor_name ?? ''}"),
               Text("UPC: ${selectedProduct?.upc ?? ''}"),
-              SizedBox(height: 32.0),
+              SizedBox(height: 25.0),
               Text(
-                  "add gridviewbuilder back here for uom stuff. Check search4"),
+                "Options",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                ),
+              ),
+              SizedBox(height: 15.0),
+              //Only load uom cards if the product has loaded
+              selectedProduct != null
+                  ? GridView.builder(
+                      shrinkWrap:
+                          true, // Important to limit the height of the GridView
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Number of columns in the grid
+                        mainAxisSpacing: 6.0, // spacing between rows
+                        crossAxisSpacing: 6.0, // spacing between columns
+                        mainAxisExtent: 185, // row height
+                        //childAspectRatio: 1 / 2,
+                      ),
+                      itemCount: selectedProduct!
+                          .uomData.length, // Number of grid items
+                      itemBuilder: (BuildContext context, int index) {
+                        final uomKey =
+                            selectedProduct!.uomData.keys.elementAt(index);
+                        //If you would rather do uom['description'] instead of
+                        //product!.uom_data[uomKey]['description'] you can do this:
+                        //final uom = product!.uom_data[uomKey];
+                        //String _uomSelected = product!.uom_data.keys.first;
+
+                        return Card(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15.0,
+                                horizontal:
+                                    20.0), //can use .only to do all 4 sides
+                            child: Flexible(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment
+                                    .start, //by default, centers its children both horizontally and vertically.
+                                //child: Text('Item $index'),
+                                children: <Widget>[
+                                  Text(
+                                    selectedProduct!.uomData[uomKey]
+                                            ['description'] +
+                                        " " +
+                                        selectedProduct!.uomData[uomKey]
+                                            ['pack_size'],
+                                    style: TextStyle(
+                                      fontSize: 18.0, // Font size
+                                      color: Colors.green[700], // Text color
+                                      fontWeight:
+                                          FontWeight.bold, // Font weight
+                                    ),
+                                  ),
+                                  Text(
+                                    '\$${selectedProduct!.uomData[uomKey]['price']}',
+                                    style: TextStyle(
+                                      fontSize: 18.0, // Font size
+                                      fontWeight:
+                                          FontWeight.bold, // Font weight
+                                    ),
+                                  ), //use variable wrapper for $
+                                  TextField(
+                                      //decoration: InputDecoration(labelText: 'Enter your text',),
+                                      ),
+                                  SizedBox(height: 20),
+                                  Container(
+                                    width: double
+                                        .infinity, // Set the width to fill the parent's width
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        // Handle button press for ElevatedButton
+                                      },
+                                      child: Text(
+                                        'Add to Cart',
+                                        style: TextStyle(fontSize: 14.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : Text(''), //variable is null, dont show cards
             ],
           ),
         ),

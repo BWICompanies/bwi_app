@@ -31,6 +31,7 @@ class ApiProduct {
   var is_new;
   var price;
   var uomData;
+  //final Map<String, dynamic> uomData;
   var qtyBreaks;
 
   //Constructor
