@@ -1,4 +1,5 @@
 //Layout for the list of products. (product list)
+//May not need this after I dump the tabs.
 
 import 'package:flutter/material.dart';
 

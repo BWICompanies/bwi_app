@@ -1,7 +1,7 @@
 //Main App File
 
 //Sets allowed routes, set initial route, load navigator & handles auth
-//Start at /signin (/screens/sign_in) or /products/popular (/screens/products.dart)
+//Start at /signin (/screens/sign_in) or /products (/screens/products.dart)
 
 //App Notes:
 
@@ -23,7 +23,10 @@
 
 //Packages are imported in the pubspec.yaml file.
 
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth.dart';
 import 'routing.dart';
@@ -46,7 +49,7 @@ class _ProductstoreState extends State<Productstore> {
 
   @override
   void initState() {
-    /// Configure the parser with all of the app's allowed path templates.
+    // Configure the parser with all of the app's allowed path templates.
     _routeParser = TemplateRouteParser(
       allowedPaths: [
         '/signin',
@@ -55,14 +58,16 @@ class _ProductstoreState extends State<Productstore> {
         '/home',
         '/history',
         '/settings',
-        '/products/new',
-        '/products/all',
-        '/products/popular',
-        '/product/:productId',
-        '/author/:authorId',
+        '/products',
+        //'/products/new',
+        //'/products/all',
+        //'/products/popular',
+        //'/product/:productId',
+        //'/author/:authorId',
+        '/apiproduct/:item_number',
       ],
       guard: _guard,
-      initialRoute: '/signin',
+      initialRoute: '/home',
     );
 
     _routeState = RouteState(_routeParser);
@@ -110,19 +115,29 @@ class _ProductstoreState extends State<Productstore> {
         ),
       );
 
-  Future<ParsedRoute> _guard(ParsedRoute from) async {
-    final signedIn = _auth.signedIn;
+  //thePage is the page we are checking to see if we can go to.
+  Future<ParsedRoute> _guard(ParsedRoute thePage) async {
+    //var signedIn = _auth.signedIn;
+
+    //print($from);
+    //After clicking a product should be set to:
+    //flutter:<ParsedRoute template: /apiproduct/:item_number path: /apiproduct/BON51012 parameters: {item_number: BON51012} query parameters: {}>
+
     final signInRoute = ParsedRoute('/signin', '/signin', {}, {});
 
-    // Go to /signin if the user is not signed in
-    if (!signedIn && from != signInRoute) {
+    bool signedIn = await _auth.isTokenValid();
+
+    //If not signed in, go to sign in
+    if (!signedIn) {
       return signInRoute;
+    } else {
+      //Never return back to the signin page if already signed in
+      if (thePage == signInRoute) {
+        return ParsedRoute('/home', '/home', {}, {});
+      } else {
+        return thePage; //default is home, but can pass in where I was if I need to allow guests.
+      }
     }
-    // Go to /products if the user is signed in and tries to go to /signin.
-    else if (signedIn && from == signInRoute) {
-      return ParsedRoute('/home', '/home', {}, {});
-    }
-    return from;
   }
 
   void _handleAuthStateChanged() {

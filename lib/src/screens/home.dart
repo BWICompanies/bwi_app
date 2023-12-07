@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../data/library.dart';
 import '../routing.dart';
+import '../widgets/product_search_delegate.dart';
 
 class HomeScreen extends StatelessWidget {
   final String title = 'Home';
@@ -41,9 +42,13 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 135, // same value as width to create a square
+                height: 135, //175 might be better
                 color: Colors.grey[200], // specify the color of the square
                 margin: EdgeInsets.only(bottom: 20),
+                child: Image.asset(
+                  'assets/AppBanner2024.png',
+                  fit: BoxFit.cover,
+                ),
               ),
               Expanded(
                 child: GridView.count(
@@ -75,40 +80,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       );
-}
-
-class ProductSearchDelegate extends SearchDelegate {
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: const Icon(Icons.arrow_back),
-    );
-  }
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        onPressed: () {
-          query = '';
-        },
-        icon: const Icon(Icons.clear),
-      )
-    ];
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Text('buildResults');
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return Text('buildSuggestions');
-  }
 }
 
 class HomeCard extends StatelessWidget {

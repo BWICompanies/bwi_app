@@ -1,17 +1,18 @@
 /// Builds the top-level navigator for the app. The pages to display are based
 /// on the `routeState` that was parsed by the TemplateRouteParser.
-
-///Also loads scaffold
-
+///Loads login page or scaffold and product detail if needed.
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
+import 'dart:convert'; //to and from json
+import 'package:http/http.dart' as http; //for api requests
 
 import '../auth.dart';
 import '../data.dart';
 import '../routing.dart';
 import '../screens/sign_in.dart';
 import '../widgets/fade_transition_page.dart';
-import 'author_details.dart';
+//import 'author_details.dart';
 import 'product_details.dart';
 import 'scaffold.dart';
 
@@ -31,43 +32,34 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
   final _signInKey = const ValueKey('Sign in');
   final _scaffoldKey = const ValueKey('App scaffold');
   final _productDetailsKey = const ValueKey('Product details screen');
-  final _authorDetailsKey = const ValueKey('Author details screen');
+  //final _authorDetailsKey = const ValueKey('Author details screen');
 
   @override
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
     final authState = ProductstoreAuthScope.of(context);
-    final pathTemplate = routeState.route.pathTemplate;
+    String? item_number;
 
-    Product? selectedProduct;
-    if (pathTemplate == '/product/:productId') {
-      selectedProduct = libraryInstance.allProducts.firstWhereOrNull(
-          (b) => b.id.toString() == routeState.route.parameters['productId']);
-    }
+    //There is a bug where it sets it as the future when we only need to set it if its an ApiProduct.
 
-    Author? selectedAuthor;
-    if (pathTemplate == '/author/:authorId') {
-      selectedAuthor = libraryInstance.allAuthors.firstWhereOrNull(
-          (b) => b.id.toString() == routeState.route.parameters['authorId']);
+    if (routeState.route.pathTemplate == '/apiproduct/:item_number') {
+      item_number =
+          routeState.route.parameters['item_number']; //Can hardcode 'FS101';
+      //print("navigators route parameter item_number is $item_number"); //DA05TREES (works)
     }
 
     return Navigator(
       key: widget.navigatorKey,
       onPopPage: (route, dynamic result) {
-        // When a page that is stacked on top of the scaffold is popped, display
-        // the /products or /authors tab in ProductstoreScaffold.
+        // When a product details page is popped, go back to products
         if (route.settings is Page &&
             (route.settings as Page).key == _productDetailsKey) {
-          routeState.go('/products/popular');
-        }
-
-        if (route.settings is Page &&
-            (route.settings as Page).key == _authorDetailsKey) {
-          routeState.go('/authors');
+          routeState.go('/products');
         }
 
         return route.didPop(result);
       },
+      //Property that holds the pages to display. (List of Page objects)
       pages: [
         //Show the signin page or the ProductstoreScaffold that contains the navigation and the scaffold_body which loads the correct screen with a transition.
         if (routeState.route.pathTemplate == '/signin')
@@ -85,28 +77,21 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
               },
             ),
           )
+        //if not the signin screen, show the app scaffold which contains the menu and the scaffold_body which loads the correct screen with a transition and show a detail page on top if needed
         else ...[
-          // Display the app
+          // Display the app scaffold
           FadeTransitionPage<void>(
             key: _scaffoldKey,
             child: const ProductstoreScaffold(),
           ),
-          // Add an additional page to the stack if the user is viewing a product
-          // or an author
-          if (selectedProduct != null)
+          // Add an additional page to the stack if the user is viewing a product detail page
+          if (item_number != null)
             MaterialPage<void>(
               key: _productDetailsKey,
               child: ProductDetailsScreen(
-                product: selectedProduct,
+                item_number: item_number,
               ),
             )
-          else if (selectedAuthor != null)
-            MaterialPage<void>(
-              key: _authorDetailsKey,
-              child: AuthorDetailsScreen(
-                author: selectedAuthor,
-              ),
-            ),
         ],
       ],
     );
