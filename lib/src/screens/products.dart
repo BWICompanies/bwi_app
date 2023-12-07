@@ -57,7 +57,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     if (searchString != null && searchString.isNotEmpty) {
       url = ApiConstants.baseUrl +
           ApiConstants.searchEndpoint +
-          "?q=$searchString&account=EOTH076&web_enabled=true";
+          "?q=$searchString&web_enabled=true"; //now instead of passing account=EOTH076 it will use the users active account.
     } else {
       url = ApiConstants.baseUrl +
           ApiConstants.itemsEndpoint +
