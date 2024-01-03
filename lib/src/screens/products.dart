@@ -47,6 +47,13 @@ class Debouncer {
 class _ProductsScreenState extends State<ProductsScreen> {
   final _debouncer = Debouncer(milliseconds: 500);
 
+  //Defaults for pagination. The response will contain meta with current_page, from, path, per_page, and to. Page 1 will be from 1 to 10. Page 2 will be from 11 to 20.
+  int _page = 1;
+  int _totalResults = 0;
+  //final int _pageSize = 10;
+  //bool _hasNextPage = true;
+  //bool _isLoading = false;
+
   List<ApiProduct> productList = []; //products returned from API
 
   Future<List<ApiProduct>?> getProducts(String? searchString) async {
@@ -57,11 +64,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
     if (searchString != null && searchString.isNotEmpty) {
       url = ApiConstants.baseUrl +
           ApiConstants.searchEndpoint +
-          "?q=$searchString&web_enabled=true"; //now instead of passing account=EOTH076 it will use the users active account.
+          "?q=$searchString&web_enabled=true&page=$_page"; //now instead of passing account=EOTH076 it will use the users active account.
     } else {
       url = ApiConstants.baseUrl +
           ApiConstants.itemsEndpoint +
-          "?web_enabled=true"; //now instead of passing account=EOTH076 it will use the users active account.
+          "?web_enabled=true&page=$_page"; //now instead of passing account=EOTH076 it will use the users active account.
     }
 
     http.Request request = http.Request('GET', Uri.parse(url));
@@ -119,6 +126,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       if (ApiProductFromServer != null) {
         setState(() {
           productList = ApiProductFromServer;
+          _totalResults = productList.length;
         });
       }
     });
@@ -146,6 +154,90 @@ class _ProductsScreenState extends State<ProductsScreen> {
       ),
       body: Column(
         children: <Widget>[
+          Row(
+            children: [
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Handle button press for ElevatedButton
+                  },
+                  child: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Colors.white,
+                    size: 20.0,
+                    semanticLabel: 'Previous',
+                  ),
+                  style: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all<Size>(
+                      Size(double.infinity,
+                          35), // Set height to 50, width to match parent
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius
+                            .zero, // Set borderRadius to 0.0 for sharp corners
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Handle button press for ElevatedButton
+                  },
+                  child: Text(
+                    "$_totalResults",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    mouseCursor: MaterialStateProperty.all<MouseCursor>(
+                        MouseCursor.defer),
+                    overlayColor: MaterialStateProperty.all<Color>(
+                        Colors.transparent), // Disable overlay effect
+                    fixedSize: MaterialStateProperty.all<Size>(
+                      Size(double.infinity,
+                          35), // Set height to 50, width to match parent
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius
+                            .zero, // Set borderRadius to 0.0 for sharp corners
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Handle button press for ElevatedButton
+                  },
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: Colors.white,
+                    size: 20.0,
+                    semanticLabel: 'Previous',
+                  ),
+                  style: ButtonStyle(
+                    fixedSize: MaterialStateProperty.all<Size>(
+                      Size(double.infinity,
+                          35), // Set height to 50, width to match parent
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius
+                            .zero, // Set borderRadius to 0.0 for sharp corners
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           //Search Bar to List of typed ApiProduct
           Container(
             padding: EdgeInsets.all(15),
@@ -181,6 +273,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         setState(() {
                           // Set the productList variable to the ApiProductFromServer variable.
                           productList = ApiProductFromServer;
+                          _totalResults = productList.length;
                         });
                       }
                     });
