@@ -48,8 +48,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
   final _debouncer = Debouncer(milliseconds: 500);
 
   //Defaults for pagination. The response will contain meta with current_page, from, path, per_page, and to. Page 1 will be from 1 to 10. Page 2 will be from 11 to 20.
-  int _page = 1;
-  int _totalResults = 0;
+  int _page = 0;
+  //int _totalResults = 0;
+  var _pageMessage = "";
   //final int _pageSize = 10;
   //bool _hasNextPage = true;
   //bool _isLoading = false;
@@ -86,7 +87,28 @@ class _ProductsScreenState extends State<ProductsScreen> {
         if (response != null) {
           //Parse response
           if (response.statusCode == 200) {
-            List<ApiProduct> list = parseAgents(response.body);
+            //Parse Products in JSON data
+            List<ApiProduct> list = parseData(response.body);
+
+            //Parse the links and meta data for UI
+
+            // Parse the JSON string into a Map
+            Map<String, dynamic> jsonMap = jsonDecode(response.body);
+
+            // Create the metaData object using the factory method
+            ApiMetaData metaData = ApiMetaData.fromJson(jsonMap);
+
+            //Create the apiLinks object using the factory method
+            ApiLinks apiLinks = ApiLinks.fromJson(jsonMap);
+
+            //debugPrint(response.body);
+
+            _page = metaData.current_page;
+
+            _pageMessage = "Page $_page";
+
+            //_pageMessage = apiLinks.next;
+
             return list;
           } else {
             // Change the return type to indicate that the function may return a null value.
@@ -105,8 +127,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
     }
   }
 
-  //Read Json string and return a list of ApiProduct objects from data array.
-  static List<ApiProduct> parseAgents(String responseBody) {
+  //Read Json string and return a list of ApiProduct objects.
+  //Return type is a list of objects of the type ApiProduct. This is a static class function, no need to create instance
+  static List<ApiProduct> parseData(String responseBody) {
     // Decode the JSON response into a Dart object.
     final decodedResponse = json.decode(responseBody);
 
@@ -126,7 +149,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       if (ApiProductFromServer != null) {
         setState(() {
           productList = ApiProductFromServer;
-          _totalResults = productList.length;
+          //_totalResults = productList.length;
         });
       }
     });
@@ -187,7 +210,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     // Handle button press for ElevatedButton
                   },
                   child: Text(
-                    "$_totalResults",
+                    "$_pageMessage",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15.0,
@@ -273,7 +296,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         setState(() {
                           // Set the productList variable to the ApiProductFromServer variable.
                           productList = ApiProductFromServer;
-                          _totalResults = productList.length;
+                          //_totalResults = productList.length;
                         });
                       }
                     });
