@@ -98,9 +98,14 @@ class _ProductstoreState extends State<Productstore> {
             // Revert back to pre-Flutter-2.5 transition behavior:
             // https://github.com/flutter/flutter/issues/82053
             theme: ThemeData(
-              primarySwatch: Colors.green,
-              primaryColor: Colors.green[700],
-              //accentColor: Colors.yellow[500],
+              useMaterial3: true,
+              //colorSchemeSeed: Colors.green,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.green,
+                primary: Colors.green[700],
+                secondary: Colors.green[600],
+                brightness: Brightness.light,
+              ),
               pageTransitionsTheme: const PageTransitionsTheme(
                 builders: {
                   TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

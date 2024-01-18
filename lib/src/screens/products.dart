@@ -198,7 +198,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryColor),
+                        Theme.of(context).colorScheme.secondary),
                     //disabledColor: Colors.lightGreen,
                     fixedSize: MaterialStateProperty.all<Size>(
                       Size(double.infinity,
@@ -225,7 +225,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryColor),
+                        Theme.of(context).colorScheme.secondary),
                     mouseCursor: MaterialStateProperty.all<MouseCursor>(
                         MouseCursor.defer),
                     overlayColor: MaterialStateProperty.all<Color>(
@@ -258,7 +258,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   ),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryColor),
+                        Theme.of(context).colorScheme.secondary),
                     fixedSize: MaterialStateProperty.all<Size>(
                       Size(double.infinity,
                           35), // Set height to 50, width to match parent
