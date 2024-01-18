@@ -49,6 +49,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   //Defaults for pagination. The response will contain meta with current_page, from, path, per_page, and to. Page 1 will be from 1 to 10. Page 2 will be from 11 to 20.
   int _page = 0;
+  var _prev = null;
+  var _next = null;
   //int _totalResults = 0;
   var _pageMessage = "";
   //final int _pageSize = 10;
@@ -103,6 +105,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
             //debugPrint(response.body);
 
+            _prev = apiLinks.prev;
+            _next = apiLinks.next;
             _page = metaData.current_page;
 
             _pageMessage = "Page $_page";
@@ -181,9 +185,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle button press for ElevatedButton
-                  },
+                  onPressed: _prev == null
+                      ? null
+                      : () {
+                          // Handle button press for ElevatedButton
+                        },
                   child: Icon(
                     Icons.arrow_back_ios_new_rounded,
                     color: Colors.white,
@@ -191,6 +197,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     semanticLabel: 'Previous',
                   ),
                   style: ButtonStyle(
+                    //disabledColor: Colors.lightGreen,
                     fixedSize: MaterialStateProperty.all<Size>(
                       Size(double.infinity,
                           35), // Set height to 50, width to match parent
@@ -236,9 +243,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
               ),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle button press for ElevatedButton
-                  },
+                  onPressed: _next == null
+                      ? null
+                      : () {
+                          // Handle button press for ElevatedButton
+                        },
                   child: Icon(
                     Icons.arrow_forward_ios_rounded,
                     color: Colors.white,
