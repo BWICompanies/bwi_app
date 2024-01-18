@@ -197,6 +197,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     semanticLabel: 'Previous',
                   ),
                   style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Theme.of(context).primaryColor),
                     //disabledColor: Colors.lightGreen,
                     fixedSize: MaterialStateProperty.all<Size>(
                       Size(double.infinity,
@@ -213,9 +215,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               ),
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Handle button press for ElevatedButton
-                  },
+                  onPressed: null,
                   child: Text(
                     "$_pageMessage",
                     style: TextStyle(
@@ -257,6 +257,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     semanticLabel: 'Previous',
                   ),
                   style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                        Theme.of(context).primaryColor),
                     fixedSize: MaterialStateProperty.all<Size>(
                       Size(double.infinity,
                           35), // Set height to 50, width to match parent
