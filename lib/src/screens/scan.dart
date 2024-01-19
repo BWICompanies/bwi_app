@@ -59,7 +59,11 @@ class _ScanScreenState extends State<ScanScreen> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Scan'),
-          backgroundColor: Colors.green[700],
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          titleTextStyle: TextStyle(
+            color: Theme.of(context).colorScheme.onPrimary,
+            fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
+          ),
         ),
         body: Container(
             alignment: Alignment.center,

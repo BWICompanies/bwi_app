@@ -99,6 +99,18 @@ class _ProductstoreState extends State<Productstore> {
             // https://github.com/flutter/flutter/issues/82053
             theme: ThemeData(
               useMaterial3: true,
+              textTheme: const TextTheme(
+                headlineLarge: TextStyle(fontSize: 32),
+                headlineMedium: TextStyle(fontSize: 24),
+                //fontWeight: FontWeight.bold
+                bodyLarge: TextStyle(fontSize: 18, color: Colors.black87),
+                bodyMedium: TextStyle(fontSize: 16, color: Colors.black87),
+                //to use: style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              appBarTheme: const AppBarTheme(
+                color: Colors.green,
+                iconTheme: IconThemeData(color: Colors.white),
+              ),
               //colorSchemeSeed: Colors.green,
               colorScheme: ColorScheme.fromSeed(
                 seedColor: Colors.green,

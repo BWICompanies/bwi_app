@@ -101,7 +101,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           Text(widget.item_number ?? 'No item number'),
           //Text(product!.item_number), //! will tell dart its non-nullable. (will throw an error if null)
         ]),
-        backgroundColor: Colors.green[700],
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onPrimary,
+          fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
+        ),
       ),
       //Something in body is causing the error.
       body: Padding(

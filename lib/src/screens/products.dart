@@ -177,7 +177,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 RouteStateScope.of(context).go('/cart');
               }),
         ], //for i
-        backgroundColor: Colors.green[700],
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.onPrimary,
+          fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
+        ),
       ),
       body: Column(
         children: <Widget>[
