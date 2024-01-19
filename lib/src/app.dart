@@ -116,6 +116,7 @@ class _ProductstoreState extends State<Productstore> {
                 seedColor: Colors.green,
                 primary: Colors.green[700],
                 secondary: Colors.green[600],
+                surface: Colors.white,
                 brightness: Brightness.light,
               ),
               pageTransitionsTheme: const PageTransitionsTheme(

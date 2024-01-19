@@ -283,8 +283,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
             padding: EdgeInsets.all(15),
             child: TextField(
                 //controller: _textEditingController,
+                style: TextStyle(fontSize: 18),
                 textInputAction: TextInputAction.search,
                 decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
@@ -337,6 +340,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     //print('Card ${productList[index].item_number} clicked!');
                   },
                   child: Card(
+                    surfaceTintColor: Theme.of(context).colorScheme.surface,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                       side: BorderSide(
