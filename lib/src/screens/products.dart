@@ -48,7 +48,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   final _debouncer = Debouncer(milliseconds: 500);
 
   //Defaults for pagination. The response will contain meta with current_page, from, path, per_page, and to. Page 1 will be from 1 to 10. Page 2 will be from 11 to 20.
-  int _page = 0;
+  int _page = 1;
   var _prev = null;
   var _next = null;
   //int _totalResults = 0;
@@ -62,6 +62,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   Future<List<ApiProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
+
+    //print("getProducts running. _page is $_page");
 
     String? url;
 
@@ -108,7 +110,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
             _prev = apiLinks.prev;
             _next = apiLinks.next;
-            _page = metaData.current_page;
+            //_page = metaData.current_page;
 
             _pageMessage = "Page $_page";
 
@@ -202,7 +204,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             getProducts(searchString)
                                 .then((ApiProductFromServer) {
                               if (ApiProductFromServer != null) {
-                                productList = ApiProductFromServer;
+                                setState(() {
+                                  productList = ApiProductFromServer;
+                                  //_totalResults = productList.length;
+                                });
                               }
                             });
                           }
@@ -274,7 +279,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             getProducts(searchString)
                                 .then((ApiProductFromServer) {
                               if (ApiProductFromServer != null) {
-                                productList = ApiProductFromServer;
+                                setState(() {
+                                  productList = ApiProductFromServer;
+                                  //_totalResults = productList.length;
+                                });
                               }
                             });
                           }
