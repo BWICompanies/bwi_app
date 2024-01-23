@@ -72,7 +72,7 @@ class ProductstoreAuth extends ChangeNotifier {
     final response = await http.post(url, body: {
       'email': email,
       'password': password,
-      'type': 'mobile-app',
+      //'type': 'mobile-app',
       //'device_name': '', //await getDeviceId(),
     }, headers: {
       'Accept': 'application/json',
@@ -80,6 +80,7 @@ class ProductstoreAuth extends ChangeNotifier {
 
     if (response.statusCode == 200) {
       String token = response.body;
+      //print(response.body);
       await saveToken(token);
       await saveUserData(token);
       _signedIn = true;

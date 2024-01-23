@@ -53,6 +53,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   var _next = null;
   //int _totalResults = 0;
   var _pageMessage = "";
+  var searchString = "";
   //final int _pageSize = 10;
   //bool _hasNextPage = true;
   //bool _isLoading = false;
@@ -192,7 +193,19 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   onPressed: _prev == null
                       ? null
                       : () {
-                          // Handle button press for ElevatedButton
+                          // now that we disable the button if _prev is null, we can update the page number and update the productList.
+                          if (_prev != null) {
+                            setState(() {
+                              _page = _page - 1;
+                            });
+
+                            getProducts(searchString)
+                                .then((ApiProductFromServer) {
+                              if (ApiProductFromServer != null) {
+                                productList = ApiProductFromServer;
+                              }
+                            });
+                          }
                         },
                   child: Icon(
                     Icons.arrow_back_ios_new_rounded,
@@ -252,7 +265,19 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   onPressed: _next == null
                       ? null
                       : () {
-                          // Handle button press for ElevatedButton
+                          // now that we disable the button if _next is null, we can update the page number and update the productList.
+                          if (_next != null) {
+                            setState(() {
+                              _page = _page + 1;
+                            });
+
+                            getProducts(searchString)
+                                .then((ApiProductFromServer) {
+                              if (ApiProductFromServer != null) {
+                                productList = ApiProductFromServer;
+                              }
+                            });
+                          }
                         },
                   child: Icon(
                     Icons.arrow_forward_ios_rounded,
@@ -309,11 +334,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 onChanged: (value) {
                   //print(value);
 
+                  searchString = value;
+
                   //run api on change and update products
                   _debouncer.run(() {
                     getProducts(value).then((ApiProductFromServer) {
                       if (ApiProductFromServer != null) {
                         setState(() {
+                          //setstate tells flutter to update the ui
                           // Set the productList variable to the ApiProductFromServer variable.
                           productList = ApiProductFromServer;
                           //_totalResults = productList.length;
