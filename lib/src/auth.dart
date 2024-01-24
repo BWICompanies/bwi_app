@@ -86,6 +86,8 @@ class ProductstoreAuth extends ChangeNotifier {
       _signedIn = true;
       notifyListeners();
       return true;
+    } else {
+      //print('Status code: ${response.statusCode}');
     }
 
     if (response.statusCode == 422) {
@@ -124,7 +126,11 @@ class ProductstoreAuth extends ChangeNotifier {
       'Authorization': 'Bearer $token',
     });
 
+    //print(response);
+
     if (response.statusCode == 200) {
+      //print(response.body);
+
       // Parse the JSON string and save to variable
       Map<String, dynamic> jsonData = json.decode(response.body);
 
@@ -137,6 +143,7 @@ class ProductstoreAuth extends ChangeNotifier {
       await prefs.setString(
           'active_account_name', jsonData['data']['active_account_name']);
     } else {
+      //print('Error: ${response.statusCode}');
       throw Exception('Problem loading user data');
     }
   }
