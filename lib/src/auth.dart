@@ -18,6 +18,8 @@ class ProductstoreAuth extends ChangeNotifier {
   Future<bool> isTokenValid() async {
     String? currentToken = await this.getToken();
 
+    //print(currentToken);
+
     //If token is there, see if it is valid
     if (currentToken != null) {
       //Make an authorized API call using the token to see if its valid
@@ -25,10 +27,12 @@ class ProductstoreAuth extends ChangeNotifier {
 
       final response = await http.get(url, headers: {
         'Authorization': 'Bearer $currentToken',
+        'Accept': 'application/json',
       });
 
       if (response.statusCode == 200) {
         //print('response is good');
+        //debugPrint(response.body);
         _signedIn = true;
       } else {
         //print('response: ${response.statusCode}');
