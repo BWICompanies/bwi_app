@@ -59,7 +59,7 @@ class ProductstoreScaffoldBody extends StatelessWidget {
         else if (currentRoute.pathTemplate.startsWith('/cart'))
           const FadeTransitionPage<void>(
             key: ValueKey('cart'),
-            child: SettingsScreen(),
+            child: CartScreen(),
           )
         else if (currentRoute.pathTemplate.startsWith('/products') ||
             currentRoute.pathTemplate == '/')
