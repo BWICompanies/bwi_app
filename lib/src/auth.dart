@@ -125,6 +125,7 @@ class ProductstoreAuth extends ChangeNotifier {
 
     final response = await http.get(url, headers: {
       'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
     });
 
     //print(response);
