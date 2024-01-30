@@ -25,6 +25,7 @@ class ProductstoreAuth extends ChangeNotifier {
 
       final response = await http.get(url, headers: {
         'Authorization': 'Bearer $currentToken',
+        'Accept': 'application/json',
       });
 
       if (response.statusCode == 200) {
