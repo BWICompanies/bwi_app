@@ -112,6 +112,13 @@ class _CartScreenState extends State<CartScreen> {
             color: Theme.of(context).colorScheme.onPrimary,
             fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
           ),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.shopping_cart_checkout),
+                onPressed: () {
+                  RouteStateScope.of(context).go('/checkout');
+                }),
+          ],
         ),
         body: Column(
           children: <Widget>[
@@ -201,6 +208,23 @@ class _CartScreenState extends State<CartScreen> {
                   );
                 },
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    RouteStateScope.of(context).go('/checkout');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context)
+                        .colorScheme
+                        .primary, // Set the background color
+                    foregroundColor:
+                        Colors.white, // Set the text color (optional)
+                  ),
+                  child: const Text('Checkout',
+                      style: TextStyle(
+                          fontSize: 17, fontWeight: FontWeight.bold))),
             ),
           ],
         ),
