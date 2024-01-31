@@ -4,4 +4,5 @@ class ApiConstants {
   static String authEndpoint = '/api/auth/token?mobile=true';
   static String searchEndpoint = '/api/v1/items/search';
   static String itemsEndpoint = '/api/v1/items';
+  static String cartEndpoint = '/api/v1/cart';
 }
