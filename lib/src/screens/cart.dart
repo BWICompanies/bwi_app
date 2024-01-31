@@ -199,6 +199,13 @@ class _CartScreenState extends State<CartScreen> {
                                       ),
                                       SizedBox(height: 5),
                                       Text(
+                                        productList[index].pack_size,
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color: Colors.grey[600]),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
                                         productList[index].quantity,
                                         style: TextStyle(
                                             fontSize: 17,

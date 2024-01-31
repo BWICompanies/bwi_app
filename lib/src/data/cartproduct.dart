@@ -11,6 +11,7 @@ class CartProduct {
   var created_at;
   var updated_at;
   var uom_desc;
+  var pack_size;
   var image_urls;
   var price;
   var extendedPrice;
@@ -29,6 +30,7 @@ class CartProduct {
     required this.created_at,
     required this.updated_at,
     required this.uom_desc,
+    required this.pack_size,
     required this.image_urls,
     required this.price,
     required this.extendedPrice,
@@ -47,6 +49,7 @@ class CartProduct {
       created_at: json['created_at'],
       updated_at: json['updated_at'],
       uom_desc: json['uom_desc'],
+      pack_size: json['pack_size'],
       image_urls: json['image_urls'],
       price: json['price'],
       extendedPrice: json['extendedPrice'],
