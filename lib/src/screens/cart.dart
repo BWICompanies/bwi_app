@@ -192,11 +192,35 @@ class _CartScreenState extends State<CartScreen> {
                                       ),
                                       SizedBox(height: 5),
                                       Text(
-                                        '\$${productList[index].price}',
+                                        productList[index].uom_desc,
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color: Colors.grey[600]),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        productList[index].quantity,
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color: Colors.grey[600]),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        'Price: \$${productList[index].price}',
                                         //If price is returned as a double convert to string and format to 2 decimal places.
                                         //'\$${productList[index].price.toStringAsFixed(2)}',
                                         style: TextStyle(
                                             fontSize: 17, color: Colors.green),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        'Total: \$${productList[index].extendedPrice}',
+                                        //If price is returned as a double convert to string and format to 2 decimal places.
+                                        //'\$${productList[index].price.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ]),
                               ),
