@@ -22,6 +22,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   List<CartProduct> productList = []; //cart products returned from API
+  var _subtotal = "";
 
   Future<List<CartProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
@@ -45,15 +46,19 @@ class _CartScreenState extends State<CartScreen> {
         if (response != null) {
           //Parse response
           if (response.statusCode == 200) {
-            //Parse Products in JSON data
+            //Parse Products in JSON data into an array
             List<CartProduct> list = parseData(response.body);
 
-            //Parse the links and meta data for UI
+            //Get the subtotal and other data from the response that is outside of the data array
 
             // Parse the JSON string into a Map
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
-            //debugPrint(response.body);
+            _subtotal = jsonMap['subtotal'].toString();
+
+            //BWI Truck Minimum uses truckEligibleSales and ___
+
+            //Vendor Minimums uses vendorMinimums current_amount and vendorMinimums min_amount
 
             return list;
           } else {
@@ -241,21 +246,45 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: ElevatedButton(
-                  onPressed: () {
-                    RouteStateScope.of(context).go('/checkout');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context)
-                        .colorScheme
-                        .primary, // Set the background color
-                    foregroundColor:
-                        Colors.white, // Set the text color (optional)
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                    '120 of 600',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold),
+                  ))),
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          RouteStateScope.of(context).go('/checkout');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .primary, // Set the background color
+                          foregroundColor:
+                              Colors.white, // Set the text color (optional)
+                        ),
+                        child: const Text('Checkout',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold))),
                   ),
-                  child: const Text('Checkout',
-                      style: TextStyle(
-                          fontSize: 17, fontWeight: FontWeight.bold))),
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                    '\$${_subtotal}',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold),
+                  ))),
+                ],
+              ),
             ),
           ],
         ),
