@@ -61,7 +61,9 @@ class _CartScreenState extends State<CartScreen> {
                 .toString(); //For BWI Truck Minimum
             _vendorMinimums = jsonMap['vendorMinimums'];
 
-            print(_vendorMinimums);
+            //print(_vendorMinimums);
+
+            //print(_vendorMinimums.length);
 
             //Vendor Minimums uses vendorMinimums current_amount and vendorMinimums min_amount
 
@@ -133,7 +135,7 @@ class _CartScreenState extends State<CartScreen> {
         body: Column(
           children: [
             Expanded(
-              flex: 7,
+              flex: 15,
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
@@ -252,20 +254,27 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Container(
-                //color: Colors.green,
+                color: Colors.grey[300],
                 padding: EdgeInsets.all(10),
-                child: Center(
-                  child: Text(
-                    'Section 2 (2)',
-                    style: TextStyle(color: Colors.white, fontSize: 30),
-                  ),
+                child: ListView.builder(
+                  itemCount: 5, //_vendorMinimums.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    //final key = _vendorMinimums.keys.toList()[index];
+                    //final value = _vendorMinimums[key];
+                    //final vendorName = value["vendor_name"];
+
+                    return Text(
+                      "vendorName",
+                      style: TextStyle(/* your desired styling */),
+                    );
+                  },
                 ),
               ),
             ),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: Container(
                 //color: Colors.red,
                 padding: EdgeInsets.all(10),
