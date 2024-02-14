@@ -281,6 +281,7 @@ class _CartScreenState extends State<CartScreen> {
                 child: Row(
                   children: [
                     Expanded(
+                      flex: 3,
                       child: Center(
                         child: Text(
                           'Subtotal: \$${_subtotal}',
@@ -292,6 +293,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     ),
                     Expanded(
+                      flex: 2,
                       child: ElevatedButton(
                           onPressed: () {
                             RouteStateScope.of(context).go('/checkout');
