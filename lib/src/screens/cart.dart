@@ -257,17 +257,22 @@ class _CartScreenState extends State<CartScreen> {
               flex: 3,
               child: Container(
                 color: Colors.grey[300],
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsets.all(15),
                 child: ListView.builder(
-                  itemCount: 5, //_vendorMinimums.length,
+                  itemCount: _vendorMinimums.length,
                   itemBuilder: (BuildContext context, int index) {
-                    //final key = _vendorMinimums.keys.toList()[index];
-                    //final value = _vendorMinimums[key];
-                    //final vendorName = value["vendor_name"];
+                    final key = _vendorMinimums.keys.toList()[index];
+                    final value = _vendorMinimums[key];
+                    final vendorName = value["vendor_name"];
+                    final current_amount = value["current_amount"];
+                    final min_amount = value["min_amount"];
 
                     return Text(
-                      "vendorName",
-                      style: TextStyle(/* your desired styling */),
+                      '${vendorName}: \$${current_amount} of \$${min_amount}',
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.black54,
+                          fontWeight: FontWeight.bold),
                     );
                   },
                 ),
