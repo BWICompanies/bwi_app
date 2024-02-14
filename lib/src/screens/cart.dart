@@ -24,7 +24,7 @@ class _CartScreenState extends State<CartScreen> {
   List<CartProduct> productList = []; //cart products returned from API
   var _subtotal = "";
   var _truckEligibleSales = "";
-  var _vendorMinimums = "";
+  Map<String, dynamic> _vendorMinimums = {};
 
   Future<List<CartProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
@@ -57,10 +57,11 @@ class _CartScreenState extends State<CartScreen> {
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
             _subtotal = jsonMap['subtotal'].toString();
-            _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
+            _truckEligibleSales = jsonMap['truckEligibleSales']
+                .toString(); //For BWI Truck Minimum
             _vendorMinimums = jsonMap['vendorMinimums'];
 
-            //BWI Truck Minimum uses truckEligibleSales and ___
+            print(_vendorMinimums);
 
             //Vendor Minimums uses vendorMinimums current_amount and vendorMinimums min_amount
 
