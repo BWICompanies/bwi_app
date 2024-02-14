@@ -253,19 +253,21 @@ class _CartScreenState extends State<CartScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
               child: Column(
-                children: [
-                  ListView.builder(
-                    itemCount: _vendorMinimums.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      //final key = _vendorMinimums.keys.toList()[index];
-                      //final value = _vendorMinimums[key];
-                      //final vendorName = value["vendor_name"];
+                children: <Widget>[
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _vendorMinimums.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        //final key = _vendorMinimums.keys.toList()[index];
+                        //final value = _vendorMinimums[key];
+                        //final vendorName = value["vendor_name"];
 
-                      return Text(
-                        "vendorName",
-                        style: TextStyle(/* your desired styling */),
-                      );
-                    },
+                        return Text(
+                          "vendorName",
+                          style: TextStyle(/* your desired styling */),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
