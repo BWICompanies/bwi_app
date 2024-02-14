@@ -23,6 +23,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   List<CartProduct> productList = []; //cart products returned from API
   var _subtotal = "";
+  var _truckEligibleSales = "";
 
   Future<List<CartProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
@@ -55,6 +56,7 @@ class _CartScreenState extends State<CartScreen> {
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
             _subtotal = jsonMap['subtotal'].toString();
+            _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
 
             //BWI Truck Minimum uses truckEligibleSales and ___
 
@@ -246,13 +248,38 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
             Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                    'BWI Truck Min:\n\$${_truckEligibleSales} of 600',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold),
+                  ))),
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                    'Vendor Min:\n\$${_subtotal}',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.black54,
+                        fontWeight: FontWeight.bold),
+                  ))),
+                ],
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
                   Expanded(
                       child: Center(
                           child: Text(
-                    '120 of 600',
+                    'Subtotal: \$${_subtotal}',
                     style: TextStyle(
                         fontSize: 17,
                         color: Colors.green,
@@ -270,19 +297,10 @@ class _CartScreenState extends State<CartScreen> {
                           foregroundColor:
                               Colors.white, // Set the text color (optional)
                         ),
-                        child: const Text('Checkout',
+                        child: const Text('CHECKOUT',
                             style: TextStyle(
                                 fontSize: 14, fontWeight: FontWeight.bold))),
                   ),
-                  Expanded(
-                      child: Center(
-                          child: Text(
-                    '\$${_subtotal}',
-                    style: TextStyle(
-                        fontSize: 17,
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold),
-                  ))),
                 ],
               ),
             ),
