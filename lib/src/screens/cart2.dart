@@ -131,9 +131,8 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
         body: Column(
-          children: [
+          children: <Widget>[
             Expanded(
-              flex: 7,
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
@@ -251,55 +250,54 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
             ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                //color: Colors.green,
-                padding: EdgeInsets.all(10),
-                child: Center(
-                  child: Text(
-                    'Section 2 (2)',
-                    style: TextStyle(color: Colors.white, fontSize: 30),
-                  ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
+              child: Expanded(
+                child: ListView.builder(
+                  itemCount: _vendorMinimums.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    //final key = _vendorMinimums.keys.toList()[index];
+                    //final value = _vendorMinimums[key];
+                    //final vendorName = value["vendor_name"];
+
+                    return Text(
+                      "vendorName",
+                      style: TextStyle(/* your desired styling */),
+                    );
+                  },
                 ),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                //color: Colors.red,
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  children: [
-                    Expanded(
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
                       child: Center(
-                        child: Text(
-                          'Subtotal: \$${_subtotal}',
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.green,
-                              fontWeight: FontWeight.bold),
+                          child: Text(
+                    'Subtotal: \$${_subtotal}',
+                    style: TextStyle(
+                        fontSize: 17,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold),
+                  ))),
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          RouteStateScope.of(context).go('/checkout');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .primary, // Set the background color
+                          foregroundColor:
+                              Colors.white, // Set the text color (optional)
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: () {
-                            RouteStateScope.of(context).go('/checkout');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .primary, // Set the background color
-                            foregroundColor:
-                                Colors.white, // Set the text color (optional)
-                          ),
-                          child: const Text('CHECKOUT',
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold))),
-                    ),
-                  ],
-                ),
+                        child: const Text('CHECKOUT',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold))),
+                  ),
+                ],
               ),
             ),
           ],
