@@ -254,19 +254,18 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
               child: Column(
                 children: [
-                  Text(
-                    'BWI Truck Minimum: \$${_truckEligibleSales} of 600',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.black54,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'WindRiver Windchimes: \$${_truckEligibleSales} of 600',
-                    style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.black54,
-                        fontWeight: FontWeight.bold),
+                  ListView.builder(
+                    itemCount: _vendorMinimums.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      //final key = _vendorMinimums.keys.toList()[index];
+                      //final value = _vendorMinimums[key];
+                      //final vendorName = value["vendor_name"];
+
+                      return Text(
+                        "vendorName",
+                        style: TextStyle(/* your desired styling */),
+                      );
+                    },
                   ),
                 ],
               ),
