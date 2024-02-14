@@ -24,6 +24,7 @@ class _CartScreenState extends State<CartScreen> {
   List<CartProduct> productList = []; //cart products returned from API
   var _subtotal = "";
   var _truckEligibleSales = "";
+  var _vendorMinimums = "";
 
   Future<List<CartProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
@@ -57,6 +58,7 @@ class _CartScreenState extends State<CartScreen> {
 
             _subtotal = jsonMap['subtotal'].toString();
             _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
+            _vendorMinimums = jsonMap['vendorMinimums'];
 
             //BWI Truck Minimum uses truckEligibleSales and ___
 
@@ -249,26 +251,22 @@ class _CartScreenState extends State<CartScreen> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 5, 10, 0),
-              child: Row(
+              child: Column(
                 children: [
-                  Expanded(
-                      child: Center(
-                          child: Text(
-                    'BWI Truck Min:\n\$${_truckEligibleSales} of 600',
+                  Text(
+                    'BWI Truck Minimum: \$${_truckEligibleSales} of 600',
                     style: TextStyle(
                         fontSize: 13,
                         color: Colors.black54,
                         fontWeight: FontWeight.bold),
-                  ))),
-                  Expanded(
-                      child: Center(
-                          child: Text(
-                    'Vendor Min:\n\$${_subtotal}',
+                  ),
+                  Text(
+                    'WindRiver Windchimes: \$${_truckEligibleSales} of 600',
                     style: TextStyle(
                         fontSize: 13,
                         color: Colors.black54,
                         fontWeight: FontWeight.bold),
-                  ))),
+                  ),
                 ],
               ),
             ),
