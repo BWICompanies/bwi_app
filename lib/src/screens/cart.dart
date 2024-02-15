@@ -24,7 +24,9 @@ class _CartScreenState extends State<CartScreen> {
   List<CartProduct> productList = []; //cart products returned from API
   var _subtotal = "";
   var _truckEligibleSales = "";
-  Map<String, dynamic> _vendorMinimums = {};
+  //Map<String, dynamic> _vendorMinimums = {};
+  //var _vendorMinimums = {};
+  dynamic _vendorMinimums = null;
 
   Future<List<CartProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
@@ -57,13 +59,59 @@ class _CartScreenState extends State<CartScreen> {
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
             _subtotal = jsonMap['subtotal'].toString();
-            _truckEligibleSales = jsonMap['truckEligibleSales']
-                .toString(); //For BWI Truck Minimum
-            _vendorMinimums = jsonMap['vendorMinimums'];
+
+            //For BWI Truck Minimum
+            _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
+
+            if (jsonMap['vendorMinimums'] is Map<String, dynamic>) {
+              _vendorMinimums =
+                  jsonMap['vendorMinimums'] as Map<String, dynamic>;
+            } else if (jsonMap['vendorMinimums'] is List<dynamic>) {
+              _vendorMinimums = jsonMap['vendorMinimums'] as List<dynamic>;
+            } else {
+              _vendorMinimums = null;
+            }
 
             //print(_vendorMinimums);
+            //when nothing it is set to [] as an empty list
+            //when returns it is a map
+            //{FW2: {vendor_name: WindRiver Windchimes, message_text: Minimum purchase of $250 or more., min_amount: 250.00, current_amount: 457, text_only: 0}}
 
-            //print(_vendorMinimums.length);
+            //_vendorMinimums = jsonMap['vendorMinimums'] ?? {};
+
+            //For Vendor Minimums
+            /*
+            if (_vendorMinimums.isNotEmpty) {
+              print('yes');
+            } else {
+              print('no');
+            }
+
+            //if (dataHolder != null) {
+
+            if (jsonMap['vendorMinimums']) {
+              //_vendorMinimums = jsonMap['vendorMinimums'];
+              print('yes');
+            } else {
+              print('no');
+            }
+
+            if (isListType(initialData)) {
+              dataHolder = []; // Or use a List-specific initialization
+            } else if (isMapType(initialData)) {
+              dataHolder = {}; // Or use a Map-specific initialization
+            } else {
+              // Handle invalid data type
+            }
+
+            */
+
+            //DSWCT936GN is a good example of a product with a vendor minimum
+            //"vendorMinimums": []
+
+            //_Exception (Exception: type 'List<dynamic>' is not a subtype of type 'bool')
+
+            //print(_vendorMinimums);
 
             //Vendor Minimums uses vendorMinimums current_amount and vendorMinimums min_amount
 
@@ -253,6 +301,7 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
             ),
+            /*
             Expanded(
               flex: 3,
               child: Container(
@@ -278,6 +327,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
               ),
             ),
+            */
             Expanded(
               flex: 2,
               child: Container(
