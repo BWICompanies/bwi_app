@@ -306,34 +306,33 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
             /* make sure this works if there isnt a product with a vendor minimum */
-            Expanded(
-              flex: 3,
-              child: Container(
-                color: Colors.grey[200],
-                padding: EdgeInsets.all(15),
-                child: _vendorMinimums != null //conditionally render
-                    ? ListView.builder(
-                        itemCount: _vendorMinimums.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final key = _vendorMinimums.keys.toList()[index];
-                          final value = _vendorMinimums[key];
-                          final vendorName = value["vendor_name"];
-                          final current_amount = value["current_amount"];
-                          final min_amount = value["min_amount"];
-                          //message_text and text_only should be set also
-                          return Text(
-                            'Vendor Minimums:\n ' +
-                                '${vendorName}: \$${current_amount} of \$${min_amount}',
-                            style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.bold),
-                          );
-                        },
-                      )
-                    : null,
+            if (_vendorMinimums != null)
+              Expanded(
+                flex: 3,
+                child: Container(
+                  color: Colors.grey[200],
+                  padding: EdgeInsets.all(15),
+                  child: ListView.builder(
+                    itemCount: _vendorMinimums.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final key = _vendorMinimums.keys.toList()[index];
+                      final value = _vendorMinimums[key];
+                      final vendorName = value["vendor_name"];
+                      final current_amount = value["current_amount"];
+                      final min_amount = value["min_amount"];
+                      //message_text and text_only should be set also
+                      return Text(
+                        'Vendor Minimums:\n ' +
+                            '${vendorName}: \$${current_amount} of \$${min_amount}',
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.black54,
+                            fontWeight: FontWeight.bold),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
             Expanded(
               flex: 2,
               child: Container(
