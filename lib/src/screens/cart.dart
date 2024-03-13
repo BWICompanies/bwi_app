@@ -311,7 +311,7 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
             ),
-            //Truck Minimums
+            //Truck Minimums: BON51012 is a good example of a product that will count
             if (_truckEligibleSales != "")
               Expanded(
                 flex: 2,
@@ -321,7 +321,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       children: [
                         Text(
-                          'Truck Minimums:\n Eligible items: \$${_truckEligibleSales} of \$600',
+                          'Truck Minimums:\nEligible items: \$${_truckEligibleSales} of \$600',
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.black54,
@@ -330,7 +330,7 @@ class _CartScreenState extends State<CartScreen> {
                       ],
                     )),
               ),
-            //Vendor Minimums
+            //Vendor Minimums: DSWCT936GN is a good example of a product with a vendor minimum
             if (_vendorMinimums != null)
               Expanded(
                 flex: 2,
