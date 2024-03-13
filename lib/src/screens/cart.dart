@@ -63,11 +63,17 @@ class _CartScreenState extends State<CartScreen> {
             //For BWI Truck Minimum (BON51012 is a good example of a product that will count)
             _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
 
+            //If vendormin is a map set the variable as map. If a list, set as a list. Else set as null.
             if (jsonMap['vendorMinimums'] is Map<String, dynamic>) {
               _vendorMinimums =
                   jsonMap['vendorMinimums'] as Map<String, dynamic>;
             } else if (jsonMap['vendorMinimums'] is List<dynamic>) {
               _vendorMinimums = jsonMap['vendorMinimums'] as List<dynamic>;
+
+              //Treat [] as null
+              if (_vendorMinimums.length == 0) {
+                _vendorMinimums = null;
+              }
             } else {
               _vendorMinimums = null;
             }
@@ -311,9 +317,9 @@ class _CartScreenState extends State<CartScreen> {
                 flex: 3,
                 child: Container(
                   color: Colors.grey[200],
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: ListView.builder(
-                    itemCount: _vendorMinimums.length,
+                    itemCount: _vendorMinimums?.length ?? 0,
                     itemBuilder: (BuildContext context, int index) {
                       final key = _vendorMinimums.keys.toList()[index];
                       final value = _vendorMinimums[key];
@@ -322,7 +328,7 @@ class _CartScreenState extends State<CartScreen> {
                       final min_amount = value["min_amount"];
                       //message_text and text_only should be set also
                       return Text(
-                        'Vendor Minimums:\n ' +
+                        'Vendor Minimums:\n' +
                             '${vendorName}: \$${current_amount} of \$${min_amount}',
                         style: TextStyle(
                             fontSize: 13,
