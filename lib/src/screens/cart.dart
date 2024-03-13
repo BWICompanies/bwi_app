@@ -311,13 +311,32 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
             ),
-            /* make sure this works if there isnt a product with a vendor minimum */
+            //Truck Minimums
+            if (_truckEligibleSales != "")
+              Expanded(
+                flex: 2,
+                child: Container(
+                    color: Colors.grey[200],
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Truck Minimums:\n Eligible items: \$${_truckEligibleSales} of \$600',
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )),
+              ),
+            //Vendor Minimums
             if (_vendorMinimums != null)
               Expanded(
-                flex: 3,
+                flex: 2,
                 child: Container(
                   color: Colors.grey[200],
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                   child: ListView.builder(
                     itemCount: _vendorMinimums?.length ?? 0,
                     itemBuilder: (BuildContext context, int index) {
@@ -339,6 +358,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
               ),
+            //Checkout button and Subtotal
             Expanded(
               flex: 2,
               child: Container(
