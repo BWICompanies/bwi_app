@@ -316,7 +316,7 @@ class _CartScreenState extends State<CartScreen> {
               Expanded(
                 flex: 2,
                 child: Container(
-                    color: Colors.grey[200],
+                    color: Colors.grey[100],
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                     child: Row(
                       children: [
@@ -335,7 +335,7 @@ class _CartScreenState extends State<CartScreen> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  color: Colors.grey[200],
+                  color: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                   child: ListView.builder(
                     itemCount: _vendorMinimums?.length ?? 0,
@@ -362,7 +362,7 @@ class _CartScreenState extends State<CartScreen> {
             Expanded(
               flex: 2,
               child: Container(
-                //color: Colors.red,
+                color: Colors.grey[100],
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Row(
                   children: [
@@ -372,7 +372,7 @@ class _CartScreenState extends State<CartScreen> {
                         'Subtotal: \$${_subtotal}',
                         style: TextStyle(
                             fontSize: 17,
-                            color: Colors.green,
+                            color: Colors.black87,
                             fontWeight: FontWeight.bold),
                       ),
                     ),
