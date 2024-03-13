@@ -60,7 +60,7 @@ class _CartScreenState extends State<CartScreen> {
 
             _subtotal = jsonMap['subtotal'].toString();
 
-            //For BWI Truck Minimum
+            //For BWI Truck Minimum (BON51012 is a good example of a product that will count)
             _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
 
             if (jsonMap['vendorMinimums'] is Map<String, dynamic>) {
@@ -112,6 +112,10 @@ class _CartScreenState extends State<CartScreen> {
             //_Exception (Exception: type 'List<dynamic>' is not a subtype of type 'bool')
 
             //print(_vendorMinimums);
+            //flutter: {FW2: {vendor_name: WindRiver Windchimes, message_text: Minimum purchase of $250 or more., min_amount: 250.00, current_amount: 457, text_only: 0}}
+            //print(_vendorMinimums['FW2']['vendor_name']); //WindRiver Windchimes
+            //print('it is:');
+            //print(_vendorMinimums.length);
 
             //Vendor Minimums uses vendorMinimums current_amount and vendorMinimums min_amount
 
@@ -301,33 +305,35 @@ class _CartScreenState extends State<CartScreen> {
                 },
               ),
             ),
-            /*
+            /* make sure this works if there isnt a product with a vendor minimum */
             Expanded(
               flex: 3,
               child: Container(
                 color: Colors.grey[200],
                 padding: EdgeInsets.all(15),
-                child: ListView.builder(
-                  itemCount: _vendorMinimums.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final key = _vendorMinimums.keys.toList()[index];
-                    final value = _vendorMinimums[key];
-                    final vendorName = value["vendor_name"];
-                    final current_amount = value["current_amount"];
-                    final min_amount = value["min_amount"];
-
-                    return Text(
-                      '${vendorName}: \$${current_amount} of \$${min_amount}',
-                      style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.black54,
-                          fontWeight: FontWeight.bold),
-                    );
-                  },
-                ),
+                child: _vendorMinimums != null //conditionally render
+                    ? ListView.builder(
+                        itemCount: _vendorMinimums.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final key = _vendorMinimums.keys.toList()[index];
+                          final value = _vendorMinimums[key];
+                          final vendorName = value["vendor_name"];
+                          final current_amount = value["current_amount"];
+                          final min_amount = value["min_amount"];
+                          //message_text and text_only should be set also
+                          return Text(
+                            'Vendor Minimums:\n ' +
+                                '${vendorName}: \$${current_amount} of \$${min_amount}',
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.bold),
+                          );
+                        },
+                      )
+                    : null,
               ),
             ),
-            */
             Expanded(
               flex: 2,
               child: Container(
