@@ -28,6 +28,7 @@ class _CartScreenState extends State<CartScreen> {
   //var _vendorMinimums = {};
   dynamic _vendorMinimums = null;
 
+  //Return the products in the cart
   Future<List<CartProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
 
@@ -157,6 +158,52 @@ class _CartScreenState extends State<CartScreen> {
     return parsed
         .map<CartProduct>((json) => CartProduct.fromJson(json))
         .toList();
+  }
+
+  //Delete icon calls this to delete a product from the cart
+  Future<void> _deleteData(String? prodID) async {
+    final token = await ProductstoreAuth().getToken();
+    final response = await http.delete(
+      Uri.parse(ApiConstants.baseUrl + ApiConstants.cartEndpoint + '/$prodID'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8', //Format sending
+        'Authorization': 'Bearer $token',
+        'ACCEPT': 'application/json', //Format recieving
+      },
+    );
+
+/*
+How I do the get request for example
+    http.Request request = http.Request(
+        'GET', Uri.parse(ApiConstants.baseUrl + ApiConstants.cartEndpoint));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+*/
+
+    if (response.statusCode == 200) {
+      // Successful deletion
+      print('Data deleted successfully');
+      await refreshProductList();
+    } else {
+      // Failed to delete
+      print('Failed to delete data: ${response.statusCode}');
+    }
+  }
+
+  Future<void> refreshProductList() async {
+    try {
+      // Call getProducts function again to fetch updated list
+      List<CartProduct>? updatedProductList = await getProducts("");
+      if (updatedProductList != null) {
+        setState(() {
+          productList = updatedProductList;
+        });
+      }
+    } catch (e) {
+      print('Error refreshing product list: $e');
+    }
   }
 
   @override
@@ -300,6 +347,16 @@ class _CartScreenState extends State<CartScreen> {
                                             color: Colors.green,
                                             fontWeight: FontWeight.bold),
                                       ),
+                                      IconButton(
+                                          icon:
+                                              const Icon(Icons.delete_outline),
+                                          color: Colors.red[500],
+                                          iconSize: 20.0,
+                                          onPressed: () {
+                                            _deleteData(productList[index]
+                                                .id
+                                                .toString());
+                                          }),
                                     ]),
                               ),
                             ),
