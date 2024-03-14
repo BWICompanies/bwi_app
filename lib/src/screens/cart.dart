@@ -28,6 +28,12 @@ class _CartScreenState extends State<CartScreen> {
   //var _vendorMinimums = {};
   dynamic _vendorMinimums = null;
 
+  //for quantity box (Need to change this to support being in a loop)
+  //TextEditingController _controller = TextEditingController();
+
+  //Declare a list of controllers to hold controllers for each TextField
+  late List<TextEditingController> _controllers;
+
   //Return the products in the cart
   Future<List<CartProduct>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
@@ -78,6 +84,8 @@ class _CartScreenState extends State<CartScreen> {
             } else {
               _vendorMinimums = null;
             }
+
+            //_controller = TextEditingController(text: productList[index].quantity);
 
             //print(_vendorMinimums);
             //when nothing it is set to [] as an empty list
@@ -174,7 +182,7 @@ class _CartScreenState extends State<CartScreen> {
 
     if (response.statusCode == 200) {
       // Successful deletion
-      print('Data deleted successfully');
+      //print('Data deleted successfully');
       await refreshProductList();
     } else {
       // Failed to delete
@@ -205,6 +213,14 @@ class _CartScreenState extends State<CartScreen> {
         setState(() {
           productList = ApiProductFromServer;
           //_totalResults = productList.length;
+
+          // Initialize the controllers list
+          _controllers =
+              List.generate(productList.length, (_) => TextEditingController());
+          // Set the default value for each controller
+          for (int i = 0; i < productList.length; i++) {
+            _controllers[i].text = productList[i].quantity;
+          }
         });
       }
     });
@@ -312,14 +328,25 @@ class _CartScreenState extends State<CartScreen> {
                                             fontSize: 17,
                                             color: Colors.grey[600]),
                                       ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        productList[index].quantity,
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.grey[600]),
+                                      SizedBox(height: 10),
+                                      //This needs to be a text box that can be edited
+                                      TextField(
+                                        //controller: _controller,
+                                        controller: _controllers[index],
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          labelText: 'Quantity',
+                                          //border: OutlineInputBorder(),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                8), // Adjust border radius
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10,
+                                              horizontal: 12), // Adjust padding
+                                        ),
                                       ),
-                                      SizedBox(height: 5),
+                                      SizedBox(height: 10),
                                       Text(
                                         'Price: \$${productList[index].price}',
                                         //If price is returned as a double convert to string and format to 2 decimal places.
@@ -447,4 +474,21 @@ class _CartScreenState extends State<CartScreen> {
           ],
         ),
       );
+
+/*
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+  */
+
+  @override
+  void dispose() {
+    // Dispose of each TextEditingController in _controllers
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 }
