@@ -315,21 +315,26 @@ class _CartScreenState extends State<CartScreen> {
                                             color: Colors.grey[600]),
                                       ),
                                       SizedBox(height: 5),
-                                      Text(
-                                        productList[index].uom_desc,
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.grey[600]),
+                                      //Put uom_desc and pack_size on the same line
+                                      Row(
+                                        children: [
+                                          Text(
+                                            productList[index].uom_desc,
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: Colors.grey[600]),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            productList[index].pack_size,
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: Colors.grey[600]),
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        productList[index].pack_size,
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.grey[600]),
-                                      ),
-                                      SizedBox(height: 10),
-                                      //This needs to be a text box that can be edited
+                                      SizedBox(height: 15),
+                                      //Qty input field
                                       TextField(
                                         //controller: _controller,
                                         controller: _controllers[index],
@@ -346,24 +351,30 @@ class _CartScreenState extends State<CartScreen> {
                                               horizontal: 12), // Adjust padding
                                         ),
                                       ),
-                                      SizedBox(height: 10),
-                                      Text(
-                                        'Price: \$${productList[index].price}',
-                                        //If price is returned as a double convert to string and format to 2 decimal places.
-                                        //'\$${productList[index].price.toStringAsFixed(2)}',
-                                        style: TextStyle(
-                                            fontSize: 17, color: Colors.green),
+                                      SizedBox(height: 15),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Price: \$${productList[index].price}',
+                                            //If price is returned as a double convert to string and format to 2 decimal places.
+                                            //'\$${productList[index].price.toStringAsFixed(2)}',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.green),
+                                          ),
+                                          SizedBox(width: 10),
+                                          Text(
+                                            'Total: \$${productList[index].extendedPrice}',
+                                            //If price is returned as a double convert to string and format to 2 decimal places.
+                                            //'\$${productList[index].price.toStringAsFixed(2)}',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
                                       ),
                                       SizedBox(height: 5),
-                                      Text(
-                                        'Total: \$${productList[index].extendedPrice}',
-                                        //If price is returned as a double convert to string and format to 2 decimal places.
-                                        //'\$${productList[index].price.toStringAsFixed(2)}',
-                                        style: TextStyle(
-                                            fontSize: 17,
-                                            color: Colors.green,
-                                            fontWeight: FontWeight.bold),
-                                      ),
                                       IconButton(
                                           icon:
                                               const Icon(Icons.delete_outline),
