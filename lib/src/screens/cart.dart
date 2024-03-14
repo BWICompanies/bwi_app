@@ -314,7 +314,7 @@ class _CartScreenState extends State<CartScreen> {
                                             fontSize: 17,
                                             color: Colors.grey[600]),
                                       ),
-                                      SizedBox(height: 5),
+                                      SizedBox(height: 0),
                                       //Put uom_desc and pack_size on the same line
                                       Row(
                                         children: [
@@ -331,9 +331,20 @@ class _CartScreenState extends State<CartScreen> {
                                                 fontSize: 17,
                                                 color: Colors.grey[600]),
                                           ),
+                                          SizedBox(width: 10),
+                                          IconButton(
+                                              icon: const Icon(
+                                                  Icons.delete_outline),
+                                              color: Colors.red[500],
+                                              iconSize: 20.0,
+                                              onPressed: () {
+                                                _deleteData(productList[index]
+                                                    .id
+                                                    .toString());
+                                              }),
                                         ],
                                       ),
-                                      SizedBox(height: 15),
+                                      SizedBox(height: 5),
                                       //Qty input field
                                       TextField(
                                         //controller: _controller,
@@ -375,16 +386,6 @@ class _CartScreenState extends State<CartScreen> {
                                         ],
                                       ),
                                       SizedBox(height: 5),
-                                      IconButton(
-                                          icon:
-                                              const Icon(Icons.delete_outline),
-                                          color: Colors.red[500],
-                                          iconSize: 20.0,
-                                          onPressed: () {
-                                            _deleteData(productList[index]
-                                                .id
-                                                .toString());
-                                          }),
                                     ]),
                               ),
                             ),
