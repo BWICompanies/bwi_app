@@ -172,16 +172,6 @@ class _CartScreenState extends State<CartScreen> {
       },
     );
 
-/*
-How I do the get request for example
-    http.Request request = http.Request(
-        'GET', Uri.parse(ApiConstants.baseUrl + ApiConstants.cartEndpoint));
-
-    request.headers['Authorization'] = 'Bearer $token';
-    request.headers['Content-Type'] = 'application/json'; //Format sending
-    request.headers['ACCEPT'] = 'application/json'; //Format recieving
-*/
-
     if (response.statusCode == 200) {
       // Successful deletion
       print('Data deleted successfully');
