@@ -349,6 +349,10 @@ class _CartScreenState extends State<CartScreen> {
                                       TextField(
                                         //controller: _controller,
                                         controller: _controllers[index],
+                                        onChanged: (value) {
+                                          // Optionally, you can send data to API when text changes
+                                          // sendToApi(value);
+                                        },
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           labelText: 'Quantity',
