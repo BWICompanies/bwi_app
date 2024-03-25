@@ -190,6 +190,50 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
+  Future<void> _updateData(String? prodID, String? uom, String? qty) async {
+    //print(prodID.toString());
+    //print(qty);
+
+    try {
+      final token = await ProductstoreAuth().getToken();
+
+      // Create a POST request with the URL
+      http.Request request = http.Request(
+          'POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.cartEndpoint));
+
+      //print(ApiConstants.baseUrl + ApiConstants.cartEndpoint);
+      //getting a status code 404 for https://ct.bwicompanies.com/api/v1/cart
+
+      request.headers['Authorization'] = 'Bearer $token';
+      request.headers['Content-Type'] = 'application/json'; //Format sending
+      request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+      Map<String, dynamic> newData = {
+        'item_number': prodID,
+        'uom': uom,
+        'quantity': qty,
+        // Add other keys and values as needed
+      };
+
+      //print(json.encode(newData));
+
+      // Encode the new data as JSON and set it as the request body
+      request.body = json.encode(newData);
+
+      // Send the request
+      http.StreamedResponse response = await request.send();
+
+      // Check the status code of the response
+      if (response.statusCode == 200) {
+        //print('Data updated successfully');
+      } else {
+        //print('Failed to update data. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error updating data: $e');
+    }
+  }
+
   Future<void> refreshProductList() async {
     try {
       // Call getProducts function again to fetch updated list
@@ -253,6 +297,8 @@ class _CartScreenState extends State<CartScreen> {
                 padding: EdgeInsets.all(5),
                 itemCount: productList.length,
                 itemBuilder: (BuildContext context, int index) {
+                  int momQuantity;
+                  momQuantity = int.parse(productList[index].mom_quantity);
                   return GestureDetector(
                     onTap: () {
                       // Handle the click event here
@@ -349,9 +395,44 @@ class _CartScreenState extends State<CartScreen> {
                                       TextField(
                                         //controller: _controller,
                                         controller: _controllers[index],
-                                        onChanged: (value) {
-                                          // Optionally, you can send data to API when text changes
-                                          // sendToApi(value);
+                                        onChanged: (String value) {
+                                          if (value.isNotEmpty) {
+                                            //If value is not empty, check if it is a number and divisible by momQuantity and then post to api
+                                            if (int.tryParse(value) != null &&
+                                                int.parse(value) %
+                                                        momQuantity ==
+                                                    0) {
+                                              // No modification needed
+                                              //print("No modification needed");
+
+                                              _updateData(
+                                                  productList[index]
+                                                      .item_number,
+                                                  productList[index].uom,
+                                                  value);
+
+                                              //print(productList[index]);
+                                            } else {
+                                              //Round down to the closest multiple of momQuantity
+                                              int parsedValue =
+                                                  int.parse(value);
+                                              int remainder =
+                                                  parsedValue % momQuantity;
+
+                                              //Do the maths
+                                              String newValue =
+                                                  (parsedValue - remainder)
+                                                      .toString();
+
+                                              _updateData(
+                                                  productList[index]
+                                                      .item_number,
+                                                  productList[index].uom,
+                                                  newValue);
+
+                                              //print("new value: $newValue");
+                                            }
+                                          }
                                         },
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(

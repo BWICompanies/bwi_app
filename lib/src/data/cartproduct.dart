@@ -16,6 +16,7 @@ class CartProduct {
   var price;
   var extendedPrice;
   var available;
+  var mom_quantity;
 
   //The cart api will return truckEligibleSales, subtotal, and vendorMinimums as well, but those are outside of data[] and are not part of the CartProduct class.
 
@@ -35,6 +36,7 @@ class CartProduct {
     required this.price,
     required this.extendedPrice,
     required this.available,
+    required this.mom_quantity,
   });
 
   //factory method that accepts json map (associative array in PHP) and returns a CartProduct object. (Uses the constructor above to create and return an instance of the class)
@@ -54,6 +56,7 @@ class CartProduct {
       price: json['price'],
       extendedPrice: json['extendedPrice'],
       available: json['available'],
+      mom_quantity: json['mom_quantity'],
     );
   }
 
