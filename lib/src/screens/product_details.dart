@@ -161,7 +161,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       shrinkWrap:
                           true, // Important to limit the height of the GridView
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of columns in the grid
+                        crossAxisCount: 1, // Number of columns in the grid
                         mainAxisSpacing: 6.0, // spacing between rows
                         crossAxisSpacing: 6.0, // spacing between columns
                         mainAxisExtent: 185, // row height
@@ -221,9 +221,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       onPressed: () {
                                         // Handle button press for ElevatedButton
                                       },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.green[700]),
                                       child: Text(
                                         'Add to Cart',
-                                        style: TextStyle(fontSize: 14.0),
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),
