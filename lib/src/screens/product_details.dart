@@ -177,43 +177,49 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         //final uom = product!.uom_data[uomKey];
                         //String _uomSelected = product!.uom_data.keys.first;
 
-                        return Card(
+                        return Container(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 15.0,
                                 horizontal:
-                                    20.0), //can use .only to do all 4 sides
+                                    15.0), //can use .only to do all 4 sides
                             child: Flexible(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment
                                     .start, //by default, centers its children both horizontally and vertically.
                                 //child: Text('Item $index'),
                                 children: <Widget>[
-                                  Text(
-                                    selectedProduct!.uomData[uomKey]
-                                            ['description'] +
-                                        " " +
+                                  Row(
+                                    children: [
+                                      Text(
                                         selectedProduct!.uomData[uomKey]
-                                            ['pack_size'],
-                                    style: TextStyle(
-                                      fontSize: 18.0, // Font size
-                                      color: Colors.green[700], // Text color
-                                      fontWeight:
-                                          FontWeight.bold, // Font weight
-                                    ),
+                                                ['description'] +
+                                            " " +
+                                            selectedProduct!.uomData[uomKey]
+                                                ['pack_size'],
+                                        style: TextStyle(
+                                          fontSize: 17.0, // Font size
+                                          color:
+                                              Colors.green[700], // Text color
+                                          fontWeight:
+                                              FontWeight.bold, // Font weight
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        '\$${selectedProduct!.uomData[uomKey]['price']}',
+                                        style: TextStyle(
+                                          fontSize: 17.0, // Font size
+                                          fontWeight:
+                                              FontWeight.bold, // Font weight
+                                        ),
+                                      ), //use variable wrapper for $
+                                    ],
                                   ),
-                                  Text(
-                                    '\$${selectedProduct!.uomData[uomKey]['price']}',
-                                    style: TextStyle(
-                                      fontSize: 18.0, // Font size
-                                      fontWeight:
-                                          FontWeight.bold, // Font weight
-                                    ),
-                                  ), //use variable wrapper for $
                                   TextField(
                                       //decoration: InputDecoration(labelText: 'Enter your text',),
                                       ),
-                                  SizedBox(height: 20),
+                                  SizedBox(height: 15),
                                   Container(
                                     width: double
                                         .infinity, // Set the width to fill the parent's width
