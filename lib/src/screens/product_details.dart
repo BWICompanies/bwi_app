@@ -162,7 +162,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           true, // Important to limit the height of the GridView
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 1, // Number of columns in the grid
-                        mainAxisSpacing: 6.0, // spacing between rows
+                        mainAxisSpacing: 0.0, // spacing between rows
                         crossAxisSpacing: 6.0, // spacing between columns
                         mainAxisExtent: 185, // row height
                         //childAspectRatio: 1 / 2,
@@ -180,7 +180,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         return Container(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 15.0,
+                                vertical: 5.0,
                                 horizontal:
                                     15.0), //can use .only to do all 4 sides
                             child: Flexible(
@@ -217,8 +217,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     ],
                                   ),
                                   TextField(
-                                      //decoration: InputDecoration(labelText: 'Enter your text',),
-                                      ),
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      labelText: 'Quantity',
+                                      //border: OutlineInputBorder(),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          vertical: 0,
+                                          horizontal: 0), // Adjust padding
+                                    ),
+                                    //decoration: InputDecoration(labelText: 'Enter your text',),
+                                  ),
                                   SizedBox(height: 15),
                                   Container(
                                     width: double
