@@ -63,6 +63,13 @@ class SettingsContent extends StatelessWidget {
                 child: const Text('Go directly to /product/0 (Link)'),
               ),
             ),
+            Link(
+              uri: Uri.parse('/checkout'),
+              builder: (context, followLink) => TextButton(
+                onPressed: followLink,
+                child: const Text('Checkout'),
+              ),
+            ),
             TextButton(
               child: const Text('Go directly to /product/0 (RouteState)'),
               onPressed: () {

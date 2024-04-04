@@ -31,6 +31,9 @@ final int? counter = prefs.getInt('counter');
 If need to know if it exists this returns a bool response
 prefs.containsKey("counter")
 
+# To Add a Page (Not in Navigation)
+Edit app.dart and scaffold_body.dart. 
+
 # Navigation and Routing
 A sample that shows how to use the [Router][] API to handle common navigation
 scenarios.

@@ -6,6 +6,7 @@ import '../routing.dart';
 import '../screens/home.dart';
 import '../screens/history.dart';
 import '../screens/scan.dart';
+import '../screens/checkout.dart';
 import '../screens/cart.dart';
 import '../screens/settings.dart';
 import '../widgets/fade_transition_page.dart';
@@ -50,6 +51,11 @@ class ProductstoreScaffoldBody extends StatelessWidget {
           const FadeTransitionPage<void>(
             key: ValueKey('scan'),
             child: ScanScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/checkout'))
+          const FadeTransitionPage<void>(
+            key: ValueKey('checkout'),
+            child: CheckoutScreen(),
           )
         else if (currentRoute.pathTemplate.startsWith('/settings'))
           const FadeTransitionPage<void>(

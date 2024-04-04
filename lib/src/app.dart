@@ -55,6 +55,7 @@ class _ProductstoreState extends State<Productstore> {
         '/signin',
         '/authors',
         '/scan',
+        '/checkout',
         '/home',
         '/history',
         '/settings',
