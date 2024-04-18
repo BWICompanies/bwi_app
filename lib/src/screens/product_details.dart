@@ -19,6 +19,9 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ApiProduct? selectedProduct; //nullable product object
 
+  //Declare a list of controllers to hold controllers for each TextField
+  late List<TextEditingController> _controllers;
+
   //Function that gets the product from the api and returns it as an ApiProduct object (Runs on initState)
   Future<ApiProduct?> _getProduct(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
@@ -77,6 +80,50 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
+  Future<void> _updateData(String? prodID, String? uom, String? qty) async {
+    //print(prodID.toString());
+    //print(qty);
+
+    try {
+      final token = await ProductstoreAuth().getToken();
+
+      // Create a POST request with the URL
+      http.Request request = http.Request(
+          'POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.cartEndpoint));
+
+      //print(ApiConstants.baseUrl + ApiConstants.cartEndpoint);
+      //getting a status code 404 for https://ct.bwicompanies.com/api/v1/cart
+
+      request.headers['Authorization'] = 'Bearer $token';
+      request.headers['Content-Type'] = 'application/json'; //Format sending
+      request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+      Map<String, dynamic> newData = {
+        'item_number': prodID,
+        'uom': uom,
+        'quantity': qty,
+        // Add other keys and values as needed
+      };
+
+      //print(json.encode(newData));
+
+      // Encode the new data as JSON and set it as the request body
+      request.body = json.encode(newData);
+
+      // Send the request
+      http.StreamedResponse response = await request.send();
+
+      // Check the status code of the response
+      if (response.statusCode == 200) {
+        //print('Data updated successfully');
+      } else {
+        //print('Failed to update data. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error updating data: $e');
+    }
+  }
+
   //On wiget ini, set selectedProduct. (_getProduct function returns a future object and uses the then method to add a callback to update the selectedProduct variable.)
   void initState() {
     super.initState();
@@ -85,6 +132,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       if (ApiProductFromServer != null) {
         setState(() {
           selectedProduct = ApiProductFromServer;
+
+          // Initialize the controllers list
+          _controllers = List.generate(
+              selectedProduct!.uomData.length, (_) => TextEditingController());
+          // Set the default value for each controller
+          for (int i = 0; i < selectedProduct!.uomData.length; i++) {
+            _controllers[i].text = '1'; //productList[i].quantity;
+            //hard coded for now. Might use mom instead. Might have to access with key though.
+            //final uomKey = selectedProduct!.uomData.keys.elementAt(i);
+          }
         });
       }
     });
@@ -217,6 +274,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     ],
                                   ),
                                   TextField(
+                                    controller: _controllers[index],
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       labelText: 'Quantity',
@@ -233,7 +291,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         .infinity, // Set the width to fill the parent's width
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        //if (value.isNotEmpty) {
                                         // Handle button press for ElevatedButton
+                                        /*
+                                          _updateData(
+                                              selectedProduct!.uomData[uomKey]
+                                                  ['item_number'],
+                                              selectedProduct!.uomData[uomKey]
+                                                  ['uom'],
+                                              value);
+                                              */
+                                        //}
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.green[700]),
