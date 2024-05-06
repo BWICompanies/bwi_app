@@ -116,8 +116,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       // Check the status code of the response
       if (response.statusCode == 200) {
         //print('Data updated successfully');
+        //Show toast message
+        final snackBar = SnackBar(
+          content: Text('Product Added to Cart!'),
+          duration: Duration(seconds: 3),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else {
-        //print('Failed to update data. Status code: ${response.statusCode}');
+        print('Failed to update data. Status code: ${response.statusCode}');
+        //Show toast message
+        final snackBar = SnackBar(
+          content: Text('Error adding product to cart.'),
+          duration: Duration(seconds: 3),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     } catch (e) {
       print('Error updating data: $e');
@@ -291,6 +305,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         .infinity, // Set the width to fill the parent's width
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        _updateData("MDPDP200AELP", "EA", "1");
+                                        //hard code for now
                                         //if (value.isNotEmpty) {
                                         // Handle button press for ElevatedButton
                                         /*
