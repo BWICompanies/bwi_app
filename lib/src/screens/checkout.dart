@@ -97,10 +97,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           // Adjust padding
                         ),
                       ),
-                      SizedBox(height: 7.0),
+                      SizedBox(height: 15.0),
                       DropdownButtonFormField(
                           //iconSize: 24,
                           decoration: InputDecoration(
+                            labelText: 'Delivery Method',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 12),
                             enabledBorder: OutlineInputBorder(
@@ -117,7 +118,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           isExpanded: true,
                           items: const [
                             DropdownMenuItem<String>(
-                                child: Text('BWI Truck Delivery'),
+                                child: Text('BWI Truck'),
                                 value: 'BWI Truck Delivery'),
                             DropdownMenuItem<String>(
                                 child: Text('Customer Pick up'),
@@ -125,9 +126,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ],
                           onChanged: deliveryMethodCallback,
                           value: _deliveryMethod),
-                      SizedBox(height: 7.0),
+                      SizedBox(height: 15.0),
                       DropdownButtonFormField(
                           decoration: InputDecoration(
+                            labelText: 'BWI Location (Pickup Only)',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 12),
                             enabledBorder: OutlineInputBorder(
