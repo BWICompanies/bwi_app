@@ -82,10 +82,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         style: TextStyle(fontSize: 16),
                         decoration: InputDecoration(
                           labelText: 'P.O. Number',
-                          //border: OutlineInputBorder(),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                8), // Adjust border radius
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.black38),
+                            //width: 2.0
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide(color: Colors.black38),
                           ),
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 5, horizontal: 12),
@@ -94,26 +98,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                       ),
                       SizedBox(height: 7.0),
-                      TextField(
-                        //controller: _controller,
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(fontSize: 16),
-                        decoration: InputDecoration(
-                          labelText: 'Future Order Date',
-                          //border: OutlineInputBorder(),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                8), // Adjust border radius
-                          ),
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 12),
-                          labelStyle: TextStyle(fontSize: 16),
-                          // Adjust padding
-                        ),
-                      ),
-                      DropdownButton(
-                          //can consider DropdownButtonFormField instead
+                      DropdownButtonFormField(
                           //iconSize: 24,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 12),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                              //width: 2.0
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                            ),
+                          ),
                           style: TextStyle(color: Colors.black87, fontSize: 16),
                           isExpanded: true,
                           items: const [
@@ -126,7 +125,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ],
                           onChanged: deliveryMethodCallback,
                           value: _deliveryMethod),
-                      DropdownButton(
+                      SizedBox(height: 7.0),
+                      DropdownButtonFormField(
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 12),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                              //width: 2.0
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                            ),
+                          ),
                           style: TextStyle(color: Colors.black87, fontSize: 16),
                           isExpanded: true,
                           items: const [
