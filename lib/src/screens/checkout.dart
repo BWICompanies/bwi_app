@@ -17,6 +17,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   String _deliveryMethod = 'BWI Truck';
   String _pickupLocation = 'Select Pickup Location';
 
+  final _formKey = GlobalKey<FormState>();
+
   void deliveryMethodCallback(String? selectedValue) {
     if (selectedValue is String) {
       //print(selectedValue);
@@ -75,85 +77,98 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       style: const TextStyle(
                           fontSize: 16, fontWeight: FontWeight.bold)),
                   Divider(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      TextField(
-                        //controller: _controller,
-                        keyboardType: TextInputType.number,
-                        style: TextStyle(fontSize: 16),
-                        decoration: InputDecoration(
-                          labelText: 'P.O. Number',
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.black38),
-                            //width: 2.0
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        TextFormField(
+                          //controller: _poController,
+                          /*
+                          Do this if you want to make the PO number required
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a P.O. Number';
+                            }
+                            return null;
+                          },*/
+                          keyboardType: TextInputType.number,
+                          style: TextStyle(fontSize: 16),
+                          decoration: InputDecoration(
+                            labelText: 'P.O. Number',
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                              //width: 2.0
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 12),
+                            labelStyle: TextStyle(fontSize: 16),
+                            // Adjust padding
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: Colors.black38),
-                          ),
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 5, horizontal: 12),
-                          labelStyle: TextStyle(fontSize: 16),
-                          // Adjust padding
                         ),
-                      ),
-                      SizedBox(height: 15.0),
-                      DropdownButtonFormField(
-                          //iconSize: 24,
-                          decoration: InputDecoration(
-                            labelText: 'Delivery Method',
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 12),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.black38),
-                              //width: 2.0
+                        SizedBox(height: 15.0),
+                        DropdownButtonFormField(
+                            //iconSize: 24,
+                            decoration: InputDecoration(
+                              labelText: 'Delivery Method',
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 12),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.black38),
+                                //width: 2.0
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.black38),
+                              ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.black38),
+                            style:
+                                TextStyle(color: Colors.black87, fontSize: 16),
+                            isExpanded: true,
+                            items: const [
+                              DropdownMenuItem<String>(
+                                  child: Text('BWI Truck'), value: 'BWI Truck'),
+                              DropdownMenuItem<String>(
+                                  child: Text('Customer Pick up'),
+                                  value: 'Customer Pick up'),
+                            ],
+                            onChanged: deliveryMethodCallback,
+                            value: _deliveryMethod),
+                        SizedBox(height: 15.0),
+                        DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              labelText: 'BWI Location (Pickup Only)',
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 12),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.black38),
+                                //width: 2.0
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(color: Colors.black38),
+                              ),
                             ),
-                          ),
-                          style: TextStyle(color: Colors.black87, fontSize: 16),
-                          isExpanded: true,
-                          items: const [
-                            DropdownMenuItem<String>(
-                                child: Text('BWI Truck'), value: 'BWI Truck'),
-                            DropdownMenuItem<String>(
-                                child: Text('Customer Pick up'),
-                                value: 'Customer Pick up'),
-                          ],
-                          onChanged: deliveryMethodCallback,
-                          value: _deliveryMethod),
-                      SizedBox(height: 15.0),
-                      DropdownButtonFormField(
-                          decoration: InputDecoration(
-                            labelText: 'BWI Location (Pickup Only)',
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 12),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.black38),
-                              //width: 2.0
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Colors.black38),
-                            ),
-                          ),
-                          style: TextStyle(color: Colors.black87, fontSize: 16),
-                          isExpanded: true,
-                          items: const [
-                            DropdownMenuItem<String>(
-                                child: Text('Select Pickup Location'),
-                                value: 'Select Pickup Location'),
-                          ],
-                          onChanged: pickupLocationCallback,
-                          value: _pickupLocation),
-                      SizedBox(height: 15.0),
-                    ],
+                            style:
+                                TextStyle(color: Colors.black87, fontSize: 16),
+                            isExpanded: true,
+                            items: const [
+                              DropdownMenuItem<String>(
+                                  child: Text('Select Pickup Location'),
+                                  value: 'Select Pickup Location'),
+                            ],
+                            onChanged: pickupLocationCallback,
+                            value: _pickupLocation),
+                        SizedBox(height: 15.0),
+                      ],
+                    ),
                   ),
                   Text('Order Details',
                       style: const TextStyle(
@@ -169,7 +184,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     child: Center(
                       child: ElevatedButton(
                           onPressed: () {
-                            RouteStateScope.of(context).go('/buy-now');
+                            //Validate and then run code to submit order.
+                            //RouteStateScope.of(context).go('/buy-now');
+                            //If validation passes, submit order and show thank you message.
+                            if (_formKey.currentState!.validate()) {
+                              //If the form is valid, display a snackbar. In the real world, you'd often call a server or save the information in a database.
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Processing Data')),
+                              );
+                            }
+
+                            print(
+                                "Validate and then submit order and show thank you message.");
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(context)
