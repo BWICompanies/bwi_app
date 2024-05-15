@@ -14,11 +14,13 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
-  String _deliveryMethod = 'BWI Truck Delivery';
+  String _deliveryMethod = 'BWI Truck';
   String _pickupLocation = 'Select Pickup Location';
 
   void deliveryMethodCallback(String? selectedValue) {
     if (selectedValue is String) {
+      //print(selectedValue);
+
       setState(() {
         _deliveryMethod = selectedValue;
       });
@@ -118,8 +120,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           isExpanded: true,
                           items: const [
                             DropdownMenuItem<String>(
-                                child: Text('BWI Truck'),
-                                value: 'BWI Truck Delivery'),
+                                child: Text('BWI Truck'), value: 'BWI Truck'),
                             DropdownMenuItem<String>(
                                 child: Text('Customer Pick up'),
                                 value: 'Customer Pick up'),
