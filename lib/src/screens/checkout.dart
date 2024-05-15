@@ -1,9 +1,11 @@
+import 'package:bwiapp/src/data/order.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../routing.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
-import '../data.dart';
+//import '../data.dart';
+import '../data/order.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -14,17 +16,19 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
-  String _deliveryMethod = 'BWI Truck';
-  String _pickupLocation = 'Select Pickup Location';
+  String _deliveryMethodSelectedValue = 'BWI Truck';
+  String _pickupLocationSelectedValue = 'Select Pickup Location';
+  final _poController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  Order _order = Order(); //create an instance of the Order class
 
   void deliveryMethodCallback(String? selectedValue) {
     if (selectedValue is String) {
       //print(selectedValue);
 
       setState(() {
-        _deliveryMethod = selectedValue;
+        _deliveryMethodSelectedValue = selectedValue;
       });
     }
   }
@@ -32,7 +36,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void pickupLocationCallback(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
-        _pickupLocation = selectedValue;
+        _pickupLocationSelectedValue = selectedValue;
       });
     }
   }
@@ -83,7 +87,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         TextFormField(
-                          //controller: _poController,
+                          controller: _poController,
                           /*
                           Do this if you want to make the PO number required
                           validator: (value) {
@@ -139,7 +143,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   value: 'Customer Pick up'),
                             ],
                             onChanged: deliveryMethodCallback,
-                            value: _deliveryMethod),
+                            value: _deliveryMethodSelectedValue),
                         SizedBox(height: 15.0),
                         DropdownButtonFormField(
                             decoration: InputDecoration(
@@ -165,7 +169,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   value: 'Select Pickup Location'),
                             ],
                             onChanged: pickupLocationCallback,
-                            value: _pickupLocation),
+                            value: _pickupLocationSelectedValue),
                         SizedBox(height: 15.0),
                       ],
                     ),
@@ -188,6 +192,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             //RouteStateScope.of(context).go('/buy-now');
                             //If validation passes, submit order and show thank you message.
                             if (_formKey.currentState!.validate()) {
+                              _order.poNumber = _poController
+                                  .text; //set the poNumber property of the Order object to the value of the poController text field
+                              _order.deliveryMethod =
+                                  _deliveryMethodSelectedValue; //add !; if nullable
+                              _order.bwiLocation = _pickupLocationSelectedValue;
+
                               //If the form is valid, display a snackbar. In the real world, you'd often call a server or save the information in a database.
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
