@@ -1,10 +1,14 @@
 import 'package:bwiapp/src/data/order.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'dart:async'; //optional but helps with debugging
+import 'dart:convert'; //to and from json
+import 'package:http/http.dart' as http; //for api requests
 import 'package:shared_preferences/shared_preferences.dart';
+import '../auth.dart';
 import '../routing.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 //import '../data.dart';
+import '../data/cartproduct.dart';
 import '../data/order.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -20,12 +24,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   String _pickupLocationSelectedValue = 'Select Pickup Location';
   final _poController = TextEditingController();
 
+  List<CartProduct> productList = []; //cart products returned from API
+  var _subtotal = "";
+  var _truckEligibleSales = "";
+  dynamic _vendorMinimums = null;
+
   final _formKey = GlobalKey<FormState>();
   Order _order = Order(); //create an instance of the Order class
+
+  //On load we need to get the users ship methods and populate the dropdown
 
   void deliveryMethodCallback(String? selectedValue) {
     if (selectedValue is String) {
       //print(selectedValue);
+
+      //If the user selects customer pick up, load the Get Pickup Locations from the api and populate the bwi location dropdown. Else, mark it inactive.
 
       setState(() {
         _deliveryMethodSelectedValue = selectedValue;
@@ -39,6 +52,107 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         _pickupLocationSelectedValue = selectedValue;
       });
     }
+  }
+
+  //Return the products in the cart
+  Future<List<CartProduct>?> getProducts(String? searchString) async {
+    final token = await ProductstoreAuth().getToken();
+
+    //print("getProducts running. _page is $_page");
+
+    http.Request request = http.Request(
+        'GET', Uri.parse(ApiConstants.baseUrl + ApiConstants.cartEndpoint));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+    try {
+      // Update to indicate that the streamedResponse and response variables can be null.
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        // Add a null check to the if statement before parsing the response.
+        if (response != null) {
+          //Parse response
+          if (response.statusCode == 200) {
+            //Parse Products in JSON data into an array
+            List<CartProduct> list = parseData(response.body);
+
+            //Get the subtotal and other data from the response that is outside of the data array
+
+            // Parse the JSON string into a Map
+            Map<String, dynamic> jsonMap = jsonDecode(response.body);
+
+            _subtotal = jsonMap['subtotal'].toString();
+            //print(_subtotal);
+
+            //For BWI Truck Minimum (BON51012 is a good example of a product that will count)
+            _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
+
+            //If vendormin is a map set the variable as map. If a list, set as a list. Else set as null.
+            if (jsonMap['vendorMinimums'] is Map<String, dynamic>) {
+              _vendorMinimums =
+                  jsonMap['vendorMinimums'] as Map<String, dynamic>;
+            } else if (jsonMap['vendorMinimums'] is List<dynamic>) {
+              _vendorMinimums = jsonMap['vendorMinimums'] as List<dynamic>;
+
+              //Treat [] as null
+              if (_vendorMinimums.length == 0) {
+                _vendorMinimums = null;
+              }
+            } else {
+              _vendorMinimums = null;
+            }
+
+            return list;
+          } else {
+            // Change the return type to indicate that the function may return a null value.
+            return null;
+          }
+        } else {
+          // Throw an exception if the response is null.
+          throw Exception('Error');
+        }
+      } else {
+        // Throw an exception if the streamedResponse is null.
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  //Read Json string and return a list of CartProduct objects.
+  //Return type is a list of objects of the type CartProduct. This is a static class function, no need to create instance
+  static List<CartProduct> parseData(String responseBody) {
+    // Decode the JSON response into a Dart object.
+    final decodedResponse = json.decode(responseBody);
+
+    // Get the data array from the decoded object.
+    final dataArray = decodedResponse['data'] as List<dynamic>;
+
+    // Parse the data array into a list of ApiProduct objects and return
+    final parsed = dataArray.cast<Map<String, dynamic>>();
+    return parsed
+        .map<CartProduct>((json) => CartProduct.fromJson(json))
+        .toList();
+  }
+
+  @override
+  //On wiget ini, getProducts function returns a future object and uses the then method to add a callback to update the list variable.
+  void initState() {
+    super.initState();
+    getProducts("").then((ApiProductFromServer) {
+      if (ApiProductFromServer != null) {
+        setState(() {
+          productList = ApiProductFromServer;
+          //print(productList);
+          //_totalResults = productList.length;
+        });
+      }
+    });
   }
 
   @override
@@ -180,8 +294,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Divider(),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
-                    child: Text('Order details here',
-                        style: const TextStyle(fontSize: 14)),
+                    child: Text(
+                      'Subtotal: \$${_subtotal}',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.normal),
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
