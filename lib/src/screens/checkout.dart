@@ -39,6 +39,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       //print(selectedValue);
 
       //If the user selects customer pick up, load the Get Pickup Locations from the api and populate the bwi location dropdown. Else, mark it inactive.
+      if (selectedValue == 'Customer Pick up') {
+        print("Customer Pick up selected");
+        //Get the pickup locations from the api and populate the bwi location dropdown
+        getPickupLocations();
+      } else {
+        print("BWI Truck selected");
+        print("Mark the bwi location dropdown inactive");
+      }
 
       setState(() {
         _deliveryMethodSelectedValue = selectedValue;
@@ -51,6 +59,67 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       setState(() {
         _pickupLocationSelectedValue = selectedValue;
       });
+    }
+  }
+
+  Future getPickupLocations() async {
+    print('getPickupLocations ran');
+
+    final token = await ProductstoreAuth().getToken();
+
+    http.Request request = http.Request('GET',
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.pickupLocationsEndpoint));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response != null) {
+          //print(response.statusCode);
+
+          //Parse response
+          if (response.statusCode == 200) {
+            // Decode the JSON response into a Dart object.
+            final decodedResponse = json.decode(response.body);
+
+            //update selected value _pickupLocationSelectedValue
+
+            /*
+                        {
+              "data": {
+                "13": "Greenville\/Spartanburg Div - Greer, SC",
+                "19": "Atlanta Branch - Norcross, GA"
+              }
+            }
+            */
+
+            //final dataArray = decodedResponse['data'] as List<
+
+            //print('decodedResponse');
+            //print(decodedResponse);
+
+            // Get the data array from the decoded object.
+            //final dataArray = decodedResponse['data'] as List<dynamic>;
+            //print('dataArray');
+            //print(dataArray);
+
+            return null;
+          } else {
+            return null;
+          }
+        } else {
+          throw Exception('Error');
+        }
+      } else {
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
@@ -121,6 +190,67 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       }
     } catch (e) {
       throw Exception(e.toString());
+    }
+  }
+
+  //Submit the order when button pressed
+  //Future<void> _updateData(String? prodID, String? uom, String? qty) async {
+  Future<void> submitOrder(Order order) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Processing Data')),
+    );
+
+    try {
+      final token = await ProductstoreAuth().getToken();
+
+      // Create a POST request with the URL
+      http.Request request = http.Request('POST',
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.checkoutEndpoint));
+
+      //print(ApiConstants.baseUrl + ApiConstants.cartEndpoint);
+      //getting a status code 404 for https://ct.bwicompanies.com/api/v1/cart
+
+      request.headers['Authorization'] = 'Bearer $token';
+      request.headers['Content-Type'] = 'application/json'; //Format sending
+      request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+      Map<String, dynamic> newData = {
+        'order_type': "CART",
+        'ship_method': _order.deliveryMethod,
+        'po_number': _order.poNumber,
+        // Add other keys and values as needed
+      };
+
+      //if ship method is customer pick up, add the bwi location to the data
+      if (_order.deliveryMethod == 'Customer Pick up') {
+        newData['pickup_location'] = _order.bwiLocation;
+      }
+
+      print(json.encode(newData));
+
+      // Encode the new data as JSON and set it as the request body
+      request.body = json.encode(newData);
+
+      // Send the request
+      http.StreamedResponse response = await request.send();
+
+      // Check the status code of the response
+      if (response.statusCode == 200) {
+        print('Data updated successfully');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Order Submitted Successfully.')),
+        );
+      } else {
+        //print('Failed to update data. Response code: ${response.statusCode}');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to submit order.')),
+        );
+      }
+    } catch (e) {
+      //print('Error updating data: $e');
+      print('Error sending order.');
     }
   }
 
@@ -317,15 +447,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   _deliveryMethodSelectedValue; //add !; if nullable
                               _order.bwiLocation = _pickupLocationSelectedValue;
 
+                              //call the submitOrder function
+                              submitOrder(_order);
+
                               //If the form is valid, display a snackbar. In the real world, you'd often call a server or save the information in a database.
+                              /*
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text('Processing Data')),
                               );
+                              */
                             }
 
-                            print(
-                                "Validate and then submit order and show thank you message.");
+                            /*print(
+                                "Validate and then submit order and show thank you message."); */
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Theme.of(context)

@@ -5,4 +5,6 @@ class ApiConstants {
   static String searchEndpoint = '/api/v1/items/search';
   static String itemsEndpoint = '/api/v1/items';
   static String cartEndpoint = '/api/v1/cart';
+  static String checkoutEndpoint = '/api/v1/checkout/process';
+  static String pickupLocationsEndpoint = '/api/v1/checkout/pickup-locations';
 }
