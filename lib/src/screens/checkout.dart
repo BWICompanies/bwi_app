@@ -625,7 +625,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                     child: Text(
-                      'Est. Taxes: \$${formatter.format(_estTaxes)}',
+                      _estTaxes != 0.0
+                          ? 'Est. Taxes: \$${formatter.format(_estTaxes)}'
+                          : 'Est. Taxes: Loading...',
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black87,
