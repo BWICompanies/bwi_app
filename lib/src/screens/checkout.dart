@@ -10,6 +10,7 @@ import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + Api
 //import '../data.dart';
 import '../data/cartproduct.dart';
 import '../data/order.dart';
+import 'package:intl/intl.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -20,7 +21,8 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
-  String _estTaxes = 'loading...';
+  double _estTaxes = 0.0;
+  NumberFormat formatter = NumberFormat('0.00');
 
   List<DropdownMenuItem<String>> _deliveryOptions = [
     DropdownMenuItem<String>(
@@ -51,7 +53,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _formKey = GlobalKey<FormState>();
   Order _order = Order(); //create an instance of the Order class
 
-  //On load we need to get the users ship methods and populate the dropdown
+  //Create a NumberFormat instance with two decimal places
+  //NumberFormat? formatter;  // Define as nullable
+  //formatter = NumberFormat.decimalPattern('en_US').decimalDigits(2);
 
   void deliveryMethodCallback(String? selectedValue) {
     if (selectedValue is String) {
@@ -128,7 +132,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
             //Set the Pickup Location Options dropdown to the response from the api
             setState(() {
-              _estTaxes = '\$${dataArray['taxes']}';
+              _estTaxes = double.parse(dataArray['taxes'] as String);
             });
 
             /* Example data:
@@ -621,7 +625,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                     child: Text(
-                      'Est. Taxes: ${_estTaxes}',
+                      'Est. Taxes: \$${formatter.format(_estTaxes)}',
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black87,
