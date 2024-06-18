@@ -21,7 +21,13 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
   String _deliveryMethodSelectedValue = 'BWI Truck';
-  String _pickupLocationSelectedValue = 'Select Pickup Location';
+  String _pickupLocationSelectedValue = 'N/A';
+  List<DropdownMenuItem<String>> _pickupLocationOptions = [
+    DropdownMenuItem<String>(
+      value: 'N/A',
+      child: Text('N/A'),
+    ),
+  ];
   final _poController = TextEditingController();
 
   List<CartProduct> productList = []; //cart products returned from API
@@ -39,13 +45,28 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       //print(selectedValue);
 
       //If the user selects customer pick up, load the Get Pickup Locations from the api and populate the bwi location dropdown. Else, mark it inactive.
-      if (selectedValue == 'Customer Pick up') {
+      if (selectedValue == 'Pick up') {
         print("Customer Pick up selected");
         //Get the pickup locations from the api and populate the bwi location dropdown
         getPickupLocations();
       } else {
         print("BWI Truck selected");
         print("Mark the bwi location dropdown inactive");
+
+        setState(() {
+          // Clear existing items
+          _pickupLocationOptions.clear();
+          _pickupLocationSelectedValue = '';
+
+          _pickupLocationOptions.add(
+            DropdownMenuItem(
+              value: 'N/A',
+              child: Text('N/A'),
+            ),
+          );
+
+          _pickupLocationSelectedValue = 'N/A';
+        });
       }
 
       setState(() {
@@ -63,8 +84,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future getPickupLocations() async {
-    print('getPickupLocations ran');
-
     final token = await ProductstoreAuth().getToken();
 
     http.Request request = http.Request('GET',
@@ -87,9 +106,47 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             // Decode the JSON response into a Dart object.
             final decodedResponse = json.decode(response.body);
 
-            //update selected value _pickupLocationSelectedValue
+            // Get the data array from the decoded object.
+            final dataArray = decodedResponse['data'] as Map<String, dynamic>;
+            //String, dynamic
+
+            //Set the Pickup Location Options dropdown to the response from the api
+            setState(() {
+              // Clear existing items
+              _pickupLocationOptions.clear();
+              _pickupLocationSelectedValue = '';
+
+              _pickupLocationOptions.add(
+                DropdownMenuItem(
+                  value: 'Select Pickup Location',
+                  child: Text('Select Pickup Location'),
+                ),
+              );
+
+              // Add dropdown options from the data array
+              dataArray.forEach((key, value) {
+                _pickupLocationOptions.add(
+                  DropdownMenuItem(
+                    value: key,
+                    child: Text(value),
+                  ),
+                );
+              });
+
+              /* Manual for testing
+              _pickupLocationOptions.add(
+                DropdownMenuItem(
+                  value: '19',
+                  child: Text('Atlanta Branch - Norcross, GA'),
+                ),
+              );
+              */
+
+              _pickupLocationSelectedValue = 'Select Pickup Location';
+            });
 
             /*
+            Example data
                         {
               "data": {
                 "13": "Greenville\/Spartanburg Div - Greer, SC",
@@ -97,16 +154,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               }
             }
             */
-
-            //final dataArray = decodedResponse['data'] as List<
-
-            //print('decodedResponse');
-            //print(decodedResponse);
-
-            // Get the data array from the decoded object.
-            //final dataArray = decodedResponse['data'] as List<dynamic>;
-            //print('dataArray');
-            //print(dataArray);
 
             return null;
           } else {
@@ -222,7 +269,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       };
 
       //if ship method is customer pick up, add the bwi location to the data
-      if (_order.deliveryMethod == 'Customer Pick up') {
+      if (_order.deliveryMethod == 'Pick up') {
         newData['pickup_location'] = _order.bwiLocation;
       }
 
@@ -384,7 +431,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   child: Text('BWI Truck'), value: 'BWI Truck'),
                               DropdownMenuItem<String>(
                                   child: Text('Customer Pick up'),
-                                  value: 'Customer Pick up'),
+                                  value: 'Pick up'),
                             ],
                             onChanged: deliveryMethodCallback,
                             value: _deliveryMethodSelectedValue),
@@ -407,11 +454,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             style:
                                 TextStyle(color: Colors.black87, fontSize: 16),
                             isExpanded: true,
-                            items: const [
-                              DropdownMenuItem<String>(
-                                  child: Text('Select Pickup Location'),
-                                  value: 'Select Pickup Location'),
-                            ],
+                            items: _pickupLocationOptions,
                             onChanged: pickupLocationCallback,
                             value: _pickupLocationSelectedValue),
                         SizedBox(height: 15.0),
