@@ -103,14 +103,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
   }
 
-/*
-  Future calcOrderTotal() async {
-    setState(() {
-      _orderTotal = _subtotal + _estTaxes;
-    });
-  }
-  */
-
   Future getTaxes() async {
     final token = await ProductstoreAuth().getToken();
 
@@ -449,21 +441,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     super.initState();
 
     getDeliveryMethods();
-    getTaxes();
 
     getProducts("").then((ApiProductFromServer) {
       if (ApiProductFromServer != null) {
-        setState(() {
-          productList = ApiProductFromServer;
-          //print(productList);
-          //_totalResults = productList.length;
+        getTaxes().then((value) {
+          //print("The Taxes: $_estTaxes");
 
-          //Products json contain the subtotal I need to calculate the order total
-          //_orderTotal = _subtotal + _estTaxes;
-          //calcOrderTotal();
-        });
+          //Now that we have the subtotal from getProducts and taxes, update variables and set state
+          setState(() {
+            productList = ApiProductFromServer;
+            _orderTotal = _subtotal + _estTaxes;
+          });
+        }); //end getTaxes then
       }
-    });
+    }); //end getProducts then
   }
 
   @override
@@ -608,7 +599,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                     child: Text(
-                      _estTaxes != 0.0
+                      _subtotal != 0.0
                           ? 'Subtotal: \$${formatter.format(_subtotal)}'
                           : 'Subtotal: Loading...',
                       style: TextStyle(
