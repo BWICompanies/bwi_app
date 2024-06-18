@@ -10,7 +10,7 @@ import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + Api
 //import '../data.dart';
 import '../data/cartproduct.dart';
 import '../data/order.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart'; //for number formatting
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -21,8 +21,12 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
+  //var _truckEligibleSales = "";
+  double _subtotal = 0.0;
   double _estTaxes = 0.0;
+  double _orderTotal = 0.0; //doubles reduce redudant zeros
   NumberFormat formatter = NumberFormat('0.00');
+  //to show redudant zeros use this. ie. formatter.format(_estTaxes)
 
   List<DropdownMenuItem<String>> _deliveryOptions = [
     DropdownMenuItem<String>(
@@ -46,10 +50,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final _poController = TextEditingController();
 
   List<CartProduct> productList = []; //cart products returned from API
-  var _subtotal = "";
-  var _truckEligibleSales = "";
-  dynamic _vendorMinimums = null;
-
   final _formKey = GlobalKey<FormState>();
   Order _order = Order(); //create an instance of the Order class
 
@@ -102,6 +102,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       });
     }
   }
+
+/*
+  Future calcOrderTotal() async {
+    setState(() {
+      _orderTotal = _subtotal + _estTaxes;
+    });
+  }
+  */
 
   Future getTaxes() async {
     final token = await ProductstoreAuth().getToken();
@@ -337,26 +345,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             // Parse the JSON string into a Map
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
-            _subtotal = jsonMap['subtotal'].toString();
-            //print(_subtotal);
-
-            //For BWI Truck Minimum (BON51012 is a good example of a product that will count)
-            _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
-
-            //If vendormin is a map set the variable as map. If a list, set as a list. Else set as null.
-            if (jsonMap['vendorMinimums'] is Map<String, dynamic>) {
-              _vendorMinimums =
-                  jsonMap['vendorMinimums'] as Map<String, dynamic>;
-            } else if (jsonMap['vendorMinimums'] is List<dynamic>) {
-              _vendorMinimums = jsonMap['vendorMinimums'] as List<dynamic>;
-
-              //Treat [] as null
-              if (_vendorMinimums.length == 0) {
-                _vendorMinimums = null;
-              }
-            } else {
-              _vendorMinimums = null;
-            }
+            _subtotal = double.parse(jsonMap['subtotal'].toString());
 
             return list;
           } else {
@@ -468,6 +457,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           productList = ApiProductFromServer;
           //print(productList);
           //_totalResults = productList.length;
+
+          //Products json contain the subtotal I need to calculate the order total
+          //_orderTotal = _subtotal + _estTaxes;
+          //calcOrderTotal();
         });
       }
     });
@@ -615,7 +608,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                     child: Text(
-                      'Subtotal: \$${_subtotal}',
+                      _estTaxes != 0.0
+                          ? 'Subtotal: \$${formatter.format(_subtotal)}'
+                          : 'Subtotal: Loading...',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                    child: Text(
+                      _estTaxes != 0.0
+                          ? 'Est. Taxes: \$${formatter.format(_estTaxes)}'
+                          : 'Est. Taxes: Loading...',
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black87,
@@ -625,9 +632,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
                     child: Text(
-                      _estTaxes != 0.0
-                          ? 'Est. Taxes: \$${formatter.format(_estTaxes)}'
-                          : 'Est. Taxes: Loading...',
+                      'Order Total: \$${formatter.format(_orderTotal)}',
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black87,
