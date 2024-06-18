@@ -20,14 +20,26 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
-  String _deliveryMethodSelectedValue = 'BWI Truck';
-  String _pickupLocationSelectedValue = 'N/A';
+
+  List<DropdownMenuItem<String>> _deliveryOptions = [
+    DropdownMenuItem<String>(
+      value: '',
+      child: Text('Select Delivery Method'),
+    ),
+  ];
+
+  String _deliveryMethodSelectedValue = '';
+
+  //Only load options if the delivery method is customer pick up
   List<DropdownMenuItem<String>> _pickupLocationOptions = [
     DropdownMenuItem<String>(
       value: 'N/A',
       child: Text('N/A'),
     ),
   ];
+
+  String _pickupLocationSelectedValue = 'N/A';
+
   final _poController = TextEditingController();
 
   List<CartProduct> productList = []; //cart products returned from API
@@ -42,17 +54,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void deliveryMethodCallback(String? selectedValue) {
     if (selectedValue is String) {
-      //print(selectedValue);
+      print(selectedValue);
 
       //If the user selects customer pick up, load the Get Pickup Locations from the api and populate the bwi location dropdown. Else, mark it inactive.
-      if (selectedValue == 'Pick up') {
-        print("Customer Pick up selected");
+      if (selectedValue == 'PICK UP') {
         //Get the pickup locations from the api and populate the bwi location dropdown
         getPickupLocations();
-      } else {
-        print("BWI Truck selected");
-        print("Mark the bwi location dropdown inactive");
 
+        setState(() {
+          _deliveryMethodSelectedValue = selectedValue;
+        });
+      } else {
+        //print("Mark the bwi location dropdown inactive");
+
+        //Reset the pickup location dropdown to N/A
         setState(() {
           // Clear existing items
           _pickupLocationOptions.clear();
@@ -80,6 +95,76 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       setState(() {
         _pickupLocationSelectedValue = selectedValue;
       });
+    }
+  }
+
+  Future getDeliveryMethods() async {
+    final token = await ProductstoreAuth().getToken();
+
+    http.Request request = http.Request('GET',
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.deliveryMethodsEndpoint));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response != null) {
+          //print(response.statusCode);
+
+          //Parse response
+          if (response.statusCode == 200) {
+            // Decode the JSON response into a Dart object.
+            final decodedResponse = json.decode(response.body);
+
+            // Get the data array from the decoded object.
+            final dataArray = decodedResponse['data'] as Map<String, dynamic>;
+            //String, dynamic
+
+            //Set the Pickup Location Options dropdown to the response from the api
+            setState(() {
+              // Clear existing items
+              //_deliveryOptions.clear();
+              //_deliveryMethodSelectedValue = '';
+
+              // Add dropdown options from the data array
+              dataArray.forEach((key, value) {
+                _deliveryOptions.add(
+                  DropdownMenuItem(
+                    value: key,
+                    child: Text(value),
+                  ),
+                );
+              });
+
+              //_deliveryMethodSelectedValue = 'Select Pickup Location';
+            });
+
+            /* Example data:
+            {
+              "data": {
+                "OUR TRUCK": "BWI TRUCK",
+                "PICK UP": "CUSTOMER PICK UP"
+              }
+            }
+            */
+
+            return null;
+          } else {
+            return null;
+          }
+        } else {
+          throw Exception('Error');
+        }
+      } else {
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
@@ -118,7 +203,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
               _pickupLocationOptions.add(
                 DropdownMenuItem(
-                  value: 'Select Pickup Location',
+                  value: '',
                   child: Text('Select Pickup Location'),
                 ),
               );
@@ -133,16 +218,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 );
               });
 
-              /* Manual for testing
-              _pickupLocationOptions.add(
-                DropdownMenuItem(
-                  value: '19',
-                  child: Text('Atlanta Branch - Norcross, GA'),
-                ),
-              );
-              */
-
-              _pickupLocationSelectedValue = 'Select Pickup Location';
+              _pickupLocationSelectedValue = '';
             });
 
             /*
@@ -265,15 +341,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         'order_type': "CART",
         'ship_method': _order.deliveryMethod,
         'po_number': _order.poNumber,
-        // Add other keys and values as needed
+        // Add other keys and values as needed. There are columns in db for TAX AND FREIGHT but api doesnt allow submit becuase we do not persist that info.
       };
 
       //if ship method is customer pick up, add the bwi location to the data
-      if (_order.deliveryMethod == 'Pick up') {
+      if (_order.deliveryMethod == 'PICK UP') {
         newData['pickup_location'] = _order.bwiLocation;
       }
 
-      print(json.encode(newData));
+      //print(json.encode(newData));
+      //{"order_type":"CART","ship_method":"PICK UP","po_number":"","pickup_location":"13"}
 
       // Encode the new data as JSON and set it as the request body
       request.body = json.encode(newData);
@@ -321,6 +398,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   //On wiget ini, getProducts function returns a future object and uses the then method to add a callback to update the list variable.
   void initState() {
     super.initState();
+
+    getDeliveryMethods();
+
     getProducts("").then((ApiProductFromServer) {
       if (ApiProductFromServer != null) {
         setState(() {
@@ -408,55 +488,61 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                         SizedBox(height: 15.0),
                         DropdownButtonFormField(
-                            //iconSize: 24,
-                            decoration: InputDecoration(
-                              labelText: 'Delivery Method',
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 12),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.black38),
-                                //width: 2.0
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.black38),
-                              ),
+                          //iconSize: 24,
+                          decoration: InputDecoration(
+                            labelText: 'Delivery Method',
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 12),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                              //width: 2.0
                             ),
-                            style:
-                                TextStyle(color: Colors.black87, fontSize: 16),
-                            isExpanded: true,
-                            items: const [
-                              DropdownMenuItem<String>(
-                                  child: Text('BWI Truck'), value: 'BWI Truck'),
-                              DropdownMenuItem<String>(
-                                  child: Text('Customer Pick up'),
-                                  value: 'Pick up'),
-                            ],
-                            onChanged: deliveryMethodCallback,
-                            value: _deliveryMethodSelectedValue),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                            ),
+                          ),
+                          style: TextStyle(color: Colors.black87, fontSize: 16),
+                          isExpanded: true,
+                          items: _deliveryOptions,
+                          onChanged: deliveryMethodCallback,
+                          value: _deliveryMethodSelectedValue,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select an option.';
+                            }
+                            return null;
+                          },
+                        ),
                         SizedBox(height: 15.0),
                         DropdownButtonFormField(
-                            decoration: InputDecoration(
-                              labelText: 'BWI Location (Pickup Only)',
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 12),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.black38),
-                                //width: 2.0
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                borderSide: BorderSide(color: Colors.black38),
-                              ),
+                          decoration: InputDecoration(
+                            labelText: 'BWI Location (Pickup Only)',
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 5, horizontal: 12),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                              //width: 2.0
                             ),
-                            style:
-                                TextStyle(color: Colors.black87, fontSize: 16),
-                            isExpanded: true,
-                            items: _pickupLocationOptions,
-                            onChanged: pickupLocationCallback,
-                            value: _pickupLocationSelectedValue),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.black38),
+                            ),
+                          ),
+                          style: TextStyle(color: Colors.black87, fontSize: 16),
+                          isExpanded: true,
+                          items: _pickupLocationOptions,
+                          onChanged: pickupLocationCallback,
+                          value: _pickupLocationSelectedValue,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select an option.';
+                            }
+                            return null;
+                          },
+                        ),
                         SizedBox(height: 15.0),
                       ],
                     ),
