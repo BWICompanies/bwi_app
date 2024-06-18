@@ -20,6 +20,7 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
+  String _estTaxes = 'loading...';
 
   List<DropdownMenuItem<String>> _deliveryOptions = [
     DropdownMenuItem<String>(
@@ -95,6 +96,61 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       setState(() {
         _pickupLocationSelectedValue = selectedValue;
       });
+    }
+  }
+
+  Future getTaxes() async {
+    final token = await ProductstoreAuth().getToken();
+
+    http.Request request = http.Request(
+        'GET', Uri.parse(ApiConstants.baseUrl + ApiConstants.taxesEndpoint));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response != null) {
+          //print(response.statusCode);
+
+          //Parse response
+          if (response.statusCode == 200) {
+            // Decode the JSON response into a Dart object.
+            final decodedResponse = json.decode(response.body);
+
+            // Get the data array from the decoded object.
+            final dataArray = decodedResponse['data'] as Map<String, dynamic>;
+            //String, dynamic
+
+            //Set the Pickup Location Options dropdown to the response from the api
+            setState(() {
+              _estTaxes = '\$${dataArray['taxes']}';
+            });
+
+            /* Example data:
+            {
+              "data": {
+                "taxes": "1.52"
+              }f
+            }
+            */
+
+            return null;
+          } else {
+            return null;
+          }
+        } else {
+          throw Exception('Error');
+        }
+      } else {
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
@@ -400,6 +456,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     super.initState();
 
     getDeliveryMethods();
+    getTaxes();
 
     getProducts("").then((ApiProductFromServer) {
       if (ApiProductFromServer != null) {
@@ -552,9 +609,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           fontSize: 16, fontWeight: FontWeight.bold)),
                   Divider(),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                     child: Text(
                       'Subtotal: \$${_subtotal}',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                    child: Text(
+                      'Est. Taxes: ${_estTaxes}',
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black87,
