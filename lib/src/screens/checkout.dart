@@ -21,13 +21,19 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
-  //var _truckEligibleSales = "";
   double _subtotal = 0.0;
   double _estTaxes = 0.0;
   double _orderTotal = 0.0; //doubles reduce redudant zeros
   NumberFormat formatter = NumberFormat('0.00');
   //to show redudant zeros use this. ie. formatter.format(_estTaxes)
 
+  final _poController = TextEditingController();
+
+  List<CartProduct> productList = []; //cart products returned from API
+  final _formKey = GlobalKey<FormState>();
+  Order _order = Order(); //create an instance of the Order class
+
+  //Default drop down options
   List<DropdownMenuItem<String>> _deliveryOptions = [
     DropdownMenuItem<String>(
       value: '',
@@ -37,7 +43,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   String _deliveryMethodSelectedValue = '';
 
-  //Only load options if the delivery method is customer pick up
+  //Set default. Only load options if the delivery method is customer pick up
   List<DropdownMenuItem<String>> _pickupLocationOptions = [
     DropdownMenuItem<String>(
       value: 'N/A',
@@ -46,16 +52,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   ];
 
   String _pickupLocationSelectedValue = 'N/A';
-
-  final _poController = TextEditingController();
-
-  List<CartProduct> productList = []; //cart products returned from API
-  final _formKey = GlobalKey<FormState>();
-  Order _order = Order(); //create an instance of the Order class
-
-  //Create a NumberFormat instance with two decimal places
-  //NumberFormat? formatter;  // Define as nullable
-  //formatter = NumberFormat.decimalPattern('en_US').decimalDigits(2);
 
   void deliveryMethodCallback(String? selectedValue) {
     if (selectedValue is String) {
