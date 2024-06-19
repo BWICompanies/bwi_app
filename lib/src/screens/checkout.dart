@@ -22,9 +22,11 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
   double _subtotal = 0.0;
+  double? _estShipping;
   double _estTaxes = 0.0;
   double _orderTotal = 0.0; //doubles reduce redudant zeros
   NumberFormat formatter = NumberFormat('0.00');
+  int _loading = 0; //0 = not loading, 1 = loading
   //to show redudant zeros use this. ie. formatter.format(_estTaxes)
 
   final _poController = TextEditingController();
@@ -55,8 +57,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   void deliveryMethodCallback(String? selectedValue) {
     if (selectedValue is String) {
-      print(selectedValue);
-
       //If the user selects customer pick up, load the Get Pickup Locations from the api and populate the bwi location dropdown. Else, mark it inactive.
       if (selectedValue == 'PICK UP') {
         //Get the pickup locations from the api and populate the bwi location dropdown
@@ -96,6 +96,75 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       setState(() {
         _pickupLocationSelectedValue = selectedValue;
       });
+    }
+  }
+
+  Future getShipping() async {
+    final token = await ProductstoreAuth().getToken();
+
+    http.Request request = http.Request(
+        'GET', Uri.parse(ApiConstants.baseUrl + ApiConstants.shippingEndpoint));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response != null) {
+          //print(response.statusCode);
+
+          //Parse response
+          if (response.statusCode == 200) {
+            // Decode the JSON response into a Dart object.
+            final decodedResponse = json.decode(response.body);
+
+            // Get the data array from the decoded object.
+            final dataArray = decodedResponse['data'] as Map<String, dynamic>;
+            //String, dynamic
+
+            //print(dataArray);
+
+            //Set the Pickup Location Options dropdown to the response from the api
+            setState(() {
+              //_estShipping = double.parse(dataArray['freight'] as String);
+              //_estShipping =
+              //double.tryParse(dataArray['freight'] ?? '') ?? 0.0;
+              if (dataArray['freight'] != null) {
+                try {
+                  _estShipping = double.parse(dataArray['freight'] as String);
+                } on FormatException {
+                  //print("Failed to parse freight as double");
+                }
+              } else {
+                //print('Freight is null');
+                _estShipping = 0.0;
+              }
+            });
+
+            /* Example data:
+            {
+              "data": {
+                "freight": null
+              }
+            }
+            */
+
+            return null;
+          } else {
+            return null;
+          }
+        } else {
+          throw Exception('Error');
+        }
+      } else {
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 
@@ -443,11 +512,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         getTaxes().then((value) {
           //print("The Taxes: $_estTaxes");
 
-          //Now that we have the subtotal from getProducts and taxes, update variables and set state
-          setState(() {
-            productList = ApiProductFromServer;
-            _orderTotal = _subtotal + _estTaxes;
-          });
+          getShipping().then((value) {
+            //Now that we have the subtotal from getProducts and shipping and taxes, update variables and set state
+            setState(() {
+              productList = ApiProductFromServer;
+              _orderTotal = _subtotal + (_estShipping ?? 0) + (_estTaxes ?? 0);
+            });
+          }); //end getShipping then
         }); //end getTaxes then
       }
     }); //end getProducts then
@@ -598,6 +669,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       _subtotal != 0.0
                           ? 'Subtotal: \$${formatter.format(_subtotal)}'
                           : 'Subtotal: Loading...',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black87,
+                          fontWeight: FontWeight.normal),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
+                    child: Text(
+                      _estShipping != null
+                          ? 'Est. Shipping: \$${formatter.format(_estShipping)}'
+                          : 'Est. Shipping: Loading...',
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black87,
