@@ -80,7 +80,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
+  //Add to Cart button runs this to add the product to the cart
   Future<void> _updateData(String? prodID, String? uom, String? qty) async {
+    print(prodID);
+    print(uom);
+    print(qty);
+
     //print(prodID.toString());
     //print(qty);
 
@@ -90,9 +95,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       // Create a POST request with the URL
       http.Request request = http.Request(
           'POST', Uri.parse(ApiConstants.baseUrl + ApiConstants.cartEndpoint));
-
-      //print(ApiConstants.baseUrl + ApiConstants.cartEndpoint);
-      //getting a status code 404 for https://ct.bwicompanies.com/api/v1/cart
 
       request.headers['Authorization'] = 'Bearer $token';
       request.headers['Content-Type'] = 'application/json'; //Format sending
@@ -306,19 +308,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         _updateData(
-                                            "32244", "EA", "1"); //MDPDP200AELP
-                                        //hard code for now
-                                        //if (value.isNotEmpty) {
-                                        // Handle button press for ElevatedButton
-                                        /*
-                                          _updateData(
-                                              selectedProduct!.uomData[uomKey]
-                                                  ['item_number'],
-                                              selectedProduct!.uomData[uomKey]
-                                                  ['uom'],
-                                              value);
-                                              */
-                                        //}
+                                            selectedProduct!.item_number,
+                                            uomKey,
+                                            _controllers[index]
+                                                .text); //value of this text field
+                                        //Can hard code for testing like "32244", "EA", "1"
                                       },
                                       style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.green[700]),

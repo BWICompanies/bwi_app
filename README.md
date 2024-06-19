@@ -1,3 +1,5 @@
+# Not all users can login. Must register. joer80@gmail.com is my test account.
+
 # Keyboard Shortcuts
 stless make a stateless widget
 stful make a stateful widget
