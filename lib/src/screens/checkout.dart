@@ -23,7 +23,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   String _checkoutVar = '';
   double _subtotal = 0.0;
   double? _estShipping;
-  double _estTaxes = 0.0;
+  double? _estTaxes;
   double _orderTotal = 0.0; //doubles reduce redudant zeros
   NumberFormat formatter = NumberFormat('0.00');
   int _loading = 0; //0 = not loading, 1 = loading
@@ -197,7 +197,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
             //Set the Pickup Location Options dropdown to the response from the api
             setState(() {
-              _estTaxes = double.parse(dataArray['taxes'] as String);
+              //_estTaxes = double.parse(dataArray['taxes'] as String);
+              if (dataArray['taxes'] != null) {
+                try {
+                  _estTaxes = double.parse(dataArray['taxes'] as String);
+                } on FormatException {
+                  //print("Failed to parse taxes as double");
+                }
+              } else {
+                //print('Taxes null');
+                _estTaxes = 0.0;
+              }
             });
 
             /* Example data:
@@ -690,7 +700,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
                     child: Text(
-                      _estTaxes != 0.0
+                      _estTaxes != null
                           ? 'Est. Taxes: \$${formatter.format(_estTaxes)}'
                           : 'Est. Taxes: Loading...',
                       style: TextStyle(
