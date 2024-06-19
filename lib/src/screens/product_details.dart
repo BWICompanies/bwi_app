@@ -305,7 +305,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         .infinity, // Set the width to fill the parent's width
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        _updateData("MDPDP200AELP", "EA", "1");
+                                        _updateData(
+                                            "32244", "EA", "1"); //MDPDP200AELP
                                         //hard code for now
                                         //if (value.isNotEmpty) {
                                         // Handle button press for ElevatedButton

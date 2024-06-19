@@ -62,18 +62,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         //Get the pickup locations from the api and populate the bwi location dropdown
         getPickupLocations();
 
+        /*
         setState(() {
           _deliveryMethodSelectedValue = selectedValue;
-        });
+        }); */
       } else {
+        //Other is going to be Our Truck, Walk in, UOS or Fedex, etc.
         //print("Mark the bwi location dropdown inactive");
 
         //Reset the pickup location dropdown to N/A
         setState(() {
-          // Clear existing items
+          // Clear existing items from locations dropdown
           _pickupLocationOptions.clear();
           _pickupLocationSelectedValue = '';
 
+          // Add a default option to the pickup location dropdown
           _pickupLocationOptions.add(
             DropdownMenuItem(
               value: 'N/A',
@@ -85,10 +88,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         });
       }
 
+      //Update the delivery method selected value
       setState(() {
         _deliveryMethodSelectedValue = selectedValue;
       });
-    }
+
+      //Recalc shipping based on new _deliveryMethodSelectedValue
+      getShipping().then((value) {
+        //Recalc order total
+        setState(() {
+          _orderTotal = _subtotal + (_estShipping ?? 0) + (_estTaxes ?? 0);
+        });
+      });
+    } //end if the value is a string
   }
 
   void pickupLocationCallback(String? selectedValue) {
@@ -102,8 +114,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Future getShipping() async {
     final token = await ProductstoreAuth().getToken();
 
+    //print(token);
+    //print('getShipping ran');
+
+    //Hard coded for now but needs to pull Delivery Method Value
     http.Request request = http.Request(
-        'GET', Uri.parse(ApiConstants.baseUrl + ApiConstants.shippingEndpoint));
+        'GET',
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.shippingEndpoint +
+            "?ship_via=$_deliveryMethodSelectedValue"));
+
+    //print(_deliveryMethodSelectedValue);
 
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'application/json'; //Format sending
@@ -144,6 +165,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 _estShipping = 0.0;
               }
             });
+
+            //print(_estShipping);
 
             /* Example data:
             {
