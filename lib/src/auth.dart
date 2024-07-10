@@ -157,26 +157,27 @@ class ProductstoreAuth extends ChangeNotifier {
       await prefs.setString(
           'aac_name', jsonData['data']['active_account_customer']['name']);
       await prefs.setString('aac_shiptoname',
-          jsonData['data']['active_account_customer']['name']);
+          jsonData['data']['active_account_customer']['shiptoname']);
       await prefs.setString('aac_salesperson',
           jsonData['data']['active_account_customer']['salesperson']);
       await prefs.setString('aac_salespname',
           jsonData['data']['active_account_customer']['salespname']);
-      await prefs.setString('aac_accountnum',
+      await prefs.setString('aac_porequired',
           jsonData['data']['active_account_customer']['porequired']);
-      await prefs.setString('aac_accountnum',
+      await prefs.setString('aac_totaldue',
           jsonData['data']['active_account_customer']['totaldue']);
-      await prefs.setString('aac_accountnum',
+      await prefs.setString('aac_creditlimit',
           jsonData['data']['active_account_customer']['creditlimit']);
-      await prefs.setString('aac_accountnum',
+      await prefs.setString('aac_markettype',
           jsonData['data']['active_account_customer']['markettype']);
-      await prefs.setString('aac_accountnum',
+      await prefs.setString('aac_mkttypedesc',
           jsonData['data']['active_account_customer']['mkttypedesc']);
-      await prefs.setString('aac_accountnum',
+      await prefs.setString('aac_payterms',
           jsonData['data']['active_account_customer']['payterms']);
-      await prefs.setString('aac_accountnum',
+      await prefs.setString('aac_contractonlyitems',
           jsonData['data']['active_account_customer']['contractonlyitems']);
 
+      /*
       await prefs.setString(
           'c_accountnum', jsonData['data']['customer']['accountnum']);
       await prefs.setString('c_name', jsonData['data']['customer']['name']);
@@ -196,6 +197,7 @@ class ProductstoreAuth extends ChangeNotifier {
           'c_payterms', jsonData['data']['customer']['payterms']);
       await prefs.setString('c_contractonlyitems',
           jsonData['data']['customer']['contractonlyitems']);
+      */
 
       //There is an accounts array but this doesnt support saving arrays.
       //Might need to save as a string for later parsing or save as a list of strings or get it on the page that needs it.

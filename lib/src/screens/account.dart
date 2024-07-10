@@ -18,9 +18,9 @@ class _AccountScreenState extends State<AccountScreen> {
   String accountnum = '';
   String name = '';
   String aac_salespname = '';
-  String payterms = '';
-  String creditlimit = '';
-  String totaldue = '';
+  String aac_payterms = '';
+  String aac_creditlimit = '';
+  String aac_totaldue = '';
 
   String bill_to_address = '';
   String bill_to_city = '';
@@ -49,9 +49,11 @@ class _AccountScreenState extends State<AccountScreen> {
       accountnum = prefs.getString('accountnum') ?? '';
       name = prefs.getString('name') ?? '';
       aac_salespname = prefs.getString('aac_salespname') ?? '';
-      payterms = prefs.getString('payterms') ?? '';
-      creditlimit = prefs.getString('creditlimit') ?? '';
-      totaldue = prefs.getString('totaldue') ?? '';
+      aac_payterms = prefs.getString('aac_payterms') ?? '';
+      aac_creditlimit = prefs.getString('aac_creditlimit') ?? '';
+      aac_totaldue = prefs.getString('aac_totaldue') ?? '';
+
+      bill_to_address = prefs.getString('bill_to_address') ?? '';
     });
   }
 
@@ -127,7 +129,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
                     child: RichText(
                       text: TextSpan(
                         children: [
@@ -141,6 +143,102 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                           TextSpan(
                             text: aac_salespname,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Terms: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: aac_payterms,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Credit Limit: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: aac_creditlimit,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'A/R Balance: ',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: aac_totaldue,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text('Bill-To Address',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'address here',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black87,
