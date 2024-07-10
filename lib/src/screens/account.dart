@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../routing.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import '../data.dart';
+import '../auth.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -13,8 +14,25 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  final String title = 'Account';
-  String savedString = '';
+  final String title = 'My Account';
+  String accountnum = '';
+  String name = '';
+  String aac_salespname = '';
+  String payterms = '';
+  String creditlimit = '';
+  String totaldue = '';
+
+  String bill_to_address = '';
+  String bill_to_city = '';
+  String bill_to_state = '';
+  String bill_to_zip5 = '';
+  String bill_to_country = '';
+
+  String ship_to_address = '';
+  String ship_to_city = '';
+  String ship_to_state = '';
+  String ship_to_zip5 = '';
+  String ship_to_country = '';
 
   //const AccountScreen({super.key});
 
@@ -28,7 +46,12 @@ class _AccountScreenState extends State<AccountScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      savedString = prefs.getString('token') ?? '';
+      accountnum = prefs.getString('accountnum') ?? '';
+      name = prefs.getString('name') ?? '';
+      aac_salespname = prefs.getString('aac_salespname') ?? '';
+      payterms = prefs.getString('payterms') ?? '';
+      creditlimit = prefs.getString('creditlimit') ?? '';
+      totaldue = prefs.getString('totaldue') ?? '';
     });
   }
 
@@ -67,7 +90,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: savedString,
+                            text: accountnum,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black87,
@@ -92,7 +115,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: 'A&W SHRUBS LLC',
+                            text: name,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black87,
@@ -117,7 +140,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: 'House Accounts',
+                            text: aac_salespname,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black87,
@@ -128,6 +151,20 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                     ),
                   ),
+                  ElevatedButton(
+                      onPressed: () {
+                        ProductstoreAuthScope.of(context).signOut();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context)
+                            .colorScheme
+                            .primary, // Set the background color
+                        foregroundColor:
+                            Colors.white, // Set the text color (optional)
+                      ),
+                      child: const Text('Sign out',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold)))
                 ]),
           ),
         ),
