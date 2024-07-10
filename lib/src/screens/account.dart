@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:async'; //optional but helps with debugging
+import 'dart:convert'; //to and from json
 import 'package:shared_preferences/shared_preferences.dart';
 import '../routing.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
@@ -16,8 +18,12 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   final String title = 'My Account';
+  NumberFormat formatter = NumberFormat('0.00');
+
+  //Vars populated from shared preferences using Authenticated User API endpoint
   String accountnum = '';
   String name = '';
+  String aac_accountnum = '';
   String aac_salespname = '';
   String aac_payterms = '';
   String aac_creditlimit = '';
@@ -25,6 +31,7 @@ class _AccountScreenState extends State<AccountScreen> {
   String aac_totaldue = '';
   double aac_totaldue_dbl = 0.0;
 
+  //Vars populated from hitting Customer API endpoint
   String bill_to_address = '';
   String bill_to_city = '';
   String bill_to_state = '';
@@ -37,31 +44,94 @@ class _AccountScreenState extends State<AccountScreen> {
   String ship_to_zip5 = '';
   String ship_to_country = '';
 
-  NumberFormat formatter = NumberFormat('0.00');
-
-  //const AccountScreen({super.key});
-
   @override
   void initState() {
     super.initState();
-    _getStringFromPrefs();
+    _getStringsFromPrefs();
+    _getCustomer(); //for addresses
   }
 
-  Future<void> _getStringFromPrefs() async {
+  Future<void> _getStringsFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
       accountnum = prefs.getString('accountnum') ?? '';
+      aac_accountnum = prefs.getString('aac_accountnum') ?? '';
       name = prefs.getString('name') ?? '';
       aac_salespname = prefs.getString('aac_salespname') ?? '';
       aac_payterms = prefs.getString('aac_payterms') ?? '';
-      aac_creditlimit = prefs.getString('aac_creditlimit') ?? '';
+      aac_creditlimit = prefs.getString('aac_creditlimit') ?? '0.0';
       aac_creditlimit_dbl = double.parse(aac_creditlimit);
-      aac_totaldue = prefs.getString('aac_totaldue') ?? '';
+      aac_totaldue = prefs.getString('aac_totaldue') ?? '0.0';
       aac_totaldue_dbl = double.parse(aac_totaldue);
-
-      bill_to_address = prefs.getString('bill_to_address') ?? '';
     });
+  }
+
+  Future _getCustomer() async {
+    final token = await ProductstoreAuth().getToken();
+
+    //print(token);
+    //print('getShipping ran');
+
+    //Hard coded for now but needs to pull Delivery Method Value
+    http.Request request = http.Request(
+        'GET',
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.customersEndpoint +
+            "$aac_accountnum"));
+
+    print(aac_accountnum);
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response != null) {
+          //print(response.statusCode);
+
+          //Parse response
+          if (response.statusCode == 200) {
+            // Decode the JSON response into a Dart object.
+            final decodedResponse = json.decode(response.body);
+
+            // Get the data array from the decoded object.
+            final dataArray = decodedResponse['data'] as Map<String, dynamic>;
+            //String, dynamic
+
+            //print(dataArray);
+
+            //Set the Pickup Location Options dropdown to the response from the api
+            setState(() {
+              if (dataArray['freight'] != null) {
+                try {
+                  //_estShipping = double.parse(dataArray['freight'] as String);
+                } on FormatException {
+                  //print("Failed to parse freight as double");
+                }
+              } else {
+                //print('Freight is null');
+                //_estShipping = 0.0;
+              }
+            });
+
+            return null;
+          } else {
+            return null;
+          }
+        } else {
+          throw Exception('Error');
+        }
+      } else {
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 
   @override
@@ -240,43 +310,33 @@ class _AccountScreenState extends State<AccountScreen> {
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   Divider(),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
-                    child: RichText(
-                      text: TextSpan(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
+                      child: Row(
                         children: [
-                          TextSpan(
-                            text: 'address here',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          Text("city"),
+                          Text(
+                              ", "), // Add comma and space between city and state
+                          Text("state"),
+                          Text(" "), // Add space between state and zip
+                          Text("zip"),
                         ],
-                      ),
-                    ),
-                  ),
+                      )),
                   Text('Ship-To Address',
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   Divider(),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
-                    child: RichText(
-                      text: TextSpan(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
+                      child: Row(
                         children: [
-                          TextSpan(
-                            text: 'address here',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
+                          Text("city"),
+                          Text(
+                              ", "), // Add comma and space between city and state
+                          Text("state"),
+                          Text(" "), // Add space between state and zip
+                          Text("zip"),
                         ],
-                      ),
-                    ),
-                  ),
+                      )),
                   ElevatedButton(
                       onPressed: () {
                         ProductstoreAuthScope.of(context).signOut();
