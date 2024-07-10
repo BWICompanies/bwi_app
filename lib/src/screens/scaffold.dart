@@ -30,7 +30,7 @@ class ProductstoreScaffold extends StatelessWidget {
           if (idx == 2) routeState.go('/scan');
           //if (idx == 2) routeState.go('/authors');
           if (idx == 3) routeState.go('/history');
-          if (idx == 4) routeState.go('/settings');
+          if (idx == 4) routeState.go('/account'); //settings
         },
         destinations: const [
           AdaptiveScaffoldDestination(

@@ -140,13 +140,69 @@ class ProductstoreAuth extends ChangeNotifier {
       Map<String, dynamic> jsonData = json.decode(response.body);
 
       //Persist to local storage
-      await prefs.setString('accountnum', jsonData['data']['accountnum']);
-      await prefs.setString('activeaccount', jsonData['data']['activeaccount']);
-      await prefs.setString('email', jsonData['data']['email']);
       await prefs.setInt('userid', jsonData['data']['id']);
-      await prefs.setString('username', jsonData['data']['name']);
+      await prefs.setString('name', jsonData['data']['name']);
+      await prefs.setString('accountnum', jsonData['data']['accountnum']);
+      await prefs.setString('email', jsonData['data']['email']);
+      await prefs.setString('activeaccount', jsonData['data']['activeaccount']);
+      await prefs.setString('type', jsonData['data']['type']);
+
       await prefs.setString(
           'active_account_name', jsonData['data']['active_account_name']);
+      await prefs.setString('avatar_url', jsonData['data']['avatar_url']);
+      //there is an active_account_customer array with a ton of information.
+
+      await prefs.setString('aac_accountnum',
+          jsonData['data']['active_account_customer']['accountnum']);
+      await prefs.setString(
+          'aac_name', jsonData['data']['active_account_customer']['name']);
+      await prefs.setString('aac_shiptoname',
+          jsonData['data']['active_account_customer']['name']);
+      await prefs.setString('aac_salesperson',
+          jsonData['data']['active_account_customer']['salesperson']);
+      await prefs.setString('aac_salespname',
+          jsonData['data']['active_account_customer']['salespname']);
+      await prefs.setString('aac_accountnum',
+          jsonData['data']['active_account_customer']['porequired']);
+      await prefs.setString('aac_accountnum',
+          jsonData['data']['active_account_customer']['totaldue']);
+      await prefs.setString('aac_accountnum',
+          jsonData['data']['active_account_customer']['creditlimit']);
+      await prefs.setString('aac_accountnum',
+          jsonData['data']['active_account_customer']['markettype']);
+      await prefs.setString('aac_accountnum',
+          jsonData['data']['active_account_customer']['mkttypedesc']);
+      await prefs.setString('aac_accountnum',
+          jsonData['data']['active_account_customer']['payterms']);
+      await prefs.setString('aac_accountnum',
+          jsonData['data']['active_account_customer']['contractonlyitems']);
+
+      await prefs.setString(
+          'c_accountnum', jsonData['data']['customer']['accountnum']);
+      await prefs.setString('c_name', jsonData['data']['customer']['name']);
+      await prefs.setString(
+          'c_shiptoname', jsonData['data']['customer']['shiptoname']);
+      await prefs.setString(
+          'c_salesperson', jsonData['data']['customer']['salesperson']);
+      await prefs.setString(
+          'c_salespname', jsonData['data']['customer']['salespname']);
+      await prefs.setString(
+          'c_porequired', jsonData['data']['customer']['porequired']);
+      await prefs.setString(
+          'c_totaldue', jsonData['data']['customer']['totaldue']);
+      await prefs.setString(
+          'c_creditlimit', jsonData['data']['customer']['creditlimit']);
+      await prefs.setString(
+          'c_payterms', jsonData['data']['customer']['payterms']);
+      await prefs.setString('c_contractonlyitems',
+          jsonData['data']['customer']['contractonlyitems']);
+
+      //There is an accounts array but this doesnt support saving arrays.
+      //Might need to save as a string for later parsing or save as a list of strings or get it on the page that needs it.
+      //ie. "accounts": {
+      //"EOTH076": "OTHO'S PEST MANAGEMENT",
+      //"TDAV150": "A & W SHRUBS LLC"
+      //},
     } else {
       //print('Error: ${response.statusCode}');
       throw Exception('Problem loading user data');

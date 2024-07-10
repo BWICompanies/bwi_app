@@ -59,6 +59,7 @@ class _ProductstoreState extends State<Productstore> {
         '/home',
         '/history',
         '/settings',
+        '/account',
         '/products',
         '/cart',
         //'/products/new',

@@ -8,7 +8,8 @@ import '../screens/history.dart';
 import '../screens/scan.dart';
 import '../screens/checkout.dart';
 import '../screens/cart.dart';
-import '../screens/settings.dart';
+import '../screens/settings.dart'; //not used right now
+import '../screens/account.dart';
 import '../widgets/fade_transition_page.dart';
 import 'authors.dart';
 import 'products.dart';
@@ -61,6 +62,11 @@ class ProductstoreScaffoldBody extends StatelessWidget {
           const FadeTransitionPage<void>(
             key: ValueKey('settings'),
             child: SettingsScreen(),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/account'))
+          const FadeTransitionPage<void>(
+            key: ValueKey('account'),
+            child: AccountScreen(),
           )
         else if (currentRoute.pathTemplate.startsWith('/cart'))
           const FadeTransitionPage<void>(
