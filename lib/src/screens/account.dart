@@ -5,6 +5,7 @@ import '../routing.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import '../data.dart';
 import '../auth.dart';
+import 'package:intl/intl.dart'; //for number formatting
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -20,7 +21,9 @@ class _AccountScreenState extends State<AccountScreen> {
   String aac_salespname = '';
   String aac_payterms = '';
   String aac_creditlimit = '';
+  double aac_creditlimit_dbl = 0.0;
   String aac_totaldue = '';
+  double aac_totaldue_dbl = 0.0;
 
   String bill_to_address = '';
   String bill_to_city = '';
@@ -33,6 +36,8 @@ class _AccountScreenState extends State<AccountScreen> {
   String ship_to_state = '';
   String ship_to_zip5 = '';
   String ship_to_country = '';
+
+  NumberFormat formatter = NumberFormat('0.00');
 
   //const AccountScreen({super.key});
 
@@ -51,7 +56,9 @@ class _AccountScreenState extends State<AccountScreen> {
       aac_salespname = prefs.getString('aac_salespname') ?? '';
       aac_payterms = prefs.getString('aac_payterms') ?? '';
       aac_creditlimit = prefs.getString('aac_creditlimit') ?? '';
+      aac_creditlimit_dbl = double.parse(aac_creditlimit);
       aac_totaldue = prefs.getString('aac_totaldue') ?? '';
+      aac_totaldue_dbl = double.parse(aac_totaldue);
 
       bill_to_address = prefs.getString('bill_to_address') ?? '';
     });
@@ -192,7 +199,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: aac_creditlimit,
+                            text: '\$${formatter.format(aac_creditlimit_dbl)}',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black87,
@@ -217,7 +224,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                           ),
                           TextSpan(
-                            text: aac_totaldue,
+                            text: '\$${formatter.format(aac_totaldue_dbl)}',
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black87,
@@ -229,6 +236,27 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ),
                   Text('Bill-To Address',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'address here',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Text('Ship-To Address',
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   Divider(),
