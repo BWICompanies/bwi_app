@@ -19,6 +19,16 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   final String title = 'My Account';
   NumberFormat formatter = NumberFormat('0.00');
+  final _formKey = GlobalKey<FormState>();
+  String _asSelectedValue = '';
+
+  //Default Account Selector Option
+  List<DropdownMenuItem<String>> _asOptions = [
+    DropdownMenuItem<String>(
+      value: '',
+      child: Text('Select Active Account'),
+    ),
+  ];
 
   //Vars populated from shared preferences using Authenticated User API endpoint
   String accountnum = '';
@@ -44,6 +54,15 @@ class _AccountScreenState extends State<AccountScreen> {
   String ship_to_zip5 = '';
   String ship_to_country = '';
 
+  void asCallback(String? selectedValue) {
+    print(selectedValue);
+    /*
+    setState(() {
+      _asSelectedValue = selectedValue!;
+    });
+    */
+  }
+
   @override
   void initState() {
     super.initState();
@@ -55,6 +74,7 @@ class _AccountScreenState extends State<AccountScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
+      //Variables
       accountnum = prefs.getString('accountnum') ?? '';
       aac_accountnum = prefs.getString('aac_accountnum') ?? '';
       name = prefs.getString('name') ?? '';
@@ -64,6 +84,15 @@ class _AccountScreenState extends State<AccountScreen> {
       aac_creditlimit_dbl = double.parse(aac_creditlimit);
       aac_totaldue = prefs.getString('aac_totaldue') ?? '0.0';
       aac_totaldue_dbl = double.parse(aac_totaldue);
+
+      //Dropdown
+      String _asSelectedValue = '';
+      List<DropdownMenuItem<String>> _asOptions = [
+        DropdownMenuItem<String>(
+          value: '',
+          child: Text('Select Active Account'),
+        ),
+      ];
     });
   }
 
@@ -71,9 +100,7 @@ class _AccountScreenState extends State<AccountScreen> {
     final token = await ProductstoreAuth().getToken();
 
     //print(token);
-    //print('getShipping ran');
 
-    //Hard coded for now but needs to pull Delivery Method Value
     http.Request request = http.Request(
         'GET',
         Uri.parse(ApiConstants.baseUrl +
@@ -345,6 +372,41 @@ class _AccountScreenState extends State<AccountScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
                     child: Text(ship_to_country),
+                  ),
+                  Text('Active Account',
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold)),
+                  Divider(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 14),
+                    child: DropdownButtonFormField(
+                      //iconSize: 24,
+                      decoration: InputDecoration(
+                        //labelText: 'Active Account',
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 12),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.black38),
+                          //width: 2.0
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.black38),
+                        ),
+                      ),
+                      style: TextStyle(color: Colors.black87, fontSize: 16),
+                      isExpanded: true,
+                      items: _asOptions,
+                      onChanged: asCallback,
+                      value: _asSelectedValue,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select an option.';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                   ElevatedButton(
                       onPressed: () {
