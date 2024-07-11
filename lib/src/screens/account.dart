@@ -80,8 +80,6 @@ class _AccountScreenState extends State<AccountScreen> {
             ApiConstants.customersEndpoint +
             "$aac_accountnum"));
 
-    print(aac_accountnum);
-
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'application/json'; //Format sending
     request.headers['ACCEPT'] = 'application/json'; //Format recieving
@@ -101,21 +99,28 @@ class _AccountScreenState extends State<AccountScreen> {
 
             // Get the data array from the decoded object.
             final dataArray = decodedResponse['data'] as Map<String, dynamic>;
-            //String, dynamic
 
-            //print(dataArray);
-
-            //Set the Pickup Location Options dropdown to the response from the api
             setState(() {
-              if (dataArray['freight'] != null) {
-                try {
-                  //_estShipping = double.parse(dataArray['freight'] as String);
-                } on FormatException {
-                  //print("Failed to parse freight as double");
-                }
+              //Billing
+              if (dataArray['billing_address'] != null) {
+                bill_to_address = dataArray['billing_address']['address'];
+                bill_to_city = dataArray['billing_address']['city'];
+                bill_to_state = dataArray['billing_address']['state'];
+                bill_to_zip5 = dataArray['billing_address']['zip5'];
+                bill_to_country = dataArray['billing_address']['country'];
               } else {
-                //print('Freight is null');
-                //_estShipping = 0.0;
+                //print('null');
+              }
+
+              //Shipping
+              if (dataArray['shipping_address'] != null) {
+                ship_to_address = dataArray['shipping_address']['address'];
+                ship_to_city = dataArray['shipping_address']['city'];
+                ship_to_state = dataArray['shipping_address']['state'];
+                ship_to_zip5 = dataArray['shipping_address']['zip5'];
+                ship_to_country = dataArray['shipping_address']['country'];
+              } else {
+                //print('null');
               }
             });
 
@@ -309,34 +314,38 @@ class _AccountScreenState extends State<AccountScreen> {
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   Divider(),
+                  Text(bill_to_address),
+                  Row(
+                    children: [
+                      Text(bill_to_city),
+                      Text(", "), // Add comma and space between city and state
+                      Text(bill_to_state),
+                      Text(" "), // Add space between state and zip
+                      Text(bill_to_zip5),
+                    ],
+                  ),
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
-                      child: Row(
-                        children: [
-                          Text("city"),
-                          Text(
-                              ", "), // Add comma and space between city and state
-                          Text("state"),
-                          Text(" "), // Add space between state and zip
-                          Text("zip"),
-                        ],
-                      )),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
+                    child: Text(bill_to_country),
+                  ),
                   Text('Ship-To Address',
                       style: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
                   Divider(),
+                  Text(ship_to_address),
+                  Row(
+                    children: [
+                      Text(ship_to_city),
+                      Text(", "), // Add comma and space between city and state
+                      Text(ship_to_state),
+                      Text(" "), // Add space between state and zip
+                      Text(ship_to_zip5),
+                    ],
+                  ),
                   Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
-                      child: Row(
-                        children: [
-                          Text("city"),
-                          Text(
-                              ", "), // Add comma and space between city and state
-                          Text("state"),
-                          Text(" "), // Add space between state and zip
-                          Text("zip"),
-                        ],
-                      )),
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 17),
+                    child: Text(ship_to_country),
+                  ),
                   ElevatedButton(
                       onPressed: () {
                         ProductstoreAuthScope.of(context).signOut();
