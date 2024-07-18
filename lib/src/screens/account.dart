@@ -54,6 +54,7 @@ class _AccountScreenState extends State<AccountScreen> {
   String ship_to_zip5 = '';
   String ship_to_country = '';
 
+  //When Active acount dropdown changes, update the active account variable in the database.
   void asCallback(String? selectedValue) {
     print(selectedValue);
     /*
@@ -85,14 +86,22 @@ class _AccountScreenState extends State<AccountScreen> {
       aac_totaldue = prefs.getString('aac_totaldue') ?? '0.0';
       aac_totaldue_dbl = double.parse(aac_totaldue);
 
+      print(aac_accountnum);
+
       //Dropdown
+      /* I dont think this works
       String _asSelectedValue = '';
       List<DropdownMenuItem<String>> _asOptions = [
         DropdownMenuItem<String>(
           value: '',
           child: Text('Select Active Account'),
         ),
+        DropdownMenuItem<String>(
+          value: aac_accountnum,
+          child: Text("$aac_accountnum (Active)"),
+        ),
       ];
+      */
     });
   }
 
