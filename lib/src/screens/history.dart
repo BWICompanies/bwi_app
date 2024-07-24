@@ -55,9 +55,59 @@ class _HistoryScreenState extends State<HistoryScreen> {
           body: TabBarView(
             children: [
               // Content for the first tab
-              Text('Content of Tab 1'),
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //Text('Content of Tab 1'),
+                      Text('Order# 18575225',
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold)),
+                      Divider(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
+                        child: RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Date: ',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "2024-07-15",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ), //textspan end
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
               // Content for the second tab
-              Text('Content of Tab 2'),
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Content of Tab 2'),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),
