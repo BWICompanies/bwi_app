@@ -18,9 +18,6 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final String title = 'History';
-  //NumberFormat formatter = NumberFormat('0.00');
-  //final _formKey = GlobalKey<FormState>();
-  //String _asSelectedValue = '';
 
   @override
   void initState() {
@@ -28,67 +25,41 @@ class _HistoryScreenState extends State<HistoryScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          titleTextStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary,
-            fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
+  Widget build(BuildContext context) => DefaultTabController(
+        length: 2, // Adjust the number of tabs based on your needs
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(title),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            titleTextStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
+            ),
+            bottom: TabBar(
+              labelColor: Colors.white,
+              unselectedLabelColor:
+                  Colors.white70, // Lighter shade for unselected tabs
+              indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.tertiary, width: 4.0),
+                insets: EdgeInsets.fromLTRB(
+                    0.0, 0.0, 0.0, 2.0), // Adjust this to move the underline up
+              ),
+              //indicatorColor: Colors.green[900],
+              tabs: [
+                Tab(text: 'Open Orders'),
+                Tab(text: 'Purchase History'),
+              ],
+            ),
           ),
-        ),
-        //body: Text('test'),
-        body: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: SingleChildScrollView(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 25),
-                    child: Text('Open Orders   Purchase History',
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.normal)),
-                  ),
-                  Text('Order# 18575225',
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
-                  Divider(),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Date: ',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(
-                            text: "2024-07-15",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ]),
+          body: TabBarView(
+            children: [
+              // Content for the first tab
+              Text('Content of Tab 1'),
+              // Content for the second tab
+              Text('Content of Tab 2'),
+            ],
           ),
         ),
       );
-
-/*
-  Future<String> readStringFromSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    final myString = prefs.getString('active_account_name');
-    return myString ?? 'No data';
-  }
-  */
 }
