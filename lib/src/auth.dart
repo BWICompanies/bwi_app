@@ -139,7 +139,11 @@ class ProductstoreAuth extends ChangeNotifier {
       // Parse the JSON string and save to variable
       Map<String, dynamic> jsonData = json.decode(response.body);
 
-      //Persist to local storage
+      //Convert accounts to string to save to local storage
+      final jsonString = jsonEncode(jsonData['data']['accounts']);
+      await prefs.setString('accounts', jsonString);
+
+      //Persist individual strings to local storage
       await prefs.setInt('userid', jsonData['data']['id']);
       await prefs.setString('name', jsonData['data']['name']);
       await prefs.setString('accountnum', jsonData['data']['accountnum']);
@@ -198,13 +202,6 @@ class ProductstoreAuth extends ChangeNotifier {
       await prefs.setString('c_contractonlyitems',
           jsonData['data']['customer']['contractonlyitems']);
       */
-
-      //There is an accounts array but this doesnt support saving arrays.
-      //Might need to save as a string for later parsing or save as a list of strings or get it on the page that needs it.
-      //ie. "accounts": {
-      //"EOTH076": "OTHO'S PEST MANAGEMENT",
-      //"TDAV150": "A & W SHRUBS LLC"
-      //},
     } else {
       //print('Error: ${response.statusCode}');
       throw Exception('Problem loading user data');

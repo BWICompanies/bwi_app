@@ -62,10 +62,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //Text('Content of Tab 1'),
+                      //Start of an Order
                       Text('Order# 18575225',
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold)),
                       Divider(),
+                      //Order detail line
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
                         child: RichText(
@@ -86,7 +88,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   color: Colors.black87,
                                   fontWeight: FontWeight.normal,
                                 ),
-                              ), //textspan end
+                              ),
                             ],
                           ),
                         ),

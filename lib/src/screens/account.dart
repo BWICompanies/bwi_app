@@ -24,13 +24,12 @@ class _AccountScreenState extends State<AccountScreen> {
 
   //Default Account Selector Option
   List<DropdownMenuItem<String>> _asOptions = [
-    DropdownMenuItem<String>(
-      value: '',
-      child: Text('Select Active Account'),
-    ),
+    DropdownMenuItem(value: '', child: Text('Loading...')),
   ];
 
   //Vars populated from shared preferences using Authenticated User API endpoint
+  Map<String, dynamic> accountArray = {};
+  Map<String, dynamic> accountArrayMerged = {};
   String accountnum = '';
   String name = '';
   String aac_accountnum = '';
@@ -56,26 +55,70 @@ class _AccountScreenState extends State<AccountScreen> {
 
   //When Active acount dropdown changes, update the active account variable in the database.
   void asCallback(String? selectedValue) {
-    print(selectedValue);
-    /*
+    //print(selectedValue);
+
     setState(() {
       _asSelectedValue = selectedValue!;
     });
-    */
   }
 
   @override
   void initState() {
     super.initState();
-    _getStringsFromPrefs();
-    _getCustomer(); //for addresses
+
+    _getStringsFromPrefs().then((_) {
+      _getCustomer(); //for addresses
+      _populateActiveAccountDropdown();
+    });
+  }
+
+  Future<void> _populateActiveAccountDropdown() async {
+    setState(() {
+      //Populate the dropdown with map
+
+      _asOptions = accountArrayMerged.entries
+          .map((entry) => DropdownMenuItem<String>(
+                value: entry.key,
+                child: Text(entry.value),
+              ))
+          .toList();
+
+      //Set the active account as the default value
+      _asSelectedValue = aac_accountnum;
+
+      //Set the active account as the default value
+      //_asSelectedValue = 'DCI2406';
+
+      // Add the currently active account manually
+      /*
+      _asOptions.add(DropdownMenuItem<String>(
+        value: aac_accountnum, // Assign a unique value
+        child: Text(aac_accountnum), // Display text for the manual option
+      ));
+
+      //Set the default value to the currently active account
+      _asSelectedValue = aac_accountnum;
+      */
+    });
   }
 
   Future<void> _getStringsFromPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    String accounts = prefs.getString('accounts') ?? '';
+
+    //print(accountArray);
+    //Map<String, String> _itemsMap = {}; // Initial empty map
+
+    //Map of json accounts
+    accountArray = json.decode(accounts);
+
+    //Add active account to the map
+    accountArray['ZCI0000'] = 'ZCI0000 (Active Account)';
+
     setState(() {
       //Variables
+      accountArrayMerged = accountArray;
       accountnum = prefs.getString('accountnum') ?? '';
       aac_accountnum = prefs.getString('aac_accountnum') ?? '';
       name = prefs.getString('name') ?? '';
@@ -86,22 +129,47 @@ class _AccountScreenState extends State<AccountScreen> {
       aac_totaldue = prefs.getString('aac_totaldue') ?? '0.0';
       aac_totaldue_dbl = double.parse(aac_totaldue);
 
-      print(aac_accountnum);
+      //Use the following information to populate the dropdown.
+      //print(aac_accountnum);
 
-      //Dropdown
-      /* I dont think this works
-      String _asSelectedValue = '';
-      List<DropdownMenuItem<String>> _asOptions = [
-        DropdownMenuItem<String>(
-          value: '',
-          child: Text('Select Active Account'),
-        ),
-        DropdownMenuItem<String>(
-          value: aac_accountnum,
-          child: Text("$aac_accountnum (Active)"),
-        ),
-      ];
+      // Iterate through the Map and print key-value pairs
+      /*
+      accountArray.forEach((key, value) {
+        print('Key: $key, Value: $value');
+      });
       */
+
+      /*
+      //If want to hard code something can use these instead of accountArray
+      _itemsMap = {
+        "DCI2406": "SUTHERLAND LBR #2406",
+        "DCI2408": "SUTHERLAND LBR #2408",
+        "DCI2810": "SUTHERLAND LBR #2810",
+      }; 
+      */
+
+      //Populate the dropdown with map
+      /*
+      _asOptions = accountArray.entries
+          .map((entry) => DropdownMenuItem<String>(
+                value: entry.key,
+                child: Text(entry.value),
+              ))
+          .toList();
+
+      _asSelectedValue = 'DCI2406';
+*/
+      // Add the currently active account manually
+/*
+      _asOptions.add(DropdownMenuItem<String>(
+        value: aac_accountnum, // Assign a unique value
+        child: Text(aac_accountnum), // Display text for the manual option
+      ));
+*/
+
+      //Set the default value to the currently active account
+      //_asSelectedValue = 'ZCI0000';
+      //DCI2408 works, ZCI0000 doesnt, aac_accountnum doesnt;
     });
   }
 
@@ -408,13 +476,15 @@ class _AccountScreenState extends State<AccountScreen> {
                       isExpanded: true,
                       items: _asOptions,
                       onChanged: asCallback,
-                      value: _asSelectedValue,
+                      value: _asSelectedValue ?? '',
+                      /*
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please select an option.';
                         }
                         return null;
                       },
+                      */
                     ),
                   ),
                   ElevatedButton(
