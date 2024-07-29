@@ -55,17 +55,51 @@ class _AccountScreenState extends State<AccountScreen> {
   String ship_to_country = '';
 
   //When Active acount dropdown changes, update the active account variable in the database.
-  void asCallback(String? selectedValue) {
-    print(selectedValue);
+  Future<void> asCallback(String? selectedValue) async {
+    //update in shared preferences (local device storage set on login)
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('aac_accountnum', selectedValue!);
+
+    //Update in database
+    try {
+      final token = await ProductstoreAuth().getToken();
+
+      // Create a POST request with the URL
+      http.Request request = http.Request(
+          'POST',
+          Uri.parse(
+              ApiConstants.baseUrl + ApiConstants.setActiveAccountEndpoint));
+
+      request.headers['Authorization'] = 'Bearer $token';
+      request.headers['Content-Type'] = 'application/json'; //Format sending
+      request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+      Map<String, dynamic> newData = {
+        'account': selectedValue,
+      };
+
+      //print(json.encode(newData));
+
+      // Encode the new data as JSON and set it as the request body
+      request.body = json.encode(newData);
+
+      // Send the request
+      http.StreamedResponse response = await request.send();
+
+      // Check the status code of the response
+      if (response.statusCode == 200) {
+        //print('Data updated successfully');
+      } else {
+        print('Failed to update data. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error updating data: $e');
+    }
 
     //update variable on this page
     setState(() {
       _asSelectedValue = selectedValue!;
     });
-
-    //update in shared preferences
-
-    //update in database
   }
 
   Future<void> _populateActiveAccountDropdown() async {

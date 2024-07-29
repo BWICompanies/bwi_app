@@ -1,6 +1,7 @@
 class ApiConstants {
   static String baseUrl = 'https://ct.bwicompanies.com';
   static String usersEndpoint = '/api/v1/users/authenticated';
+  static String setActiveAccountEndpoint = '/api/v1/users/active-account';
   static String customersEndpoint = '/api/v1/customers/'; // + customerId
   static String authEndpoint = '/api/auth/token?mobile=true';
   static String searchEndpoint = '/api/v1/items/search';
