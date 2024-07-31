@@ -1,5 +1,5 @@
 name: bwiapp
-description: Navigation and routing sample app
+description: BWI Product Catalog
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
