@@ -185,132 +185,84 @@ class _ProductsScreenState extends State<ProductsScreen> {
           color: Theme.of(context).colorScheme.onPrimary,
           fontSize: Theme.of(context).textTheme.headlineMedium!.fontSize,
         ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(58),
+          child: Container(
+              height: 58.0,
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(5),
+              color: Colors.green[600],
+              child: Row(
+                children: [
+                  Expanded(
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: _prev == null
+                          ? null
+                          : () {
+                              //can be pressed (Otherwise gray out)
+                              // now that we disable the button if _prev is null, we can update the page number and update the productList.
+                              if (_prev != null) {
+                                setState(() {
+                                  _page = _page - 1;
+                                });
+
+                                getProducts(searchString)
+                                    .then((ApiProductFromServer) {
+                                  if (ApiProductFromServer != null) {
+                                    setState(() {
+                                      productList = ApiProductFromServer;
+                                      //_totalResults = productList.length;
+                                    });
+                                  }
+                                });
+                              }
+                            },
+                    ),
+                  ),
+                  Expanded(
+                      child: Center(
+                          child: Text(
+                    _pageMessage,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ))),
+                  Expanded(
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_forward),
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: _next == null
+                          ? null
+                          : () {
+                              // now that we disable the button if _next is null, we can update the page number and update the productList.
+                              if (_next != null) {
+                                setState(() {
+                                  _page = _page + 1;
+                                });
+
+                                getProducts(searchString)
+                                    .then((ApiProductFromServer) {
+                                  if (ApiProductFromServer != null) {
+                                    setState(() {
+                                      productList = ApiProductFromServer;
+                                      //_totalResults = productList.length;
+                                    });
+                                  }
+                                });
+                              }
+                            },
+                    ),
+                  ),
+                ],
+              )),
+        ),
       ),
       body: Column(
         children: <Widget>[
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: _prev == null
-                      ? null
-                      : () {
-                          // now that we disable the button if _prev is null, we can update the page number and update the productList.
-                          if (_prev != null) {
-                            setState(() {
-                              _page = _page - 1;
-                            });
-
-                            getProducts(searchString)
-                                .then((ApiProductFromServer) {
-                              if (ApiProductFromServer != null) {
-                                setState(() {
-                                  productList = ApiProductFromServer;
-                                  //_totalResults = productList.length;
-                                });
-                              }
-                            });
-                          }
-                        },
-                  child: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Colors.white,
-                    size: 20.0,
-                    semanticLabel: 'Previous',
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.secondary),
-                    //disabledColor: Colors.lightGreen,
-                    fixedSize: MaterialStateProperty.all<Size>(
-                      Size(double.infinity,
-                          35), // Set height to 50, width to match parent
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius
-                            .zero, // Set borderRadius to 0.0 for sharp corners
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: null,
-                  child: Text(
-                    "$_pageMessage",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15.0,
-                    ),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.secondary),
-                    mouseCursor: MaterialStateProperty.all<MouseCursor>(
-                        MouseCursor.defer),
-                    overlayColor: MaterialStateProperty.all<Color>(
-                        Colors.transparent), // Disable overlay effect
-                    fixedSize: MaterialStateProperty.all<Size>(
-                      Size(double.infinity,
-                          35), // Set height to 50, width to match parent
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius
-                            .zero, // Set borderRadius to 0.0 for sharp corners
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: _next == null
-                      ? null
-                      : () {
-                          // now that we disable the button if _next is null, we can update the page number and update the productList.
-                          if (_next != null) {
-                            setState(() {
-                              _page = _page + 1;
-                            });
-
-                            getProducts(searchString)
-                                .then((ApiProductFromServer) {
-                              if (ApiProductFromServer != null) {
-                                setState(() {
-                                  productList = ApiProductFromServer;
-                                  //_totalResults = productList.length;
-                                });
-                              }
-                            });
-                          }
-                        },
-                  child: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: Colors.white,
-                    size: 20.0,
-                    semanticLabel: 'Previous',
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).colorScheme.secondary),
-                    fixedSize: MaterialStateProperty.all<Size>(
-                      Size(double.infinity,
-                          35), // Set height to 50, width to match parent
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius
-                            .zero, // Set borderRadius to 0.0 for sharp corners
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
           //Search Bar to List of typed ApiProduct
           Container(
             padding: EdgeInsets.all(15),
