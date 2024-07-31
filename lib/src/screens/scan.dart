@@ -32,6 +32,14 @@ class _ScanScreenState extends State<ScanScreen> {
     //This method will return outcome of scan as string. (Pass in scan line color, cancel button text, show flash icon, and ScanMode [QR, BARCODE, DEFAULT]
     barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
         '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+    //My test product 20oz Mammoth Rover drinking cup returns 0856924006396 from the scan which matches the upc code on the product. (Which has no leading 0) DAMAMMS20ROVBLK
+
+    //take the user to the cart page as a test (Worked)
+    //RouteStateScope.of(context).go('/cart');
+
+    //now that we have the barcodeScanRes value, look up the product in the database to get its id number. Pass that to /apiproduct/${productList[index].item_number}
+    //RouteStateScope.of(context).go('/apiproduct/DSWCF336C');
+    //RouteStateScope.of(context).go('/apiproduct/${item_number}');
 
     //tmp removed try catch since its showing an error with PlatformException. Platform messages may fail, so we will need to use a try/catch PlatformException.
     /*
