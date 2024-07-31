@@ -22,10 +22,13 @@ class HomeScreen extends StatelessWidget {
           actions: [
             IconButton(
                 onPressed: () {
+                  RouteStateScope.of(context).go('/products');
+                  /*
                   showSearch(
                       context: context,
                       delegate: ProductSearchDelegate() //(products: products)
                       );
+                      */
                 },
                 icon: const Icon(Icons.search)),
             IconButton(
