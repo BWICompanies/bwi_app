@@ -93,6 +93,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "BWI Product Catalog"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
