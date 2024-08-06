@@ -83,7 +83,9 @@ class _SignInScreenState extends State<SignInScreen> {
                         widget.onSignIn(Credentials(_emailController.value.text,
                             _passwordController.value.text));
                       },
-                      child: const Text('Sign in'),
+                      child: const Text('Sign in',
+                          style: const TextStyle(
+                              fontSize: 22, fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ],
