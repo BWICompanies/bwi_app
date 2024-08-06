@@ -250,85 +250,72 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         //final uom = product!.uom_data[uomKey];
                         //String _uomSelected = product!.uom_data.keys.first;
 
-                        return Container(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 5.0,
-                                horizontal:
-                                    15.0), //can use .only to do all 4 sides
-                            child: Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start, //by default, centers its children both horizontally and vertically.
-                                //child: Text('Item $index'),
-                                children: <Widget>[
-                                  Row(
-                                    children: [
-                                      Text(
-                                        selectedProduct!.uomData[uomKey]
-                                                ['description'] +
-                                            " " +
-                                            selectedProduct!.uomData[uomKey]
-                                                ['pack_size'],
-                                        style: TextStyle(
-                                          fontSize: 17.0, // Font size
-                                          color:
-                                              Colors.green[700], // Text color
-                                          fontWeight:
-                                              FontWeight.bold, // Font weight
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        '\$${selectedProduct!.uomData[uomKey]['price']}',
-                                        style: TextStyle(
-                                          fontSize: 17.0, // Font size
-                                          fontWeight:
-                                              FontWeight.bold, // Font weight
-                                        ),
-                                      ), //use variable wrapper for $
-                                    ],
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment
+                              .start, //by default, centers its children both horizontally and vertically.
+                          //child: Text('Item $index'),
+                          children: <Widget>[
+                            Row(
+                              children: [
+                                Text(
+                                  selectedProduct!.uomData[uomKey]
+                                          ['description'] +
+                                      " " +
+                                      selectedProduct!.uomData[uomKey]
+                                          ['pack_size'],
+                                  style: TextStyle(
+                                    fontSize: 17.0, // Font size
+                                    color: Colors.green[700], // Text color
+                                    fontWeight: FontWeight.bold, // Font weight
                                   ),
-                                  TextField(
-                                    controller: _controllers[index],
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      labelText: 'Quantity',
-                                      //border: OutlineInputBorder(),
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 0,
-                                          horizontal: 0), // Adjust padding
-                                    ),
-                                    //decoration: InputDecoration(labelText: 'Enter your text',),
+                                ),
+                                Spacer(),
+                                Text(
+                                  '\$${selectedProduct!.uomData[uomKey]['price']}',
+                                  style: TextStyle(
+                                    fontSize: 17.0, // Font size
+                                    fontWeight: FontWeight.bold, // Font weight
                                   ),
-                                  SizedBox(height: 15),
-                                  Container(
-                                    width: double
-                                        .infinity, // Set the width to fill the parent's width
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        _updateData(
-                                            selectedProduct!.item_number,
-                                            uomKey,
-                                            _controllers[index]
-                                                .text); //value of this text field
-                                        //Can hard code for testing like "32244", "EA", "1"
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.green[700]),
-                                      child: Text(
-                                        'Add to Cart',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
+                                ), //use variable wrapper for $
+                              ],
+                            ),
+                            TextField(
+                              controller: _controllers[index],
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: 'Quantity',
+                                //border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 0,
+                                    horizontal: 0), // Adjust padding
+                              ),
+                              //decoration: InputDecoration(labelText: 'Enter your text',),
+                            ),
+                            SizedBox(height: 15),
+                            Container(
+                              width: double
+                                  .infinity, // Set the width to fill the parent's width
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _updateData(
+                                      selectedProduct!.item_number,
+                                      uomKey,
+                                      _controllers[index]
+                                          .text); //value of this text field
+                                  //Can hard code for testing like "32244", "EA", "1"
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.green[700]),
+                                child: Text(
+                                  'Add to Cart',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.white,
                                   ),
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                          ],
                         );
                       },
                     )
