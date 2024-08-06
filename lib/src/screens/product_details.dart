@@ -149,14 +149,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         setState(() {
           selectedProduct = ApiProductFromServer;
 
-          // Initialize the controllers list
+          // Initialize the controllers list by created a controller for each uom
           _controllers = List.generate(
               selectedProduct!.uomData.length, (_) => TextEditingController());
-          // Set the default value for each controller
+          // Set the default value for each controller by looping through the uomData
           for (int i = 0; i < selectedProduct!.uomData.length; i++) {
-            _controllers[i].text = '1'; //productList[i].quantity;
-            //hard coded for now. Might use mom instead. Might have to access with key though.
-            //final uomKey = selectedProduct!.uomData.keys.elementAt(i);
+            final uomKey = selectedProduct!.uomData.keys.elementAt(i);
+            final thisMom = selectedProduct!.uomData[uomKey];
+
+            //Start the quantity field with the minimum order multiple
+            _controllers[i].text = thisMom['mom'];
+
+            //print('mom: ${thisMom['mom']}');
           }
         });
       }
