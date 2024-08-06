@@ -59,11 +59,10 @@ class HomeScreen extends StatelessWidget {
                     mainAxisSpacing: 20.0,
                     crossAxisSpacing: 20.0,
                     children: [
-                      /*
                       HomeCard(
                           Title: 'Scan Barcode',
                           iData: Icons.qr_code_scanner,
-                          Route: '/scan'), */
+                          Route: '/scan'),
                       HomeCard(
                           Title: 'Catalog',
                           iData: Icons.auto_stories,

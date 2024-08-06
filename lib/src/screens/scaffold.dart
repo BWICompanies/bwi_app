@@ -27,10 +27,10 @@ class ProductstoreScaffold extends StatelessWidget {
         onDestinationSelected: (idx) {
           if (idx == 0) routeState.go('/home');
           if (idx == 1) routeState.go('/products');
-          //if (idx == 2) routeState.go('/scan'); //was 2
+          if (idx == 2) routeState.go('/scan');
           //if (idx == 2) routeState.go('/authors'); //not used
           //if (idx == 3) routeState.go('/history'); //not finnished
-          if (idx == 2)
+          if (idx == 3)
             routeState.go(
                 '/account'); //4 if we turn history back on. 3 if we turn scan back on
         },
@@ -49,12 +49,12 @@ class ProductstoreScaffold extends StatelessWidget {
             icon: Icons.person,
           ),
           */
-          /*
+
           AdaptiveScaffoldDestination(
             title: 'Scan',
             icon: Icons.qr_code_scanner,
           ),
-          */
+
           /*
           AdaptiveScaffoldDestination(
             title: 'History',
@@ -72,10 +72,10 @@ class ProductstoreScaffold extends StatelessWidget {
   int _getSelectedIndex(String pathTemplate) {
     if (pathTemplate == '/home') return 0;
     if (pathTemplate.startsWith('/products')) return 1;
-    //if (pathTemplate == '/scan') return 2;
+    if (pathTemplate == '/scan') return 2;
     //if (pathTemplate == '/authors') return 2;
     //if (pathTemplate == '/history') return 3;
-    if (pathTemplate == '/settings') return 4;
+    if (pathTemplate == '/settings') return 3;
     return 0;
   }
 }

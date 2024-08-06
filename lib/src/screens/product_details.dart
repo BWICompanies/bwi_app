@@ -175,7 +175,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Row(children: [
-          Text('Product: '),
+          //Text('Product: '),
           Text(widget.item_number ?? 'No item number'),
           //Text(product!.item_number), //! will tell dart its non-nullable. (will throw an error if null)
         ]),

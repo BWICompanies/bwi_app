@@ -3,9 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-
-import '../data/library.dart';
+import 'package:http/http.dart' as http; //for api requests
+import '../auth.dart';
+import 'dart:convert'; //to and from json
 import '../routing.dart';
 
 class ScanScreen extends StatefulWidget {
@@ -34,12 +36,78 @@ class _ScanScreenState extends State<ScanScreen> {
         '#ff6666', 'Cancel', true, ScanMode.BARCODE);
     //My test product 20oz Mammoth Rover drinking cup returns 0856924006396 from the scan which matches the upc code on the product. (Which has no leading 0) DAMAMMS20ROVBLK
 
+    //remove leading 0 from barcodeScanRes
+    if (barcodeScanRes[0] == '0') {
+      barcodeScanRes = barcodeScanRes.substring(1);
+    }
+
+    setState(() {
+      _scanBarcode = barcodeScanRes;
+    });
+
+    //Turn the UPC into a product number
+    final token = await ProductstoreAuth().getToken();
+
+    //print(token);
+
+    http.Request request = http.Request(
+        'GET',
+        Uri.parse(
+            ApiConstants.baseUrl + ApiConstants.upcEndpoint + barcodeScanRes));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json';
+
+    try {
+      // Update to indicate that the streamedResponse and response variables can be null.
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        // Add a null check to the if statement before parsing the response.
+        if (response != null) {
+          //Turn the json response into an object
+          if (response.statusCode == 200) {
+            //turn json into map (associative array in PHP)
+            //Map<String, dynamic> jsonMap = json.decode(response.body);
+
+            // Decode the JSON response into a Dart object.
+            final decodedResponse = json.decode(response.body);
+
+            // Get the data array from the decoded object.
+            final dataArray = decodedResponse['data'] as Map<String, dynamic>;
+            final upc = dataArray['bwi_item_number'] as String;
+
+            //Do redirect to the product page
+            RouteStateScope.of(context).go('/apiproduct/${upc}');
+
+            //print(response.body);
+            //print(jsonProduct.item_description);
+
+            //return null;
+          } else {
+            // Change the return type to indicate that the function may return a null value.
+            //return null;
+          }
+        } else {
+          // Throw an exception if the response is null.
+          throw Exception('Error');
+        }
+      } else {
+        // Throw an exception if the streamedResponse is null.
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+
+    //end
+
     //take the user to the cart page as a test (Worked)
     //RouteStateScope.of(context).go('/cart');
 
     //now that we have the barcodeScanRes value, look up the product in the database to get its id number. Pass that to /apiproduct/${productList[index].item_number}
     //RouteStateScope.of(context).go('/apiproduct/DSWCF336C');
-    //RouteStateScope.of(context).go('/apiproduct/${item_number}');
 
     //tmp removed try catch since its showing an error with PlatformException. Platform messages may fail, so we will need to use a try/catch PlatformException.
     /*
@@ -56,11 +124,13 @@ class _ScanScreenState extends State<ScanScreen> {
       });
     }
     */
+  }
 
-    //print(barcodeScanRes);
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
+  @override
+  void initState() {
+    super.initState();
+
+    barcodeScan();
   }
 
   @override
@@ -79,17 +149,18 @@ class _ScanScreenState extends State<ScanScreen> {
                 direction: Axis.vertical,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Scan result : $_scanBarcode\n',
+                  Text('Loading...', style: const TextStyle(fontSize: 20)),
+                  /* Text('Scan result : $_scanBarcode\n',
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),
-                  SizedBox(
+                          fontSize: 20, fontWeight: FontWeight.bold)),*/
+                  /*SizedBox(
                     height: 45,
                     child: ElevatedButton(
                         onPressed: () => barcodeScan(),
                         child: const Text('Barcode Scan',
                             style: TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold))),
-                  ),
+                  ),*/
                 ])),
       );
 }
