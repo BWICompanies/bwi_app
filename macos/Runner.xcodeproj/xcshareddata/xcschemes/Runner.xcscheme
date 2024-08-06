@@ -45,7 +45,7 @@
                BlueprintIdentifier = "331C80D4294CF70F00263BE5"
                BuildableName = "RunnerTests.xctest"
                BlueprintName = "RunnerTests"
-               ReferencedContainer = "container:Runner.xcodeproj">
+               ReferencedContainer = "container:Runner.xcodeproj.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
