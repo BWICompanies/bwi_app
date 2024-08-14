@@ -57,7 +57,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset('assets/logo.png', height: 85),
+                  Image.asset('assets/logogreen.png', height: 85),
                   Text('Sign in',
                       style: Theme.of(context).textTheme.headlineMedium),
                   TextField(
