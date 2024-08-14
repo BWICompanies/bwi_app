@@ -73,6 +73,13 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
                     credentials.email, credentials.password);
                 if (signedIn) {
                   await routeState.go('/home'); //Go to Home Screen if signed in
+                } else {
+                  // Show an error message if sign in failed
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Username or password is incorrect'),
+                    ),
+                  );
                 }
               },
             ),
