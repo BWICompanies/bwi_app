@@ -3,7 +3,7 @@
 //Loads ProductList widget (Right now not using and reading api)
 
 import 'package:flutter/material.dart';
-//import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import '../auth.dart';
 
@@ -53,10 +53,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
   var _next = null;
   //int _totalResults = 0;
   var _pageMessage = "";
-  var searchString = "";
   //final int _pageSize = 10;
   //bool _hasNextPage = true;
   //bool _isLoading = false;
+
+  // Initialize as empty string. Set to value of text box on ini.
+  late String searchString;
+
+  final TextEditingController _textEditingController = TextEditingController();
+  //text: "Weed Killer"
 
   List<ApiProduct> productList = []; //products returned from API
 
@@ -148,15 +153,46 @@ class _ProductsScreenState extends State<ProductsScreen> {
     return parsed.map<ApiProduct>((json) => ApiProduct.fromJson(json)).toList();
   }
 
+  Future<String?> getSearchString() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('searchString');
+  }
+
+  Future<void> setSearchString(String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('searchString', value);
+  }
+
   @override
   //On wiget ini, getProducts function returns a future object and uses the then method to add a callback to update the list variable.
   void initState() {
     super.initState();
-    getProducts("").then((ApiProductFromServer) {
-      if (ApiProductFromServer != null) {
+
+    searchString = ""; //ini
+
+    //Get search string from user preferences and get products
+    getSearchString().then((value) {
+      if (value != null) {
+        //value saved, search for that and populate textbox
         setState(() {
-          productList = ApiProductFromServer;
-          //_totalResults = productList.length;
+          searchString = value;
+          _textEditingController.text = value;
+        });
+        getProducts(searchString).then((ApiProductFromServer) {
+          if (ApiProductFromServer != null) {
+            setState(() {
+              productList = ApiProductFromServer;
+            });
+          }
+        });
+      } else {
+        _textEditingController.text = "";
+        getProducts("").then((ApiProductFromServer) {
+          if (ApiProductFromServer != null) {
+            setState(() {
+              productList = ApiProductFromServer;
+            });
+          }
         });
       }
     });
@@ -165,11 +201,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
   //Main Widget
   @override
   Widget build(BuildContext context) {
-    /*
-    final TextEditingController _textEditingController =
-        TextEditingController();
-    */
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product Catalog'),
@@ -267,7 +298,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           Container(
             padding: EdgeInsets.all(15),
             child: TextField(
-                //controller: _textEditingController,
+                controller: _textEditingController,
                 style: TextStyle(fontSize: 18),
                 textInputAction: TextInputAction.search,
                 decoration: InputDecoration(
@@ -294,20 +325,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 onChanged: (value) {
                   //print(value);
 
-                  searchString = value;
-
-                  //run api on change and update products
+                  setState(() {
+                    searchString = value;
+                  });
                   _debouncer.run(() {
                     getProducts(value).then((ApiProductFromServer) {
                       if (ApiProductFromServer != null) {
                         setState(() {
-                          //setstate tells flutter to update the ui
-                          // Set the productList variable to the ApiProductFromServer variable.
                           productList = ApiProductFromServer;
-                          //_totalResults = productList.length;
                         });
                       }
                     });
+                    setSearchString(value);
                   });
                 }),
           ),
