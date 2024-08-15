@@ -5,6 +5,7 @@ import '../auth.dart';
 //import 'package:url_launcher/link.dart';
 import 'package:http/http.dart' as http; //for api requests
 import '../data.dart';
+import '../routing.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final String? item_number;
@@ -179,6 +180,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           Text(widget.item_number ?? 'No item number'),
           //Text(product!.item_number), //! will tell dart its non-nullable. (will throw an error if null)
         ]),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () {
+                RouteStateScope.of(context).go('/cart');
+              }),
+        ], //for
         backgroundColor: Theme.of(context).colorScheme.primary,
         titleTextStyle: TextStyle(
           color: Theme.of(context).colorScheme.onPrimary,
