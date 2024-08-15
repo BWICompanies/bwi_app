@@ -29,6 +29,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   int _loading = 0; //0 = not loading, 1 = loading
   //to show redudant zeros use this. ie. formatter.format(_estTaxes)
 
+  String aac_accountnum = '';
+  String aac_name = '';
+  String ship_to_attention_to = '';
+  String ship_to_custname = '';
+  String ship_to_address = '';
+  String ship_to_city = '';
+  String ship_to_state = '';
+  String ship_to_zip5 = '';
+  String ship_to_country = '';
+
   final _poController = TextEditingController();
 
   List<CartProduct> productList = []; //cart products returned from API
@@ -533,10 +543,83 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         .toList();
   }
 
+  Future _getCustomer() async {
+    final token = await ProductstoreAuth().getToken();
+
+    //print(token);
+
+    http.Request request = http.Request(
+        'GET',
+        Uri.parse(ApiConstants.baseUrl +
+            ApiConstants.customersEndpoint +
+            "$aac_accountnum"));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response != null) {
+          //print(response.statusCode);
+
+          //Parse response
+          if (response.statusCode == 200) {
+            // Decode the JSON response into a Dart object.
+            final decodedResponse = json.decode(response.body);
+
+            // Get the data array from the decoded object.
+            final dataArray = decodedResponse['data'] as Map<String, dynamic>;
+
+            setState(() {
+              //Shipping
+              if (dataArray['shipping_address'] != null) {
+                ship_to_attention_to =
+                    dataArray['shipping_address']['attention_to'];
+                ship_to_custname = dataArray['shipping_address']['custname'];
+                ship_to_address = dataArray['shipping_address']['address'];
+                ship_to_city = dataArray['shipping_address']['city'];
+                ship_to_state = dataArray['shipping_address']['state'];
+                ship_to_zip5 = dataArray['shipping_address']['zip5'];
+                ship_to_country = dataArray['shipping_address']['country'];
+              } else {
+                //print('null');
+              }
+            });
+
+            return null;
+          } else {
+            return null;
+          }
+        } else {
+          throw Exception('Error');
+        }
+      } else {
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<void> getSharedPref() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    aac_accountnum = prefs.getString('aac_accountnum') ?? '';
+    aac_name = prefs.getString('aac_name') ?? '';
+
+    //Pull shipping info from customer
+    _getCustomer();
+  }
+
   @override
   //On wiget ini, getProducts function returns a future object and uses the then method to add a callback to update the list variable.
   void initState() {
     super.initState();
+
+    getSharedPref();
 
     getDeliveryMethods();
 
@@ -581,15 +664,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('A & B FISK FARMS LLC',
+                        Text(ship_to_custname,
                             style: const TextStyle(fontSize: 14)),
-                        Text('BETTY FISK',
+                        Text(ship_to_attention_to,
                             style: const TextStyle(fontSize: 14)),
-                        Text('2020 EVANGELINE RD',
+                        Text(ship_to_address,
                             style: const TextStyle(fontSize: 14)),
-                        Text('GLENMORA, LA',
+                        Text('$ship_to_city, $ship_to_state',
                             style: const TextStyle(fontSize: 14)),
-                        Text('71433 - 4510',
+                        Text(ship_to_zip5,
                             style: const TextStyle(fontSize: 14)),
                         SizedBox(height: 15.0),
                       ]),
