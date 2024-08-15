@@ -1,5 +1,14 @@
 # Not all users can login. Must register. joer80@gmail.com is my test account.
 
+# For making iphone screenshots open simulator and open these sizes and hit debug in VS code
+6.7" use 14 pro max
+6.5" Xs Max
+5.5" 8 plus
+
+# For making ipad screenshots
+13" 10th gen ipad
+12.9" iPad Pro 2nd or 6th gen
+
 # Keyboard Shortcuts
 stless make a stateless widget
 stful make a stateful widget
