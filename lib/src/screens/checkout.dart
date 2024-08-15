@@ -609,6 +609,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     aac_accountnum = prefs.getString('aac_accountnum') ?? '';
     aac_name = prefs.getString('aac_name') ?? '';
+    //Not using aac_name yet but could be useful as a bill to. Using ship to name for now.
 
     //Pull shipping info from customer
     _getCustomer();
