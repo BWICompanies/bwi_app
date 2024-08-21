@@ -1,5 +1,8 @@
 # Not all users can login. Must register. joer80@gmail.com is my test account.
 
+# To update version
+Edit the pubspec.yaml file with vscode and edit the project build settings in xcode. ie. Major/breaking . newfeatures . bugfixes.
+
 # For making iphone screenshots open simulator and open these sizes and hit debug in VS code
 6.7" use 14 pro max
 6.5" Xs Max
