@@ -37,9 +37,11 @@ class _ScanScreenState extends State<ScanScreen> {
     //My test product 20oz Mammoth Rover drinking cup returns 0856924006396 from the scan which matches the upc code on the product. (Which has no leading 0) DAMAMMS20ROVBLK
 
     //remove leading 0 from barcodeScanRes
+    /*
     if (barcodeScanRes[0] == '0') {
       barcodeScanRes = barcodeScanRes.substring(1);
     }
+    */
 
     setState(() {
       _scanBarcode = barcodeScanRes;
