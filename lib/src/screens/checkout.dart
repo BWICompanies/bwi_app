@@ -524,8 +524,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(
-                  'Order placed successfully. You will receive an email confirmation with your order number.')),
+                  'Order placed successfully.')), //You will receive an email confirmation with your order number.
         );
+
+        //Do redirect to the thank you page
+        RouteStateScope.of(context).go('/home');
       } else {
         //print('Failed to update data. Response code: ${response.statusCode}');
         //print('Failed to update data: ${response.stream.toString()}');
