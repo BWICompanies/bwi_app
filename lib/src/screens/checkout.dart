@@ -479,8 +479,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       http.Request request = http.Request('POST',
           Uri.parse(ApiConstants.baseUrl + ApiConstants.checkoutEndpoint));
 
-      //print(ApiConstants.baseUrl + ApiConstants.cartEndpoint);
+      //print(ApiConstants.baseUrl + ApiConstants.checkoutEndpoint);
       //getting a status code 404 for https://ct.bwicompanies.com/api/v1/cart
+
+      //print(token);
 
       request.headers['Authorization'] = 'Bearer $token';
       request.headers['Content-Type'] = 'application/json'; //Format sending
@@ -504,21 +506,38 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       // Encode the new data as JSON and set it as the request body
       request.body = json.encode(newData);
 
+      //print(json.encode(newData));
+
       // Send the request
       http.StreamedResponse response = await request.send();
 
       // Check the status code of the response
       if (response.statusCode == 200) {
-        print('Data updated successfully');
+        /*
+        //200 doesnt return anything useful.
+        final decodedBody = await utf8.decodeStream(response.stream);
+        final jsonData = jsonDecode(decodedBody);
+
+        print(jsonData['message']);
+        */
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Order Submitted Successfully.')),
+          SnackBar(
+              content: Text(
+                  'Order placed successfully. You will receive an email confirmation with your order number.')),
         );
       } else {
         //print('Failed to update data. Response code: ${response.statusCode}');
+        //print('Failed to update data: ${response.stream.toString()}');
+
+        final decodedBody = await utf8.decodeStream(response.stream);
+        final jsonData = jsonDecode(decodedBody);
+
+        //print(jsonData['message']);
 
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to submit order.')),
+          SnackBar(
+              content: Text('Failed to submit order. ${jsonData['message']}')),
         );
       }
     } catch (e) {
