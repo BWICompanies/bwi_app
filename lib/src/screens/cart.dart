@@ -13,6 +13,8 @@ import 'dart:async'; //optional but helps with debugging
 import 'dart:convert'; //to and from json
 import 'package:http/http.dart' as http; //for api requests
 
+import 'package:intl/intl.dart'; //for rounding
+
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
@@ -23,7 +25,9 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   List<CartProduct> productList = []; //cart products returned from API
   var _subtotal = "";
-  var _truckEligibleSales = "";
+  String _truckEligibleSales = "";
+  double _truckEligibleSales_dbl = 0.0;
+  NumberFormat formatter = NumberFormat('0.00');
   //Map<String, dynamic> _vendorMinimums = {};
   //var _vendorMinimums = {};
   dynamic _vendorMinimums = null;
@@ -69,6 +73,12 @@ class _CartScreenState extends State<CartScreen> {
 
             //For BWI Truck Minimum (BON51012 is a good example of a product that will count)
             _truckEligibleSales = jsonMap['truckEligibleSales'].toString();
+            _truckEligibleSales_dbl = double.parse(_truckEligibleSales);
+
+            //_truckEligibleSales = double.parse(jsonMap['truckEligibleSales']);
+            //NumberFormat numberFormat = NumberFormat.decimalPattern();
+            //_formattedTruckEligibleSales =
+            //    numberFormat.format(_truckEligibleSales);
 
             //If vendormin is a map set the variable as map. If a list, set as a list. Else set as null.
             if (jsonMap['vendorMinimums'] is Map<String, dynamic>) {
@@ -492,7 +502,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       children: [
                         Text(
-                          'Truck Minimums:\nEligible items: \$${_truckEligibleSales} of \$600',
+                          'Truck Minimums:\nEligible items: \$${formatter.format(_truckEligibleSales_dbl)} of \$600',
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.black54,
