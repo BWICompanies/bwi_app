@@ -524,7 +524,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
               content: Text(
-                  'Order placed successfully.')), //You will receive an email confirmation with your order number.
+                  'Order placed successfully. You will receive an email confirmation with your order number.')),
         );
 
         //Do redirect to the thank you page
