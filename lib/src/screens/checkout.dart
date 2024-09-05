@@ -696,7 +696,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             }
                             return null;
                           },*/
-                          keyboardType: TextInputType.number,
+                          //keyboardType: TextInputType.number,
                           style: TextStyle(fontSize: 16),
                           decoration: InputDecoration(
                             labelText: 'P.O. Number',
