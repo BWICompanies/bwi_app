@@ -170,14 +170,15 @@ class _ScanScreenState extends State<ScanScreen> {
                   Text(_message,
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold)),
-                  /* SizedBox(
+                  SizedBox(height: 20),
+                  SizedBox(
                     height: 45,
                     child: ElevatedButton(
                         onPressed: () => barcodeScan(),
-                        child: const Text('Barcode Scan',
+                        child: const Text('Scan',
                             style: TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.bold))),
-                  ),*/
+                  ),
                 ])),
       );
 }
