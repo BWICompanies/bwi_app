@@ -1,7 +1,7 @@
 name: bwiapp
 description: BWI Product Catalog
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.0.2+1
+version: 1.0.3+1
 
 environment:
   sdk: ^3.0.0
@@ -9,7 +9,7 @@ environment:
 dependencies:
   adaptive_navigation: ^0.0.3
   collection: ^1.15.0
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.3
   flutter:
     sdk: flutter
   flutter_barcode_scanner: ^2.0.0

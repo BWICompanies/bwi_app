@@ -329,6 +329,10 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     searchString = value;
                   });
                   _debouncer.run(() {
+                    //If on page 3 and search it needs to start at page 1
+                    setState(() {
+                      _page = 1;
+                    });
                     getProducts(value).then((ApiProductFromServer) {
                       if (ApiProductFromServer != null) {
                         setState(() {
