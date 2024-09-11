@@ -18,7 +18,8 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
-  String _scanBarcode = 'Unknown';
+  //String _scanBarcode = '';
+  String _message = 'Loading...';
 
   /// For Continuous scan. (Doesnt return value, just a future function that sets a variable without blocking the interface)
   Future<void> startBarcodeScanStream() async {
@@ -36,16 +37,12 @@ class _ScanScreenState extends State<ScanScreen> {
         '#ff6666', 'Cancel', true, ScanMode.BARCODE);
     //My test product 20oz Mammoth Rover drinking cup returns 0856924006396 from the scan which matches the upc code on the product. (Which has no leading 0) DAMAMMS20ROVBLK
 
-    //remove leading 0 from barcodeScanRes
-    /*
+    //print(barcodeScanRes);
+
+    //remove leading 0 from barcodeScanRes. The cup above returns 0856924006396 but the label doesnt have the 0.
     if (barcodeScanRes[0] == '0') {
       barcodeScanRes = barcodeScanRes.substring(1);
     }
-    */
-
-    setState(() {
-      _scanBarcode = barcodeScanRes;
-    });
 
     //Turn the UPC into a product number
     final token = await ProductstoreAuth().getToken();
@@ -66,6 +63,9 @@ class _ScanScreenState extends State<ScanScreen> {
       if (streamedResponse != null) {
         var response = await http.Response.fromStream(streamedResponse);
 
+        print(response.statusCode);
+        print(ApiConstants.baseUrl + ApiConstants.upcEndpoint + barcodeScanRes);
+
         // Add a null check to the if statement before parsing the response.
         if (response != null) {
           //Turn the json response into an object
@@ -80,6 +80,10 @@ class _ScanScreenState extends State<ScanScreen> {
             final dataArray = decodedResponse['data'] as Map<String, dynamic>;
             final upc = dataArray['bwi_item_number'] as String;
 
+            setState(() {
+              _message = '';
+            });
+
             //Do redirect to the product page
             RouteStateScope.of(context).go('/apiproduct/${upc}');
 
@@ -88,15 +92,24 @@ class _ScanScreenState extends State<ScanScreen> {
 
             //return null;
           } else {
+            setState(() {
+              _message = 'UPC not found.\n$barcodeScanRes';
+            });
             // Change the return type to indicate that the function may return a null value.
             //return null;
           }
         } else {
           // Throw an exception if the response is null.
+          setState(() {
+            _message = 'UPC not found.\n$barcodeScanRes';
+          });
           throw Exception('Error');
         }
       } else {
         // Throw an exception if the streamedResponse is null.
+        setState(() {
+          _message = 'UPC not found.\n$barcodeScanRes';
+        });
         throw Exception('Error');
       }
     } catch (e) {
@@ -132,6 +145,8 @@ class _ScanScreenState extends State<ScanScreen> {
   void initState() {
     super.initState();
 
+    //print('ini ran');
+
     barcodeScan();
   }
 
@@ -151,11 +166,11 @@ class _ScanScreenState extends State<ScanScreen> {
                 direction: Axis.vertical,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Loading...', style: const TextStyle(fontSize: 20)),
-                  /* Text('Scan result : $_scanBarcode\n',
+                  //Text('Loading...', style: const TextStyle(fontSize: 20)),
+                  Text(_message,
                       style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.bold)),*/
-                  /*SizedBox(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
+                  /* SizedBox(
                     height: 45,
                     child: ElevatedButton(
                         onPressed: () => barcodeScan(),
