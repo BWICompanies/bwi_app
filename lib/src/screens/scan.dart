@@ -152,7 +152,6 @@ class _ScanScreenState extends State<ScanScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.grey[50],
         appBar: AppBar(
           title: const Text('Scan'),
           backgroundColor: Theme.of(context).colorScheme.primary,

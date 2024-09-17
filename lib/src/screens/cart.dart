@@ -282,7 +282,6 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.grey[50],
         appBar: AppBar(
           title: const Text('Shopping Cart'),
           backgroundColor: Theme.of(context).colorScheme.primary,

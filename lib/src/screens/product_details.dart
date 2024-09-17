@@ -174,7 +174,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     //print(selectedProduct?.item_description); //null safe way to print
 
     return Scaffold(
-      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: Row(children: [
           //Text('Product: '),

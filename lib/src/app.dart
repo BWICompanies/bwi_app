@@ -123,6 +123,8 @@ class _ProductstoreState extends State<Productstore> {
                 surface: Colors.white,
                 brightness: Brightness.light,
               ),
+              cardColor: Colors.white,
+              scaffoldBackgroundColor: Colors.grey[50],
               pageTransitionsTheme: const PageTransitionsTheme(
                 builders: {
                   TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

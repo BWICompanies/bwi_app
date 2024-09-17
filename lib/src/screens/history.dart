@@ -28,7 +28,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) => DefaultTabController(
         length: 2, // Adjust the number of tabs based on your needs
         child: Scaffold(
-          backgroundColor: Colors.grey[50],
           appBar: AppBar(
             title: Text(title),
             backgroundColor: Theme.of(context).colorScheme.primary,
