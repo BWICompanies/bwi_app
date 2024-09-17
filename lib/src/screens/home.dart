@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.grey[50],
         appBar: AppBar(
           //title: Text(title),
           //centerTitle: true,
@@ -101,8 +102,14 @@ class HomeCard extends StatelessWidget {
       onTap: () {
         RouteStateScope.of(context).go(Route);
       },
-      child: Container(
+      child: Card(
         color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7),
+          side: BorderSide(
+            color: Colors.grey.shade200,
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

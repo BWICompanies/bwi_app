@@ -202,6 +202,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         title: const Text('Product Catalog'),
         actions: [
@@ -361,7 +362,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     //print('Card ${productList[index].item_number} clicked!');
                   },
                   child: Card(
-                    surfaceTintColor: Theme.of(context).colorScheme.surface,
+                    color: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                       side: BorderSide(

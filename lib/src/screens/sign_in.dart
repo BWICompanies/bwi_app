@@ -48,6 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.grey[50],
         body: Center(
           child: Card(
             child: Container(

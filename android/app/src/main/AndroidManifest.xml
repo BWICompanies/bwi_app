@@ -3,9 +3,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:label="navigation_and_routing"
+        android:label="BWI"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"> <!-- bwi -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -282,6 +282,7 @@ class _CartScreenState extends State<CartScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.grey[50],
         appBar: AppBar(
           title: const Text('Shopping Cart'),
           backgroundColor: Theme.of(context).colorScheme.primary,
@@ -319,7 +320,7 @@ class _CartScreenState extends State<CartScreen> {
                       //print('Card ${productList[index].item_number} clicked!');
                     },
                     child: Card(
-                      surfaceTintColor: Theme.of(context).colorScheme.surface,
+                      color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(
@@ -497,7 +498,7 @@ class _CartScreenState extends State<CartScreen> {
               Expanded(
                 flex: 2,
                 child: Container(
-                    color: Colors.grey[100],
+                    color: Colors.green[50],
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 7),
                     child: Row(
                       children: [
@@ -543,7 +544,7 @@ class _CartScreenState extends State<CartScreen> {
             Expanded(
               flex: 2,
               child: Container(
-                color: Colors.grey[100],
+                color: Colors.green[50],
                 padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Row(
                   children: [
