@@ -75,10 +75,10 @@ class HomeScreen extends StatelessWidget {
                           */
                       //HomeCard(Title: 'Track Order', iData: Icons.share_location, Route: '/track'),
                       //HomeCard(Title: 'Favorites', iData: Icons.favorite, Route: '/favorites'),
-                      /* HomeCard(
+                      HomeCard(
                           Title: 'Order History',
                           iData: Icons.history,
-                          Route: '/history'), */
+                          Route: '/history'),
                     ]),
               ),
             ],
