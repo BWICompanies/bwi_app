@@ -43,11 +43,12 @@ class ProductstoreScaffoldBody extends StatelessWidget {
             key: ValueKey('home'),
             child: HomeScreen(),
           )
+        /*
         else if (currentRoute.pathTemplate.startsWith('/history'))
           const FadeTransitionPage<void>(
             key: ValueKey('history'),
             child: HistoryScreen(),
-          )
+          )*/
         else if (currentRoute.pathTemplate.startsWith('/scan'))
           const FadeTransitionPage<void>(
             key: ValueKey('scan'),

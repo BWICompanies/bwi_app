@@ -54,12 +54,11 @@ class ProductstoreScaffold extends StatelessWidget {
             title: 'Scan',
             icon: Icons.qr_code_scanner,
           ),
-
           /*
           AdaptiveScaffoldDestination(
             title: 'History',
             icon: Icons.history,
-          ), */
+          ),*/
           AdaptiveScaffoldDestination(
             title: 'Account', //Was Settings
             icon: Icons.person, //was settings
