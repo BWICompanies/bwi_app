@@ -117,48 +117,63 @@ class _HistoryScreenState extends State<HistoryScreen> {
           body: TabBarView(
             children: [
               // Content for the first tab
-              Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //Text('Content of Tab 1'),
-                      //Start of an Order
-                      Text('Order# 18575225',
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                      Divider(),
-                      //Order detail line
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Date: ',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                ),
+              openOrderList.isEmpty
+                  ? Text("No Open Orders")
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      padding: EdgeInsets.all(5),
+                      itemCount: openOrderList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(
+                                color: Colors.grey.shade300,
                               ),
-                              TextSpan(
-                                text: "2024-07-15",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      "Order#: " +
+                                          openOrderList[index].order_number,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                  //Divider(),
+                                  SizedBox(height: 5),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Date: ',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: "2024-07-15",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                            ));
+                      },
+                    ),
 
               // Content for the second tab
               Padding(
