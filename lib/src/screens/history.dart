@@ -151,7 +151,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     text: TextSpan(
                                       children: [
                                         TextSpan(
-                                          text: 'Date: ',
+                                          text: 'Order Date: ',
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.black54,
@@ -159,7 +159,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: "2024-07-15",
+                                          text: openOrderList[index]
+                                              .orderdate, //or requesteddate?
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
@@ -169,6 +170,78 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       ],
                                     ),
                                   ),
+                                  SizedBox(height: 5),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'PO#: ',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: openOrderList[index].customerpo,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Status: ',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: openOrderList[index]
+                                              .friendlyStatus,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Text("More Details"),
+                                  //show ship to info and line items. (Pic would be nice)
+                                  /*
+                                  "shiptoname": "SUTHERLAND LBR #3209",
+                                  "shiptoaddr1": "CHUCK ELLIS",
+                                  "shiptoaddr2": "717 HIGHWAY 80 EAST",
+                                  "shiptocitystate": "PEARL, MS",
+                                  "shiptozip5": "39208",
+                                  "lines": [
+                                    {
+                                      "ordernum": "18588066",
+                                      "item_number": "SXMOBUCKS",
+                                      "item_description": "Mo' Bucks Feed - 40 lb",
+                                      "uom": "BG",
+                                      "uom_desc": "BAG",
+                                      "quantity": "300",
+                                      "unitprice": "10.57",
+                                      "ups_enabled": "N",
+                                      "pack_size": "Pk/1",
+                                      "vendor": "BHM",
+                                      "qtycancelled": "0",
+                                      "qtymoved": "0"
+                                    }
+                                    */
                                 ],
                               ),
                             ));
