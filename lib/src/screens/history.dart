@@ -18,10 +18,72 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final String title = 'History';
+  List<OpenOrder> openOrderList = [];
+
+  //Get the open orders from the API and return a list of OpenOrder objects to be saved as openOrderList
+  Future<List<OpenOrder>?> _getOpenOrders() async {
+    final token = await ProductstoreAuth().getToken();
+
+    //print(token);
+
+    http.Request request = http.Request(
+        'GET', Uri.parse(ApiConstants.baseUrl + ApiConstants.ooEndpoint));
+
+    request.headers['Authorization'] = 'Bearer $token';
+    request.headers['Content-Type'] = 'application/json'; //Format sending
+    request.headers['ACCEPT'] = 'application/json'; //Format recieving
+
+    try {
+      var streamedResponse = await request.send();
+      if (streamedResponse != null) {
+        var response = await http.Response.fromStream(streamedResponse);
+
+        if (response != null) {
+          //print(response.statusCode);
+
+          //Parse response
+          if (response.statusCode == 200) {
+            List<OpenOrder> list = parseData(response.body);
+
+            return list;
+          } else {
+            return null;
+          }
+        } else {
+          throw Exception('Error');
+        }
+      } else {
+        throw Exception('Error');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  //Read Json string and return a list of OpenOrder objects. This is a static class function, no need to create instance
+  static List<OpenOrder> parseData(String responseBody) {
+    // Decode the JSON response into a Dart object.
+    final decodedResponse = json.decode(responseBody);
+
+    // Get the data array from the decoded object.
+    final dataArray = decodedResponse['data'] as List<dynamic>;
+
+    // Parse the data array into a list of objects and return
+    final parsed = dataArray.cast<Map<String, dynamic>>();
+    return parsed.map<OpenOrder>((json) => OpenOrder.fromJson(json)).toList();
+  }
 
   @override
   void initState() {
     super.initState();
+
+    _getOpenOrders().then((ResultsFromServer) {
+      if (ResultsFromServer != null) {
+        setState(() {
+          openOrderList = ResultsFromServer;
+        });
+      }
+    });
   }
 
   @override
