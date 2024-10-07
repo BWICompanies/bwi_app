@@ -64,7 +64,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
-  // Function to parse the JSON and create the desired data structure
+  // Function to parse the Open Orders JSON and create the desired data structure
   List<Map<String, dynamic>> parseData(Map<String, dynamic> json) {
     final List<Map<String, dynamic>> dataList = [];
     final orderData = json['data'] as List;
@@ -113,11 +113,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void initState() {
     super.initState();
 
+    //Populate the Open Orders tab
     _getOpenOrders().then((ResultsFromServer) {
       if (ResultsFromServer != null) {
         setState(() {
           openOrderList = ResultsFromServer;
-          print(openOrderList);
         });
       }
     });
