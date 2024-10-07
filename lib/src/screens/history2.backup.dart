@@ -10,7 +10,7 @@ import '../data.dart';
 import '../auth.dart';
 import 'package:intl/intl.dart'; //for number formatting
 
-class HistoryScreen2 extends StatefulWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
 
   @override

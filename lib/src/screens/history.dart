@@ -6,7 +6,7 @@ import 'dart:convert'; //to and from json
 import 'package:shared_preferences/shared_preferences.dart';
 import '../routing.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
-import '../data.dart';
+//import '../data.dart';
 import '../auth.dart';
 import 'package:intl/intl.dart'; //for number formatting
 
@@ -19,10 +19,10 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   final String title = 'History';
-  List<OpenOrder> openOrderList = [];
+  List<Map<String, dynamic>> openOrderList = [];
 
   //Get the open orders from the API and return a list of OpenOrder objects to be saved as openOrderList
-  Future<List<OpenOrder>?> _getOpenOrders() async {
+  Future<List<Map<String, dynamic>>?> _getOpenOrders() async {
     final token = await ProductstoreAuth().getToken();
 
     //print(token);
@@ -44,9 +44,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
           //Parse response
           if (response.statusCode == 200) {
-            List<OpenOrder> list = parseData(response.body);
+            final json = jsonDecode(response.body);
 
-            return list;
+            //List<Map<String, dynamic>> list = parseData(json);
+            //return list;
+
+            return parseData(json);
           } else {
             return null;
           }
@@ -61,17 +64,49 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
-  //Read Json string and return a list of OpenOrder objects. This is a static class function, no need to create instance
-  static List<OpenOrder> parseData(String responseBody) {
-    // Decode the JSON response into a Dart object.
-    final decodedResponse = json.decode(responseBody);
+  // Function to parse the JSON and create the desired data structure
+  List<Map<String, dynamic>> parseData(Map<String, dynamic> json) {
+    final List<Map<String, dynamic>> dataList = [];
+    final orderData = json['data'] as List;
 
-    // Get the data array from the decoded object.
-    final dataArray = decodedResponse['data'] as List<dynamic>;
+    for (var order in orderData) {
+      final Map<String, dynamic> orderMap = {};
+      orderMap['order_number'] = order['order_number'];
+      orderMap['orderdate'] = order['orderdate'];
+      orderMap['customerpo'] = order['customerpo'];
+      orderMap['friendlyStatus'] = order['friendlyStatus'];
+      orderMap['shiptoname'] = order['shiptoname'];
+      orderMap['shiptoaddr1'] = order['shiptoaddr1'];
+      orderMap['shiptoaddr2'] = order['shiptoaddr2'];
+      orderMap['shiptocitystate'] = order['shiptocitystate'];
+      orderMap['shiptozip5'] = order['shiptozip5'];
 
-    // Parse the data array into a list of objects and return
-    final parsed = dataArray.cast<Map<String, dynamic>>();
-    return parsed.map<OpenOrder>((json) => OpenOrder.fromJson(json)).toList();
+      // Extract item information from the "lines" list
+      final lines = order['lines'] as List;
+      final List<Map<String, dynamic>> itemList = [];
+      for (var item in lines) {
+        final Map<String, dynamic> itemMap = {};
+        itemMap['ordernum'] = item['ordernum'];
+        itemMap['item_number'] = item['item_number'];
+        itemMap['item_description'] = item['item_description'];
+        itemMap['uom'] = item['uom'];
+        itemMap['uom_desc'] = item['uom_desc'];
+        itemMap['quantity'] = item['quantity'];
+        itemMap['unitprice'] = item['unitprice'];
+        itemMap['ups_enabled'] = item['ups_enabled'];
+        itemMap['pack_size'] = item['pack_size'];
+        itemMap['vendor'] = item['vendor'];
+        itemMap['qtycancelled'] = item['qtycancelled'];
+        itemMap['qtymoved'] = item['qtymoved'];
+
+        itemList.add(itemMap);
+      }
+
+      orderMap['lines'] = itemList; // Add the list of items to the order map
+      dataList.add(orderMap);
+    }
+
+    return dataList;
   }
 
   @override
@@ -82,6 +117,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       if (ResultsFromServer != null) {
         setState(() {
           openOrderList = ResultsFromServer;
+          print(openOrderList);
         });
       }
     });
@@ -142,7 +178,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 children: [
                                   Text(
                                       "Order#: " +
-                                          openOrderList[index].order_number,
+                                          openOrderList[index]['order_number'],
                                       style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold)),
@@ -161,7 +197,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         ),
                                         TextSpan(
                                           text: openOrderList[index]
-                                              .orderdate, //or requesteddate?
+                                              ['orderdate'], //or requesteddate?
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
@@ -184,7 +220,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                           ),
                                         ),
                                         TextSpan(
-                                          text: openOrderList[index].customerpo,
+                                          text: openOrderList[index]
+                                              ['customerpo'],
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
@@ -208,7 +245,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         ),
                                         TextSpan(
                                           text: openOrderList[index]
-                                              .friendlyStatus,
+                                              ['friendlyStatus'],
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
@@ -219,6 +256,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     ),
                                   ),
                                   SizedBox(height: 10),
+                                  //More information box
                                   Container(
                                     decoration: BoxDecoration(
                                       color: Colors.grey[100],
@@ -232,24 +270,79 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ListView.builder(
-                                            shrinkWrap:
-                                                true, // Prevent nested list view from expanding
-                                            physics:
-                                                NeverScrollableScrollPhysics(), // Disable scrolling
-                                            itemCount:
-                                                1, //openOrderList[index]['lines'].length,
-                                            itemBuilder: (context, lineIndex) {
-                                              final line = [];
-                                              //openOrderList[index]['lines'][lineIndex];
-                                              return Text(
-                                                "line here",
-                                                style: TextStyle(fontSize: 14),
-                                              );
-                                            },
-                                          ),
+                                        Text('Ship To:'),
+                                        Text(
+                                          openOrderList[index]['shiptoname'],
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        Text(
+                                          openOrderList[index]['shiptoaddr1'],
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        Text(
+                                          openOrderList[index]['shiptoaddr2'],
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        Text(
+                                          openOrderList[index]
+                                                  ['shiptocitystate'] +
+                                              ' ' +
+                                              openOrderList[index]
+                                                  ['shiptozip5'],
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                        ListView.builder(
+                                          shrinkWrap:
+                                              true, // Prevent nested list view from expanding
+                                          physics:
+                                              NeverScrollableScrollPhysics(), // Disable scrolling
+                                          itemCount: openOrderList[index]
+                                                  ['lines']
+                                              .length,
+                                          itemBuilder: (context, lineIndex) {
+                                            final line = openOrderList[index]
+                                                ['lines'][lineIndex];
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text('Items Ordered'),
+                                                SizedBox(height: 5),
+                                                Visibility(
+                                                  visible: line['item_number']
+                                                      .isNotEmpty,
+                                                  child: Text(
+                                                    line['item_number'],
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                  visible:
+                                                      line['item_description']
+                                                          .isNotEmpty,
+                                                  child: Text(
+                                                    line['item_description'],
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                ),
+                                                Visibility(
+                                                  visible: line['uom_desc']
+                                                      .isNotEmpty,
+                                                  child: Text(
+                                                    line['quantity'] +
+                                                        ' ' +
+                                                        line['uom_desc'] +
+                                                        ' - \$' +
+                                                        line['unitprice'],
+                                                    style:
+                                                        TextStyle(fontSize: 12),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
                                       ],
                                     ),
