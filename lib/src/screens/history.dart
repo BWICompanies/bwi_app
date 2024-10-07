@@ -1,3 +1,4 @@
+//Card layout with imported class for OpenOrder objects.
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async'; //optional but helps with debugging
@@ -125,232 +126,137 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       padding: EdgeInsets.all(5),
                       itemCount: openOrderList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            //If card is tapped, show a popup with these order details
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('Order #' +
-                                        openOrderList[index].order_number),
-                                    content: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                        return Card(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(
+                                color: Colors.grey.shade300,
+                              ),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                      "Order#: " +
+                                          openOrderList[index].order_number,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                  //Divider(),
+                                  SizedBox(height: 5),
+                                  RichText(
+                                    text: TextSpan(
                                       children: [
-                                        Text('Shipping Information'),
-                                        SizedBox(height: 5),
-                                        //Show the line if it is not empty
-                                        Visibility(
-                                          visible: openOrderList[index]
-                                              .shiptoname
-                                              .isNotEmpty,
-                                          child: Text(
-                                            openOrderList[index].shiptoname,
-                                            style: TextStyle(fontSize: 12),
+                                        TextSpan(
+                                          text: 'Order Date: ',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Visibility(
-                                          visible: openOrderList[index]
-                                              .shiptoaddr1
-                                              .isNotEmpty,
-                                          child: Text(
-                                            openOrderList[index].shiptoaddr1,
-                                            style: TextStyle(fontSize: 12),
+                                        TextSpan(
+                                          text: openOrderList[index]
+                                              .orderdate, //or requesteddate?
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.normal,
                                           ),
                                         ),
-                                        Visibility(
-                                          visible: openOrderList[index]
-                                              .shiptoaddr2
-                                              .isNotEmpty,
-                                          child: Text(
-                                            openOrderList[index].shiptoaddr2,
-                                            style: TextStyle(fontSize: 12),
-                                          ),
-                                        ),
-                                        Visibility(
-                                          visible: openOrderList[index]
-                                              .shiptocitystate
-                                              .isNotEmpty,
-                                          child: Text(
-                                            openOrderList[index]
-                                                .shiptocitystate,
-                                            style: TextStyle(fontSize: 12),
-                                          ),
-                                        ),
-                                        Visibility(
-                                          visible: openOrderList[index]
-                                              .shiptozip5
-                                              .isNotEmpty,
-                                          child: Text(
-                                            openOrderList[index].shiptozip5,
-                                            style: TextStyle(fontSize: 12),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text('Items'),
-                                        SizedBox(height: 5),
-
-                                        //show line items. (Pic would be nice)
-                                        /*
-                                   
-                                    "lines": [
-                                      {
-                                        "ordernum": "18588066",
-                                        "item_number": "SXMOBUCKS",
-                                        "item_description": "Mo' Bucks Feed - 40 lb",
-                                        "uom": "BG",
-                                        "uom_desc": "BAG",
-                                        "quantity": "300",
-                                        "unitprice": "10.57",
-                                        "ups_enabled": "N",
-                                        "pack_size": "Pk/1",
-                                        "vendor": "BHM",
-                                        "qtycancelled": "0",
-                                        "qtymoved": "0"
-                                      }
-                                      */
                                       ],
                                     ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('Close'),
-                                      ),
-                                    ],
-                                  );
-                                });
-                            /*
-                            If we wanted to go to a detail page this is how you would do it
-                            RouteStateScope.of(context).go(
-                                //'/order/${openOrderList[index].order_number}');
-                                '/home');*/
-                          },
-                          child: Card(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                side: BorderSide(
-                                  color: Colors.grey.shade300,
-                                ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                        "Order#: " +
-                                            openOrderList[index].order_number,
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold)),
-                                    //Divider(),
-                                    SizedBox(height: 5),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: 'Order Date: ',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black54,
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'PO#: ',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                          TextSpan(
-                                            text: openOrderList[index]
-                                                .orderdate, //or requesteddate?
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: 'PO#: ',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black54,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                openOrderList[index].customerpo,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: 'Status: ',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black54,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: openOrderList[index]
-                                                .friendlyStatus,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      "More Information",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    ),
-                                    /*
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          RouteStateScope.of(context).go(
-                                              '/order/${openOrderList[index].order_number}');
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: Theme.of(context)
-                                              .colorScheme
-                                              .primary, // Set the background color
-                                          foregroundColor: Colors
-                                              .white, // Set the text color (optional)
                                         ),
-                                        child: const Text('More Details',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold))),*/
-                                  ],
-                                ),
-                              )),
-                        );
+                                        TextSpan(
+                                          text: openOrderList[index].customerpo,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Status: ',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black54,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: openOrderList[index]
+                                              .friendlyStatus,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                    ),
+                                    child: ExpansionTile(
+                                      dense: true,
+                                      title: Text(
+                                        "More Information",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ListView.builder(
+                                            shrinkWrap:
+                                                true, // Prevent nested list view from expanding
+                                            physics:
+                                                NeverScrollableScrollPhysics(), // Disable scrolling
+                                            itemCount:
+                                                1, //openOrderList[index]['lines'].length,
+                                            itemBuilder: (context, lineIndex) {
+                                              final line = [];
+                                              //openOrderList[index]['lines'][lineIndex];
+                                              return Text(
+                                                "line here",
+                                                style: TextStyle(fontSize: 14),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ));
                       },
                     ),
 
