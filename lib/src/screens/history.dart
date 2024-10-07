@@ -258,11 +258,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   SizedBox(height: 10),
                                   //More information box
                                   Container(
+                                    alignment: Alignment.centerLeft,
                                     decoration: BoxDecoration(
                                       color: Colors.grey[100],
                                     ),
                                     child: ExpansionTile(
                                       dense: true,
+                                      childrenPadding:
+                                          EdgeInsets.fromLTRB(15, 0, 15, 20),
+                                      expandedCrossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       title: Text(
                                         "More Information",
                                         style: TextStyle(
@@ -271,17 +276,32 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       ),
                                       children: [
                                         Text('Ship To:'),
-                                        Text(
-                                          openOrderList[index]['shiptoname'],
-                                          style: TextStyle(fontSize: 12),
+                                        Visibility(
+                                          visible: openOrderList[index]
+                                                  ['shiptoname']
+                                              .isNotEmpty,
+                                          child: Text(
+                                            openOrderList[index]['shiptoname'],
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
-                                        Text(
-                                          openOrderList[index]['shiptoaddr1'],
-                                          style: TextStyle(fontSize: 12),
+                                        Visibility(
+                                          visible: openOrderList[index]
+                                                  ['shiptoaddr1']
+                                              .isNotEmpty,
+                                          child: Text(
+                                            openOrderList[index]['shiptoaddr1'],
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
-                                        Text(
-                                          openOrderList[index]['shiptoaddr2'],
-                                          style: TextStyle(fontSize: 12),
+                                        Visibility(
+                                          visible: openOrderList[index]
+                                                  ['shiptoaddr2']
+                                              .isNotEmpty,
+                                          child: Text(
+                                            openOrderList[index]['shiptoaddr2'],
+                                            style: TextStyle(fontSize: 12),
+                                          ),
                                         ),
                                         Text(
                                           openOrderList[index]
@@ -291,6 +311,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                                   ['shiptozip5'],
                                           style: TextStyle(fontSize: 12),
                                         ),
+                                        SizedBox(height: 15),
                                         ListView.builder(
                                           shrinkWrap:
                                               true, // Prevent nested list view from expanding
@@ -306,7 +327,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text('Items Ordered'),
+                                                Text('Items Ordered:'),
                                                 SizedBox(height: 5),
                                                 Visibility(
                                                   visible: line['item_number']
