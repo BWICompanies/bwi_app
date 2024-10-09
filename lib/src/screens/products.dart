@@ -163,6 +163,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
     prefs.setString('searchString', value);
   }
 
+  Future<void> saveFrom() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('from', '/products');
+  }
+
   @override
   //On wiget ini, getProducts function returns a future object and uses the then method to add a callback to update the list variable.
   void initState() {
@@ -196,6 +201,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
         });
       }
     });
+
+    saveFrom();
   }
 
   //Main Widget
