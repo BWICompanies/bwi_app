@@ -279,7 +279,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             children: [
               // Content for the recent items tab
               phList.isEmpty
-                  ? Text("No recent items")
+                  ? Text("") //No recent items
                   : Column(
                       children: [
                         Expanded(
@@ -462,7 +462,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     ),
               // Content for the Open Orders tab
               openOrderList.isEmpty
-                  ? Text("No Open Orders")
+                  ? Text("") //No Open Orders
                   : Column(
                       children: [
                         Expanded(
