@@ -19,6 +19,8 @@ class ProductstoreScaffold extends StatelessWidget {
     final routeState = RouteStateScope.of(context);
     final selectedIndex = _getSelectedIndex(routeState.route.pathTemplate);
 
+    //print(selectedIndex); //history is 3
+
     return Scaffold(
       body: AdaptiveNavigationScaffold(
         selectedIndex: selectedIndex,
@@ -35,7 +37,7 @@ class ProductstoreScaffold extends StatelessWidget {
                 '/account'); //4 if we turn history back on. 3 if we turn scan back on
         },
         destinations: const [
-           AdaptiveScaffoldDestination(
+          AdaptiveScaffoldDestination(
             title: 'Home', //was products
             icon: Icons.home,
           ),
@@ -49,7 +51,6 @@ class ProductstoreScaffold extends StatelessWidget {
             icon: Icons.person,
           ),
           */
-
           AdaptiveScaffoldDestination(
             title: 'Scan',
             icon: Icons.qr_code_scanner,
