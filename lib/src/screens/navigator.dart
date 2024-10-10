@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import 'dart:convert'; //to and from json
 import 'package:http/http.dart' as http; //for api requests
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../auth.dart';
 import '../data.dart';
@@ -34,6 +35,11 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
   final _productDetailsKey = const ValueKey('Product details screen');
   //final _authorDetailsKey = const ValueKey('Author details screen');
 
+  Future<String?> _getFrom() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('from');
+  }
+
   @override
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
@@ -50,12 +56,24 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
 
     return Navigator(
       key: widget.navigatorKey,
+
       onPopPage: (route, dynamic result) {
         // When a product details page is popped, go back to products
+        /*
         if (route.settings is Page &&
             (route.settings as Page).key == _productDetailsKey) {
           routeState.go('/products');
         }
+        */
+
+        //Get the from location to know where back button should go
+        _getFrom().then((value) {
+          if (value != null) {
+            routeState.go(value);
+          } else {
+            routeState.go('/home');
+          }
+        });
 
         return route.didPop(result);
       },

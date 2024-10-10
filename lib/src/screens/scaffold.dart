@@ -29,13 +29,13 @@ class ProductstoreScaffold extends StatelessWidget {
           if (idx == 1) routeState.go('/products');
           if (idx == 2) routeState.go('/scan');
           //if (idx == 2) routeState.go('/authors'); //not used
-          //if (idx == 3) routeState.go('/history'); //not finnished
-          if (idx == 3)
+          if (idx == 3) routeState.go('/history'); //not finnished
+          if (idx == 4)
             routeState.go(
                 '/account'); //4 if we turn history back on. 3 if we turn scan back on
         },
         destinations: const [
-          AdaptiveScaffoldDestination(
+           AdaptiveScaffoldDestination(
             title: 'Home', //was products
             icon: Icons.home,
           ),
@@ -54,11 +54,10 @@ class ProductstoreScaffold extends StatelessWidget {
             title: 'Scan',
             icon: Icons.qr_code_scanner,
           ),
-          /*
           AdaptiveScaffoldDestination(
             title: 'History',
             icon: Icons.history,
-          ),*/
+          ),
           AdaptiveScaffoldDestination(
             title: 'Account', //Was Settings
             icon: Icons.person, //was settings
@@ -73,8 +72,8 @@ class ProductstoreScaffold extends StatelessWidget {
     if (pathTemplate.startsWith('/products')) return 1;
     if (pathTemplate == '/scan') return 2;
     //if (pathTemplate == '/authors') return 2;
-    //if (pathTemplate == '/history') return 3;
-    if (pathTemplate == '/settings') return 3;
+    if (pathTemplate == '/history') return 3;
+    if (pathTemplate == '/settings') return 4;
     return 0;
   }
 }

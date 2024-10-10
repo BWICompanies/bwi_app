@@ -32,7 +32,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "dev.flutter.navigation_and_routing"
+    namespace "dev.flutter.navigation_and_routing" //com.bwicompanies.productcatalog
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 

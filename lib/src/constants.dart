@@ -13,4 +13,6 @@ class ApiConstants {
   static String deliveryMethodsEndpoint = '/api/v1/checkout/ship-methods';
   static String taxesEndpoint = '/api/v1/checkout/estimated-taxes';
   static String shippingEndpoint = '/api/v1/checkout/estimated-freight';
+  static String ooEndpoint = '/api/v1/account/open-orders';
+  static String phEndpoint = '/api/v1/account/purchase-history';
 }

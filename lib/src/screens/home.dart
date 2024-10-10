@@ -60,13 +60,14 @@ class HomeScreen extends StatelessWidget {
                     crossAxisSpacing: 20.0,
                     children: [
                       HomeCard(
-                          Title: 'Scan Barcode',
-                          iData: Icons.qr_code_scanner,
-                          Route: '/scan'),
-                      HomeCard(
                           Title: 'Catalog',
                           iData: Icons.auto_stories,
                           Route: '/products'),
+                      HomeCard(
+                          Title: 'Scan Barcode',
+                          iData: Icons.qr_code_scanner,
+                          Route: '/scan'),
+
                       /*
                       HomeCard(
                           Title: 'Promotions',
@@ -75,12 +76,14 @@ class HomeScreen extends StatelessWidget {
                           */
                       //HomeCard(Title: 'Track Order', iData: Icons.share_location, Route: '/track'),
                       //HomeCard(Title: 'Favorites', iData: Icons.favorite, Route: '/favorites'),
-                      /*
                       HomeCard(
                           Title: 'Order History',
                           iData: Icons.history,
                           Route: '/history'),
-                          */
+                      HomeCard(
+                          Title: 'My Account',
+                          iData: Icons.account_box,
+                          Route: '/account'),
                     ]),
               ),
             ],
