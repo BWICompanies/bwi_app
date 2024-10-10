@@ -35,7 +35,7 @@ class ProductstoreScaffold extends StatelessWidget {
                 '/account'); //4 if we turn history back on. 3 if we turn scan back on
         },
         destinations: const [
-          AdaptiveScaffoldDestination(
+           AdaptiveScaffoldDestination(
             title: 'Home', //was products
             icon: Icons.home,
           ),

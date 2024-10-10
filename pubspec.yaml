@@ -2,7 +2,6 @@ name: bwiapp
 description: BWI Product Catalog
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.1.0+8
-
 environment:
   sdk: ^3.0.0
 
