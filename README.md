@@ -4,9 +4,10 @@
 Edit the pubspec.yaml file with vscode and edit the project build settings in xcode. ie. Major/breaking . newfeatures . bugfixes.
 
 # For making iphone screenshots open simulator and open these sizes and hit debug in VS code
-6.7" use 14 pro max
-6.5" Xs Max
-5.5" 8 plus
+6.9 iPhone 16 Pro Max
+6.7 use 14 pro max
+6.5 Xs Max
+5.5 8 plus
 
 # For making ipad screenshots
 13" 10th gen ipad
