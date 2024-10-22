@@ -75,6 +75,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     decoration: const InputDecoration(labelText: 'Password'),
                     obscureText: true,
                     controller: _passwordController,
+                    onSubmitted: (value) async {
+                      widget.onSignIn(Credentials(_emailController.value.text,
+                          _passwordController.value.text));
+                    },
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16),
