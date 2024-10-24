@@ -36,6 +36,11 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   RouteStateScope.of(context).go('/cart');
                 }),
+            IconButton(
+                icon: const Icon(Icons.person),
+                onPressed: () {
+                  RouteStateScope.of(context).go('/account');
+                }),
           ], //for icons on the right. ie. IconButton
           backgroundColor: Colors.green[700],
           //leading: Image.asset('assets/logo.png', width: 40, height: 40),
@@ -64,26 +69,25 @@ class HomeScreen extends StatelessWidget {
                           iData: Icons.auto_stories,
                           Route: '/products'),
                       HomeCard(
+                          Title: 'Promotions',
+                          iData: Icons.sell,
+                          Route: '/promos'),
+                      HomeCard(
                           Title: 'Scan Barcode',
                           iData: Icons.qr_code_scanner,
                           Route: '/scan'),
 
-                      /*
-                      HomeCard(
-                          Title: 'Promotions',
-                          iData: Icons.sell,
-                          Route: '/promos'),
-                          */
                       //HomeCard(Title: 'Track Order', iData: Icons.share_location, Route: '/track'),
                       //HomeCard(Title: 'Favorites', iData: Icons.favorite, Route: '/favorites'),
                       HomeCard(
                           Title: 'Order History',
                           iData: Icons.history,
                           Route: '/history'),
+                      /*
                       HomeCard(
                           Title: 'My Account',
                           iData: Icons.account_box,
-                          Route: '/account'),
+                          Route: '/account'),*/
                     ]),
               ),
             ],
