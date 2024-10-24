@@ -253,6 +253,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(title),
+            actions: [
+              IconButton(
+                  icon: const Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    RouteStateScope.of(context).go('/cart');
+                  }),
+            ],
             backgroundColor: Theme.of(context).colorScheme.primary,
             titleTextStyle: TextStyle(
               color: Theme.of(context).colorScheme.onPrimary,
