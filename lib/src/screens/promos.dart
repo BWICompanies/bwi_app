@@ -30,6 +30,13 @@ class _PromoScreenState extends State<PromoScreen> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Promos'),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.shopping_cart),
+                onPressed: () {
+                  RouteStateScope.of(context).go('/cart');
+                }),
+          ],
           backgroundColor: Theme.of(context).colorScheme.primary,
           titleTextStyle: TextStyle(
             color: Theme.of(context).colorScheme.onPrimary,
