@@ -15,4 +15,6 @@ class ApiConstants {
   static String shippingEndpoint = '/api/v1/checkout/estimated-freight';
   static String ooEndpoint = '/api/v1/account/open-orders';
   static String phEndpoint = '/api/v1/account/purchase-history';
+  static String promoEndpoint = '/api/v1/promotions';
+  static String bbEndpoint = '/api/v1/promotions/bargain-barn';
 }
