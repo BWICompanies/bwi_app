@@ -198,50 +198,45 @@ class _PromoScreenState extends State<PromoScreen> {
                                       color: Colors.grey.shade300,
                                     ),
                                   ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 5,
-                                        horizontal: 25), //card padding
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 2,
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 15, 20, 15),
-                                            child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    promoList[index]
-                                                        ['promo_text'],
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 2,
-                                                    style: TextStyle(
-                                                        fontSize: 17,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
-                                                  /* how to to regular non bold text
-                                                  SizedBox(height: 5),
-                                                  Text(
-                                                    promoList[index]
-                                                        ['promo_text'],
-                                                    style: TextStyle(
-                                                        fontSize: 17,
-                                                        color:
-                                                            Colors.grey[600]),
-                                                  ),
-                                                  */
-                                                ]),
-                                          ),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              25, 20, 25, 20),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  promoList[index]
+                                                      ['promo_text'],
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                                /* how to to regular non bold text
+                                                SizedBox(height: 5),
+                                                Text(
+                                                  promoList[index]
+                                                      ['promo_text'],
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      color:
+                                                          Colors.grey[600]),
+                                                ),
+                                                */
+                                              ]),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
@@ -353,7 +348,7 @@ class _PromoScreenState extends State<PromoScreen> {
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                        20, 15, 20, 15),
+                                        25, 20, 25, 20),
                                     child: Text(bbList[index],
                                         style: const TextStyle(
                                             fontSize: 17,
