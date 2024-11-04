@@ -20,11 +20,22 @@ class PromoScreen extends StatefulWidget {
 class _PromoScreenState extends State<PromoScreen> {
   //String _scanBarcode = '';
   final String title = 'Promotions';
+
+  //Promo Variables
   List<Map<String, dynamic>> promoList = [];
   int _pageP = 1;
   var _prevP = null;
   var _nextP = null;
   var _pageMessageP = "";
+
+  //Bargain Barn Variables
+  final List<String> bbList = [
+    'Grower Items',
+    'Landscape Items',
+    'Pest Items',
+    'Retail Items',
+    'Other Items',
+  ];
 
   //Get the open orders from the API
   Future<List<Map<String, dynamic>>?> _getPromos() async {
@@ -321,7 +332,7 @@ class _PromoScreenState extends State<PromoScreen> {
                       ],
                     ),
               // Content for the Bargain Barn tab
-              promoList.isEmpty
+              bbList.isEmpty
                   ? Text("") //No Open Orders
                   : Column(
                       children: [
@@ -330,7 +341,7 @@ class _PromoScreenState extends State<PromoScreen> {
                             shrinkWrap: true,
                             physics: ClampingScrollPhysics(),
                             padding: EdgeInsets.all(5),
-                            itemCount: promoList.length,
+                            itemCount: bbList.length,
                             itemBuilder: (BuildContext context, int index) {
                               return Card(
                                   color: Colors.white,
@@ -343,68 +354,10 @@ class _PromoScreenState extends State<PromoScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                         20, 15, 20, 15),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                            "Order#: " +
-                                                promoList[index]['promo_text'],
-                                            style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold)),
-                                        //Divider(),
-                                        SizedBox(height: 5),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: 'Order Date: ',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black54,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: promoList[index][
-                                                    'promo_text'], //or requesteddate?
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black87,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: 'PO#: ',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black54,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: promoList[index]
-                                                    ['promo_text'],
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black87,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 5),
-                                      ],
-                                    ),
+                                    child: Text(bbList[index],
+                                        style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w600)),
                                   ));
                             },
                           ),
