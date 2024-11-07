@@ -15,6 +15,7 @@ import '../screens/account.dart';
 import '../screens/authors.dart';
 import '../screens/products.dart';
 import '../screens/products_promo.dart';
+import '../screens/products_bb.dart';
 import '../screens/scaffold.dart';
 
 /// Displays the contents of the body of [ProductstoreScaffold]
@@ -94,6 +95,11 @@ class ProductstoreScaffoldBody extends StatelessWidget {
             key: ValueKey('products_promo'),
             child: ProductsPromoScreen(
                 contract_number: currentRoute.parameters['contract_number']),
+          )
+        else if (currentRoute.pathTemplate.startsWith('/products_bb'))
+          FadeTransitionPage<void>(
+            key: ValueKey('products_bb'),
+            child: ProductsBBScreen(filter: currentRoute.parameters['filter']),
           )
         else if (currentRoute.pathTemplate.startsWith('/products') ||
             currentRoute.pathTemplate == '/')

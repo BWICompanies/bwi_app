@@ -29,13 +29,13 @@ class _PromoScreenState extends State<PromoScreen> {
   var _pageMessageP = "";
 
   //Bargain Barn Variables
-  final List<String> bbList = [
-    'Grower Items',
-    'Landscape Items',
-    'Pest Items',
-    'Retail Items',
-    'Other Items',
-  ];
+  Map<String, String> bbMap = {
+    "grower": "Grower Items",
+    "landscape": "Landscape Items",
+    "pest": "Pest Items",
+    "retail": "Retail Items",
+    "other": "Other Items"
+  };
 
   //Get the open orders from the API
   Future<List<Map<String, dynamic>>?> _getPromos() async {
@@ -323,7 +323,7 @@ class _PromoScreenState extends State<PromoScreen> {
                       ],
                     ),
               // Content for the Bargain Barn tab
-              bbList.isEmpty
+              bbMap.isEmpty
                   ? Text("") //No Open Orders
                   : Column(
                       children: [
@@ -332,24 +332,34 @@ class _PromoScreenState extends State<PromoScreen> {
                             shrinkWrap: true,
                             physics: ClampingScrollPhysics(),
                             padding: EdgeInsets.all(5),
-                            itemCount: bbList.length,
+                            itemCount: bbMap.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Card(
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    side: BorderSide(
-                                      color: Colors.grey.shade300,
+                              final key = bbMap.keys.elementAt(index);
+                              final value = bbMap[key]!;
+                              return GestureDetector(
+                                onTap: () {
+                                  // Handle the click event here
+                                  //print("onclick $key"); //
+                                  RouteStateScope.of(context)
+                                      .go("/products_bb/$key");
+                                },
+                                child: Card(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: BorderSide(
+                                        color: Colors.grey.shade300,
+                                      ),
                                     ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        25, 20, 25, 20),
-                                    child: Text(bbList[index],
-                                        style: const TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w600)),
-                                  ));
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          25, 20, 25, 20),
+                                      child: Text(value,
+                                          style: const TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600)),
+                                    )),
+                              );
                             },
                           ),
                         ),

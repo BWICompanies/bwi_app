@@ -61,6 +61,7 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
         _getFrom().then((value) {
           if (value != null) {
             routeState.go(value);
+            //print(value);
           } else {
             routeState.go('/home');
           }

@@ -81,7 +81,7 @@ class ProductstoreScaffold extends StatelessWidget {
     //print(pathTemplate);
     if (pathTemplate == '/history') return 4;
     if (pathTemplate == '/scan') return 3;
-    if (pathTemplate.startsWith('/products_promo')) return 2;
+    if (pathTemplate.startsWith('/products_')) return 2; //products_promo or bb
     if (pathTemplate.startsWith('/promos')) return 2;
     if (pathTemplate.startsWith('/products')) return 1;
     //if (pathTemplate == '/authors') return 2;

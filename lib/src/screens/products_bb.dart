@@ -11,16 +11,16 @@ import 'dart:async'; //optional but helps with debugging
 import 'dart:convert'; //to and from json
 import 'package:http/http.dart' as http; //for api requests
 
-class ProductsPromoScreen extends StatefulWidget {
-  final String? contract_number; //To use: widget.contract_number
+class ProductsBBScreen extends StatefulWidget {
+  final String? filter; //To use: widget.contract_number
 
-  const ProductsPromoScreen({super.key, this.contract_number});
+  const ProductsBBScreen({super.key, this.filter});
 
   @override
-  State<ProductsPromoScreen> createState() => _ProductsPromoScreenState();
+  State<ProductsBBScreen> createState() => _ProductsBBScreenState();
 }
 
-class _ProductsPromoScreenState extends State<ProductsPromoScreen> {
+class _ProductsBBScreenState extends State<ProductsBBScreen> {
   //Defaults for pagination. The response will contain meta with current_page, from, path, per_page, and to. Page 1 will be from 1 to 10. Page 2 will be from 11 to 20.
   int _page = 1;
   var _prev = null;
@@ -33,17 +33,18 @@ class _ProductsPromoScreenState extends State<ProductsPromoScreen> {
   //Get the promo items from the API
   Future<List<Map<String, dynamic>>?> getProducts() async {
     final token = await ProductstoreAuth().getToken();
-    final contractNumber = widget.contract_number ?? ''; //OHPFALL24
+    final filter = widget.filter ?? ''; //grower
 
     //print(token);
-    //print("getProducts contract_number");
-    //print(widget.contract_number);
+    //print("getProducts filter");
+    //print(filter);
+    //print(widget.filter);
 
     http.Request request = http.Request(
         'GET',
         Uri.parse(ApiConstants.baseUrl +
-            ApiConstants.promoEndpoint +
-            '/$contractNumber?page=$_page'));
+            ApiConstants.bbEndpoint +
+            '/?filter=$filter&page=$_page'));
 
     request.headers['Authorization'] = 'Bearer $token';
     request.headers['Content-Type'] = 'application/json'; //Format sending
@@ -83,20 +84,15 @@ class _ProductsPromoScreenState extends State<ProductsPromoScreen> {
     }
   }
 
-  Future<void> saveFrom(contractNumber) async {
+  Future<void> saveFrom(filter) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('from', "/products_promo/$contractNumber");
+    prefs.setString('from', "/products_bb/$filter");
   }
 
   @override
   //On wiget ini, getProducts function returns a future object and uses the then method to add a callback to update the list variable.
   void initState() {
     super.initState();
-
-    //print("initState contract_number");
-    //print(widget.contract_number);
-
-    //print("products_promo.dart routeState.route.pathTemplate is ${routeState.route.pathTemplate}");
 
     getProducts().then((ResultsFromServer) {
       if (ResultsFromServer != null) {
@@ -106,7 +102,7 @@ class _ProductsPromoScreenState extends State<ProductsPromoScreen> {
       }
     });
 
-    saveFrom(widget.contract_number);
+    saveFrom(widget.filter);
   }
 
   //Main Widget
@@ -114,7 +110,7 @@ class _ProductsPromoScreenState extends State<ProductsPromoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Current Promotions'),
+        title: const Text('Bargain Barn'),
         actions: [
           IconButton(
               icon: const Icon(Icons.arrow_back_ios),
