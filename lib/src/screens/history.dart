@@ -59,11 +59,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
           //Parse response
           if (response.statusCode == 200) {
-            final json = jsonDecode(response.body);
-
-            //List<Map<String, dynamic>> list = parseData(json);
-            //return list;
-
             //Parse the meta and links data
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
@@ -81,7 +76,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
             _pageMessageOO = "Page $_pageOO";
 
-            return parseDataOO(json);
+            return List<Map<String, dynamic>>.from(jsonMap['data']);
           } else {
             return null;
           }
@@ -94,51 +89,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
     } catch (e) {
       throw Exception(e.toString());
     }
-  }
-
-  // Function to parse the Open Orders JSON and create the desired data structure
-  List<Map<String, dynamic>> parseDataOO(Map<String, dynamic> json) {
-    final List<Map<String, dynamic>> dataList = [];
-    final orderData = json['data'] as List;
-
-    for (var order in orderData) {
-      final Map<String, dynamic> orderMap = {};
-      orderMap['order_number'] = order['order_number'];
-      orderMap['orderdate'] = order['orderdate'];
-      orderMap['customerpo'] = order['customerpo'];
-      orderMap['friendlyStatus'] = order['friendlyStatus'];
-      orderMap['shiptoname'] = order['shiptoname'];
-      orderMap['shiptoaddr1'] = order['shiptoaddr1'];
-      orderMap['shiptoaddr2'] = order['shiptoaddr2'];
-      orderMap['shiptocitystate'] = order['shiptocitystate'];
-      orderMap['shiptozip5'] = order['shiptozip5'];
-
-      // Extract item information from the "lines" list
-      final lines = order['lines'] as List;
-      final List<Map<String, dynamic>> itemList = [];
-      for (var item in lines) {
-        final Map<String, dynamic> itemMap = {};
-        itemMap['ordernum'] = item['ordernum'];
-        itemMap['item_number'] = item['item_number'];
-        itemMap['item_description'] = item['item_description'];
-        itemMap['uom'] = item['uom'];
-        itemMap['uom_desc'] = item['uom_desc'];
-        itemMap['quantity'] = item['quantity'];
-        itemMap['unitprice'] = item['unitprice'];
-        itemMap['ups_enabled'] = item['ups_enabled'];
-        itemMap['pack_size'] = item['pack_size'];
-        itemMap['vendor'] = item['vendor'];
-        itemMap['qtycancelled'] = item['qtycancelled'];
-        itemMap['qtymoved'] = item['qtymoved'];
-
-        itemList.add(itemMap);
-      }
-
-      orderMap['lines'] = itemList; // Add the list of items to the order map
-      dataList.add(orderMap);
-    }
-
-    return dataList;
   }
 
   //Get the purchase history from the API
