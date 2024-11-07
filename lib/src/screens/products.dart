@@ -61,14 +61,11 @@ class _ProductsScreenState extends State<ProductsScreen> {
   late String searchString;
 
   final TextEditingController _textEditingController = TextEditingController();
-  //text: "Weed Killer"
 
-  List<ApiProduct> productList = []; //products returned from API
+  List<Map<String, dynamic>> productList = [];
 
-  Future<List<ApiProduct>?> getProducts(String? searchString) async {
+  Future<List<Map<String, dynamic>>?> getProducts(String? searchString) async {
     final token = await ProductstoreAuth().getToken();
-
-    //print("getProducts running. _page is $_page");
 
     String? url;
 
@@ -97,11 +94,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
         if (response != null) {
           //Parse response
           if (response.statusCode == 200) {
-            //Parse Products in JSON data
-            List<ApiProduct> list = parseData(response.body);
-
-            //Parse the links and meta data for UI
-
             // Parse the JSON string into a Map
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
@@ -121,7 +113,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
             //_pageMessage = apiLinks.next;
 
-            return list;
+            return List<Map<String, dynamic>>.from(jsonMap['data']);
           } else {
             // Change the return type to indicate that the function may return a null value.
             return null;
@@ -137,20 +129,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     } catch (e) {
       throw Exception(e.toString());
     }
-  }
-
-  //Read Json string and return a list of ApiProduct objects.
-  //Return type is a list of objects of the type ApiProduct. This is a static class function, no need to create instance
-  static List<ApiProduct> parseData(String responseBody) {
-    // Decode the JSON response into a Dart object.
-    final decodedResponse = json.decode(responseBody);
-
-    // Get the data array from the decoded object.
-    final dataArray = decodedResponse['data'] as List<dynamic>;
-
-    // Parse the data array into a list of ApiProduct objects and return
-    final parsed = dataArray.cast<Map<String, dynamic>>();
-    return parsed.map<ApiProduct>((json) => ApiProduct.fromJson(json)).toList();
   }
 
   Future<String?> getSearchString() async {
@@ -361,10 +339,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 return GestureDetector(
                   onTap: () {
                     // Handle the click event here
-                    //RouteStateScope.of(context).go('/product/0');
                     RouteStateScope.of(context)
-                        .go('/apiproduct/${productList[index].item_number}');
-                    //or try /apiproduct/:item_number
+                        .go('/apiproduct/${productList[index]['item_number']}');
                     //print('Card ${productList[index].item_number} clicked!');
                   },
                   child: Card(
@@ -386,7 +362,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               padding: const EdgeInsets.symmetric(
                                   vertical: 15, horizontal: 15),
                               child: Image.network(
-                                productList[index].image_urls[0],
+                                productList[index]['image_urls'][0],
                                 //productList[index].image_urls, //was a string, now a list.
                                 //'https://images.bwicompanies.com/DA05TREES.jpg', //if hardcode
                                 //width: 80,
@@ -403,7 +379,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      productList[index].item_description,
+                                      productList[index]['item_description'],
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 2,
                                       style: TextStyle(
@@ -412,14 +388,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                     ),
                                     SizedBox(height: 5),
                                     Text(
-                                      productList[index].item_number,
+                                      productList[index]['item_number'],
                                       style: TextStyle(
                                           fontSize: 17,
                                           color: Colors.grey[600]),
                                     ),
                                     SizedBox(height: 5),
                                     Text(
-                                      '\$${productList[index].price}',
+                                      '\$${productList[index]['price']}',
                                       //If price is returned as a double convert to string and format to 2 decimal places.
                                       //'\$${productList[index].price.toStringAsFixed(2)}',
                                       style: TextStyle(

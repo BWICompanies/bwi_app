@@ -83,9 +83,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   //Add to Cart button runs this to add the product to the cart
   Future<void> _updateData(String? prodID, String? uom, String? qty) async {
-    print(prodID);
-    print(uom);
-    print(qty);
+    //print(prodID);
+    //print(uom);
+    //print(qty);
 
     //print(prodID.toString());
     //print(qty);
