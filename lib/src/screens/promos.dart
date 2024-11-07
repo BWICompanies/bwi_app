@@ -182,13 +182,9 @@ class _PromoScreenState extends State<PromoScreen> {
                               return GestureDetector(
                                 onTap: () {
                                   // Handle the click event here
-                                  //RouteStateScope.of(context).go('/product/0');
-                                  //This is the one that was used
-                                  //RouteStateScope.of(context).go(
-                                  //    '/apiproduct/${promoList[index]['item_number']}');
-                                  //or try /apiproduct/:item_number
-                                  print(
-                                      'Card ${promoList[index]['promo_text']} clicked!');
+                                  //print("onclick"); //  /products_promo/OHPFALL24
+                                  RouteStateScope.of(context).go(
+                                      '/products_promo/${promoList[index]['contract_number']}');
                                 },
                                 child: Card(
                                   color: Colors.white,

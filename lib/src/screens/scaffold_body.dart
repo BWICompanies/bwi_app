@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../routing.dart';
+import '../widgets/fade_transition_page.dart';
 import '../screens/home.dart';
 import '../screens/history.dart';
 import '../screens/scan.dart';
@@ -11,10 +12,10 @@ import '../screens/cart.dart';
 import '../screens/promos.dart';
 import '../screens/settings.dart'; //not used right now
 import '../screens/account.dart';
-import '../widgets/fade_transition_page.dart';
-import 'authors.dart';
-import 'products.dart';
-import 'scaffold.dart';
+import '../screens/authors.dart';
+import '../screens/products.dart';
+import '../screens/products_promo.dart';
+import '../screens/scaffold.dart';
 
 /// Displays the contents of the body of [ProductstoreScaffold]
 class ProductstoreScaffoldBody extends StatelessWidget {
@@ -27,6 +28,15 @@ class ProductstoreScaffoldBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var currentRoute = RouteStateScope.of(context).route;
+
+/*
+    String? contract_number;
+
+    if (currentRoute.pathTemplate == '/products_promo/:contract_number') {
+      contract_number = currentRoute.parameters['contract_number'];
+      //OHPFALL24
+    }
+    */
 
     // A nested Router isn't necessary because the back button behavior doesn't
     // need to be customized.
@@ -79,13 +89,18 @@ class ProductstoreScaffoldBody extends StatelessWidget {
             key: ValueKey('promos'),
             child: PromoScreen(),
           )
+        else if (currentRoute.pathTemplate.startsWith('/products_promo'))
+          FadeTransitionPage<void>(
+            key: ValueKey('products_promo'),
+            child: ProductsPromoScreen(
+                contract_number: currentRoute.parameters['contract_number']),
+          )
         else if (currentRoute.pathTemplate.startsWith('/products') ||
             currentRoute.pathTemplate == '/')
           const FadeTransitionPage<void>(
             key: ValueKey('products'),
             child: ProductsScreen(),
           )
-
         // Avoid building a Navigator with an empty `pages` list when the
         // RouteState is set to an unexpected path, such as /signin.
         //

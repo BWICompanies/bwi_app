@@ -24,7 +24,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late List<TextEditingController> _controllers;
 
   //Function that gets the product from the api and returns it as an ApiProduct object (Runs on initState)
-  Future<ApiProduct?> _getProduct(String? searchString) async {
+  Future<ApiProduct?> _getProduct(String? itemNumber) async {
     final token = await ProductstoreAuth().getToken();
 
     //If need token for testing in insomnia
@@ -34,7 +34,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         'GET',
         Uri.parse(ApiConstants.baseUrl +
             ApiConstants.itemsEndpoint +
-            "/$searchString")); //now instead of passing account=EOTH076 it will use the users active account.
+            "/$itemNumber")); //now instead of passing account=EOTH076 it will use the users active account.
 
     //Hard code for testing
     //Uri.parse(ApiConstants.baseUrl + "/v1/items/FS101?account=EOTH076"));

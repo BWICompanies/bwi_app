@@ -78,13 +78,16 @@ class ProductstoreScaffold extends StatelessWidget {
   }
 
   int _getSelectedIndex(String pathTemplate) {
-    if (pathTemplate == '/home') return 0;
-    if (pathTemplate.startsWith('/products')) return 1;
-    if (pathTemplate.startsWith('/promos')) return 2;
-    if (pathTemplate == '/scan') return 3;
-    //if (pathTemplate == '/authors') return 2;
+    //print(pathTemplate);
     if (pathTemplate == '/history') return 4;
+    if (pathTemplate == '/scan') return 3;
+    if (pathTemplate.startsWith('/products_promo')) return 2;
+    if (pathTemplate.startsWith('/promos')) return 2;
+    if (pathTemplate.startsWith('/products')) return 1;
+    //if (pathTemplate == '/authors') return 2;
     // if (pathTemplate == '/settings') return 4;
+    if (pathTemplate == '/home') return 0;
+
     return 0;
   }
 }

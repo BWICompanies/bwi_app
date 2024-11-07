@@ -61,6 +61,8 @@ class _ProductstoreState extends State<Productstore> {
         '/settings',
         '/account',
         '/products',
+        '/products_promo',
+        '/products_promo/:contract_number',
         '/cart',
         '/promos',
         //'/products/new',

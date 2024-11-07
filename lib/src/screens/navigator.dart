@@ -44,15 +44,6 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
   Widget build(BuildContext context) {
     final routeState = RouteStateScope.of(context);
     final authState = ProductstoreAuthScope.of(context);
-    String? item_number;
-
-    //There is a bug where it sets it as the future when we only need to set it if its an ApiProduct.
-
-    if (routeState.route.pathTemplate == '/apiproduct/:item_number') {
-      item_number =
-          routeState.route.parameters['item_number']; //Can hardcode 'FS101';
-      //print("navigators route parameter item_number is $item_number"); //DA05TREES (works)
-    }
 
     return Navigator(
       key: widget.navigatorKey,
@@ -110,11 +101,11 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
             child: const ProductstoreScaffold(),
           ),
           // Add an additional page to the stack if the user is viewing a product detail page
-          if (item_number != null)
+          if (routeState.route.parameters['item_number'] != null)
             MaterialPage<void>(
               key: _productDetailsKey,
               child: ProductDetailsScreen(
-                item_number: item_number,
+                item_number: routeState.route.parameters['item_number'],
               ),
             )
         ],
