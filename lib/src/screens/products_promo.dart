@@ -197,7 +197,7 @@ class _ProductsPromoScreenState extends State<ProductsPromoScreen> {
                                     ),
                                     SizedBox(height: 5),
                                     Text(
-                                      '\$${productList[index]['bwiItem']['price']}',
+                                      '\$${productList[index]['price']}',
                                       //If price is returned as a double convert to string and format to 2 decimal places.
                                       //'\$${productList[index]['bwiItem'].price.toStringAsFixed(2)}',
                                       style: TextStyle(
