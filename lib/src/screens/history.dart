@@ -116,8 +116,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
           //Parse response
           if (response.statusCode == 200) {
-            final json = jsonDecode(response.body);
-
             //Parse the meta and links data
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
@@ -135,7 +133,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
             _pageMessagePH = "Page $_pagePH";
 
-            return parseDataPH(json);
+            return List<Map<String, dynamic>>.from(jsonMap['data']);
           } else {
             return null;
           }
@@ -148,23 +146,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
     } catch (e) {
       throw Exception(e.toString());
     }
-  }
-
-  // Function to parse the Open Orders JSON and create the desired data structure
-  List<Map<String, dynamic>> parseDataPH(Map<String, dynamic> json) {
-    final List<Map<String, dynamic>> dataList = [];
-    final pData = json['data'] as List;
-
-    for (var order in pData) {
-      final Map<String, dynamic> orderMap = {};
-      orderMap['item_number'] = order['item_number'];
-      orderMap['item_description'] = order['item_description'];
-      orderMap['image_urls'] = order['image_urls'];
-      orderMap['price'] = order['price'];
-      dataList.add(orderMap);
-    }
-
-    return dataList;
   }
 
   Future<void> saveFrom() async {
