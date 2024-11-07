@@ -214,6 +214,79 @@ class _ProductsPromoScreenState extends State<ProductsPromoScreen> {
               },
             ),
           ),
+          //add a separator and pagination under cards
+          //Divider(),
+          PreferredSize(
+            preferredSize: Size.fromHeight(58),
+            child: Container(
+                height: 58.0,
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(5),
+                //color: Colors.green[600],
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        color: Colors.grey[700],
+                        onPressed: _prev == null
+                            ? null
+                            : () {
+                                //can be pressed (Otherwise gray out)
+                                // now that we disable the button if _prev is null, we can update the page number and update the productList.
+                                if (_prev != null) {
+                                  setState(() {
+                                    _page = _page - 1;
+                                  });
+
+                                  getProducts().then((ResultsFromServer) {
+                                    if (ResultsFromServer != null) {
+                                      setState(() {
+                                        productList = ResultsFromServer;
+                                      });
+                                    }
+                                  });
+                                }
+                              },
+                      ),
+                    ),
+                    Expanded(
+                        child: Center(
+                            child: Text(
+                      _pageMessage,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.grey[700],
+                      ),
+                    ))),
+                    Expanded(
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_forward),
+                        color: Colors.grey[700],
+                        onPressed: _next == null
+                            ? null
+                            : () {
+                                // now that we disable the button if _next is null, we can update the page number and update the productList.
+                                if (_next != null) {
+                                  setState(() {
+                                    _page = _page + 1;
+                                  });
+
+                                  getProducts().then((ResultsFromServer) {
+                                    if (ResultsFromServer != null) {
+                                      setState(() {
+                                        productList = ResultsFromServer;
+                                      });
+                                    }
+                                  });
+                                }
+                              },
+                      ),
+                    ),
+                  ],
+                )),
+          ),
         ],
       ),
     );
