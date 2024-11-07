@@ -63,11 +63,7 @@ class _PromoScreenState extends State<PromoScreen> {
 
           //Parse response
           if (response.statusCode == 200) {
-            final json = jsonDecode(response.body);
-
-            //print(response.body);
-
-            //Parse the meta and links data
+            //Contains the data, meta, and links lists/arrays
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
             //Create the apiLinks object using the factory method
@@ -81,7 +77,7 @@ class _PromoScreenState extends State<PromoScreen> {
 
             _pageMessageP = "Page $_pageP";
 
-            return parseDataP(json);
+            return List<Map<String, dynamic>>.from(jsonMap['data']);
           } else {
             return null;
           }
@@ -94,26 +90,6 @@ class _PromoScreenState extends State<PromoScreen> {
     } catch (e) {
       throw Exception(e.toString());
     }
-  }
-
-  // Function to parse the Open Orders JSON and create the desired data structure
-  List<Map<String, dynamic>> parseDataP(Map<String, dynamic> json) {
-    final List<Map<String, dynamic>> dataList = [];
-    final promoData = json['data'] as List;
-
-    for (var order in promoData) {
-      final Map<String, dynamic> orderMap = {};
-      orderMap['id'] = order['id'];
-      orderMap['contract_number'] = order['contract_number'];
-      orderMap['promo_text'] = order['promo_text'];
-      orderMap['start_date'] = order['start_date'];
-      orderMap['end_date'] = order['end_date'];
-      orderMap['promonotes'] = order['promonotes'];
-
-      dataList.add(orderMap);
-    }
-
-    return dataList;
   }
 
   @override
