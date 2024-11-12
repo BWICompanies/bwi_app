@@ -98,7 +98,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             Map<String, dynamic> jsonMap = jsonDecode(response.body);
 
             // Create the metaData object using the factory method
-            ApiMetaData metaData = ApiMetaData.fromJson(jsonMap);
+            //ApiMetaData metaData = ApiMetaData.fromJson(jsonMap);
 
             //Create the apiLinks object using the factory method
             ApiLinks apiLinks = ApiLinks.fromJson(jsonMap);
