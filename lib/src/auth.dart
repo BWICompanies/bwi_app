@@ -72,7 +72,7 @@ class ProductstoreAuth extends ChangeNotifier {
   */
 
 //Navigator runs .signIn when the user clicks the sign in button
-  Future<bool> signIn(String email, String password) async {
+  Future<String> signIn(String email, String password) async {
     //await checkMinVersion(); // Wait for version check
 
     //Verify min version before we allow the page to load
@@ -80,7 +80,7 @@ class ProductstoreAuth extends ChangeNotifier {
 
     //Dont login if we need to update. Let the next page do redirect.
     if (needsUpdate) {
-      return false;
+      return 'Application needs update.';
     }
 
     var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.authEndpoint);
@@ -103,17 +103,17 @@ class ProductstoreAuth extends ChangeNotifier {
       await saveUserData(token);
       _signedIn = true;
       notifyListeners();
-      return true;
-    } else {
-      //print('Status code: ${response.statusCode}');
-    }
-
-    if (response.statusCode == 422) {
+      return 'Success';
+    } else if (response.statusCode == 429) {
       _signedIn = false;
-      return false;
+      return 'Too many requests. Please try again later.';
+    } else if (response.statusCode == 422) {
+      _signedIn = false;
+      return 'Username or password is incorrect';
+    } else {
+      _signedIn = false;
+      return 'Status code: ${response.statusCode}';
     }
-
-    return false;
   }
   //end sign in
 
@@ -127,14 +127,12 @@ class ProductstoreAuth extends ChangeNotifier {
 
   //Ran by signIn button click on login page and in the guard function in app.dart for other pages. True will redirect to update page.
   Future<bool> checkMinVersion() async {
-    //print('checkMinVersion ran');
+    //print('auth checkMinVersion ran');
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    // Parse the string into a double
+    // Parse the string into a version number
     var currentVersionNumber = Version.parse(packageInfo.version);
-
-    //print(packageInfo.version); //1.2.0
 
     //print("current version of app: ${await PackageInfo.fromPlatform()}");
     //appName: navigation_and_routing, buildNumber: 10, packageName: navigation_and_routing, version: 1.2.0, buildSignature: , installerStore: null
@@ -147,13 +145,10 @@ class ProductstoreAuth extends ChangeNotifier {
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
 
-      var minVersionNumber = Version.parse(jsonData['version']);
-
-      //print(jsonData['version']);
-      //print(packageInfo.version);
+      var requiredVersionNumber = Version.parse(jsonData['version']);
 
       //If minimum version is less than or equal to the current version, do not have to update.
-      if (currentVersionNumber <= minVersionNumber) {
+      if (currentVersionNumber < requiredVersionNumber) {
         //print("Current version is less than or equal to required version");
         needsUpdate = true;
       } else {

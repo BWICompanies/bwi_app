@@ -79,15 +79,16 @@ class _ProductstoreNavigatorState extends State<ProductstoreNavigator> {
             child: SignInScreen(
               onSignIn: (credentials) async {
                 //run auth.dart signIn function
-                var signedIn = await authState.signIn(
+                String signinMessage = await authState.signIn(
                     credentials.email, credentials.password);
-                if (signedIn) {
+
+                if (signinMessage == 'Success') {
                   await routeState.go('/home'); //Go to Home Screen if signed in
                 } else {
                   // Show an error message if sign in failed
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Username or password is incorrect'),
+                    SnackBar(
+                      content: Text(signinMessage),
                     ),
                   );
                 }

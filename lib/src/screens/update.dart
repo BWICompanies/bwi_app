@@ -10,6 +10,7 @@ import '../auth.dart';
 //import 'package:intl/intl.dart'; //for number formatting
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:io'; //for checking if ios or not. (Platform.isIOS)
+import 'package:package_info_plus/package_info_plus.dart'; //for getting app version number
 
 class UpdateScreen extends StatefulWidget {
   const UpdateScreen({super.key});
@@ -21,6 +22,8 @@ class UpdateScreen extends StatefulWidget {
 class _UpdateScreenState extends State<UpdateScreen> {
   final String title = 'Update App';
   String updateURL = '';
+  String currentVersionNumber = '';
+  String requiredVersionNumber = '';
 
   Future<void> _launchURL(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
@@ -28,9 +31,29 @@ class _UpdateScreenState extends State<UpdateScreen> {
     }
   }
 
+  Future<void> checkMinVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final currentVersion = packageInfo.version;
+
+    final response = await http
+        .get(Uri.parse('https://www.bwicompanies.com/mobile-app/min-version'));
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+      final requiredVersion = jsonData['version'];
+
+      setState(() {
+        currentVersionNumber = currentVersion;
+        requiredVersionNumber = requiredVersion;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
+    checkMinVersion();
 
     if (Platform.isIOS || Platform.isMacOS) {
       setState(() {
@@ -74,7 +97,7 @@ class _UpdateScreenState extends State<UpdateScreen> {
                         children: [
                           TextSpan(
                             text:
-                                "A required update has been uploaded. Please update your app in your app store.",
+                                "A required update has been uploaded. Please update your app in your app store.\n\nCurrent version: $currentVersionNumber\nRequired version: $requiredVersionNumber",
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.black87,
