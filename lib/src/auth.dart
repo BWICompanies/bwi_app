@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import './constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import 'dart:convert';
+import 'package:package_info_plus/package_info_plus.dart'; //for getting app version number
+import 'package:pub_semver/pub_semver.dart'; //for comparing versions
 
 class ProductstoreAuth extends ChangeNotifier {
   //Priviate class variables
@@ -71,6 +73,16 @@ class ProductstoreAuth extends ChangeNotifier {
 
 //Navigator runs .signIn when the user clicks the sign in button
   Future<bool> signIn(String email, String password) async {
+    //await checkMinVersion(); // Wait for version check
+
+    //Verify min version before we allow the page to load
+    bool needsUpdate = await this.checkMinVersion();
+
+    //Dont login if we need to update. Let the next page do redirect.
+    if (needsUpdate) {
+      return false;
+    }
+
     var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.authEndpoint);
 
     final response = await http.post(url, body: {
@@ -81,6 +93,8 @@ class ProductstoreAuth extends ChangeNotifier {
     }, headers: {
       'Accept': 'application/json',
     });
+
+    //print(response.statusCode); //429 "Too Many Requests,"
 
     if (response.statusCode == 200) {
       String token = response.body;
@@ -110,6 +124,49 @@ class ProductstoreAuth extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
   }
+
+  //Ran by signIn button click on login page and in the guard function in app.dart for other pages. True will redirect to update page.
+  Future<bool> checkMinVersion() async {
+    //print('checkMinVersion ran');
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    // Parse the string into a double
+    var currentVersionNumber = Version.parse(packageInfo.version);
+
+    //print(packageInfo.version); //1.2.0
+
+    //print("current version of app: ${await PackageInfo.fromPlatform()}");
+    //appName: navigation_and_routing, buildNumber: 10, packageName: navigation_and_routing, version: 1.2.0, buildSignature: , installerStore: null
+
+    bool needsUpdate = false;
+
+    final response = await http
+        .get(Uri.parse('https://www.bwicompanies.com/mobile-app/min-version'));
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+
+      var minVersionNumber = Version.parse(jsonData['version']);
+
+      //print(jsonData['version']);
+      //print(packageInfo.version);
+
+      //If minimum version is less than or equal to the current version, do not have to update.
+      if (currentVersionNumber <= minVersionNumber) {
+        //print("Current version is less than or equal to required version");
+        needsUpdate = true;
+      } else {
+        needsUpdate = false;
+      }
+    } else {
+      //throw Exception('Failed to fetch version');
+      print('Failed to fetch version');
+    }
+
+    return needsUpdate;
+  }
+  //https://www.bwicompanies.com/mobile-app/min-version will return a version number {"version": "1.2.1"}
 
   saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();

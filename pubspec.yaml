@@ -1,7 +1,7 @@
 name: bwiapp
 description: BWI Product Catalog
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
-version: 1.2.0+10
+version: 1.2.1+11
 environment:
   sdk: ^3.0.0
 
@@ -20,6 +20,8 @@ dependencies:
   url_launcher: ^6.1.1
   url_strategy: ^0.2.0
   intl: ^0.17.0
+  package_info_plus: ^8.1.1
+  pub_semver: ^2.0.0
   window_size:
     git:
       url: https://github.com/google/flutter-desktop-embedding.git

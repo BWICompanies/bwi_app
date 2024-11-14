@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../constants.dart'; //ie. var url = Uri.parse(ApiConstants.baseUrl + ApiConstants.usersEndpoint);
 import 'dart:convert'; //to and from json
 import '../auth.dart';
-//import 'package:url_launcher/link.dart';
+//import 'package:url_launcher/link.dart'; //gain access to a widget named Link
 import 'package:http/http.dart' as http; //for api requests
 import '../data.dart';
 import '../routing.dart';

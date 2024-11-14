@@ -31,6 +31,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'auth.dart';
 import 'routing.dart';
 import 'screens/navigator.dart';
+//import 'dart:io'; //for checking if ios or not. (Platform.isIOS)
+//import 'package:url_launcher/url_launcher.dart';
 //import 'package:provider/provider.dart';
 
 class Productstore extends StatefulWidget {
@@ -66,6 +68,7 @@ class _ProductstoreState extends State<Productstore> {
         '/products_bb/:filter',
         '/cart',
         '/promos',
+        '/update',
         //'/products/new',
         //'/products/all',
         //'/products/popular',
@@ -148,11 +151,28 @@ class _ProductstoreState extends State<Productstore> {
     //var signedIn = _auth.signedIn;
 
     //print($from);
-    //After clicking a product should be set to:
-    //flutter:<ParsedRoute template: /apiproduct/:item_number path: /apiproduct/BON51012 parameters: {item_number: BON51012} query parameters: {}>
 
     final signInRoute = ParsedRoute('/signin', '/signin', {}, {});
 
+    //Verify min version before we allow the page to load
+    bool needsUpdate = await _auth.checkMinVersion();
+
+    if (needsUpdate) {
+      //print("Require update");
+      return ParsedRoute('/update', '/update', {}, {});
+    } else {
+      //print("No update required. app.dart");
+    }
+
+    //Testing
+    /*
+
+    If already logged in, shows update page on next page load.
+    If not already logged in, shows update page
+
+    */
+
+    //Check token before we allow the page to load
     bool signedIn = await _auth.isTokenValid();
 
     //If not signed in, go to sign in
