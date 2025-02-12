@@ -107,9 +107,12 @@ class ProductstoreAuth extends ChangeNotifier {
     } else if (response.statusCode == 429) {
       _signedIn = false;
       return 'Too many requests. Please try again later.';
+    } else if (response.statusCode == 401) {
+      _signedIn = false;
+      return 'Username or password is incorrect. Please try again.'; //was 422
     } else if (response.statusCode == 422) {
       _signedIn = false;
-      return 'Username or password is incorrect';
+      return 'Username or password is incorrect. Please try again.'; //was 422
     } else {
       _signedIn = false;
       return 'Status code: ${response.statusCode}';
@@ -139,6 +142,7 @@ class ProductstoreAuth extends ChangeNotifier {
 
     bool needsUpdate = false;
 
+    //change this to a try. If it fails, we will just let the page load.
     final response = await http
         .get(Uri.parse('https://www.bwicompanies.com/mobile-app/min-version'));
 

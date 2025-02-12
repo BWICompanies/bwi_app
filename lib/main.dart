@@ -27,7 +27,8 @@ void main() {
   // setPathUrlStrategy();
 
   setupWindow();
-  runApp(const Productstore());
+  runApp(
+      const Productstore()); //app.dart file has the Productstore class with the build method
 }
 
 const double windowWidth = 480;
