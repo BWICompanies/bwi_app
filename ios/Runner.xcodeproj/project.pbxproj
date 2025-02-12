@@ -477,7 +477,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = GPZ4U9FSQT;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.2.1;
+				FLUTTER_BUILD_NAME = 1.2.2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BWI Product Catalog";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
@@ -485,7 +485,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.flutter.bwi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -672,7 +672,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = GPZ4U9FSQT;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.2.1;
+				FLUTTER_BUILD_NAME = 1.2.2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BWI Product Catalog";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
@@ -680,7 +680,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.flutter.bwi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -703,7 +703,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = GPZ4U9FSQT;
 				ENABLE_BITCODE = NO;
-				FLUTTER_BUILD_NAME = 1.2.1;
+				FLUTTER_BUILD_NAME = 1.2.2;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "BWI Product Catalog";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.shopping";
@@ -711,7 +711,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.flutter.bwi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

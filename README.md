@@ -2,7 +2,7 @@
 
 # To update version
 Edit the pubspec.yaml file with vscode and edit the project build settings in xcode. ie. Major/breaking . newfeatures . bugfixes.
-Or can find and replace the version number which will edit the file: /ios/Runner.xcodeproj/project.pbxproj
+Or can edit pubspec.yaml and manually edit /ios/Runner.xcodeproj/project.pbxproj. Increase both numbers. IOS reads the first one but google needs the second one increased.
 
 # For making iphone screenshots open simulator and open these sizes and hit debug in VS code
 6.9 iPhone 16 Pro Max

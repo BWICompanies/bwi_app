@@ -165,7 +165,7 @@ class ProductstoreAuth extends ChangeNotifier {
 
     return needsUpdate;
   }
-  //https://www.bwicompanies.com/mobile-app/min-version will return a version number {"version": "1.2.1"}
+  //https://www.bwicompanies.com/mobile-app/min-version will return a version number {"version": "1.2.2"}
 
   saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
