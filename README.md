@@ -4,6 +4,12 @@
 Edit the pubspec.yaml file with vscode and edit the project build settings in xcode. ie. Major/breaking . newfeatures . bugfixes.
 Or can edit pubspec.yaml and manually edit /ios/Runner.xcodeproj/project.pbxproj. Increase both numbers. IOS reads the first one but google needs the second one increased.
 
+# Building
+Build release for google play store:
+flutter build appbundle --release
+
+To build for apple store make an archive in xcode
+
 # For making iphone screenshots open simulator and open these sizes and hit debug in VS code
 6.9 iPhone 16 Pro Max
 6.5 Xs Max
